@@ -38,14 +38,14 @@ the module to `Log`, go to the root module, and run:
 Config
 ------
 
-* Background job logs
+### Background job logs
 
 The job logs are automatically saved in the database and manageable in the admin
 interface.
 
 Note that the default job logging is disabled.
 
-* Default logs
+### Default logs
 
 The default logs are saved in the database too. To disable double logging with
 the core file `logs/application.log`, add this key in the main `config/local.config.php`:
@@ -83,13 +83,13 @@ logging (this example shows the default levels):
 Note that in all cases, php fatal errors are logged only in the file `php_errors.log`
 of the server.
 
-* External database
+### External database
 
 The logs can be saved in an external database, but in that case, the admin
 interface cannot be used for now. To config it, add a file `database-log.ini`
 beside the main `database.ini` of Omeka S, with its params.
 
-* Additionnal logging
+### Additionnal logging
 
 Other logging can be added. Just add their config in your `['logger']['options']`
 and enable them under the key `['logger']['writers']`. See the [Zend Framework Log]
@@ -99,7 +99,7 @@ documentation for the format of the config.
 PSR-3 and logging
 -----------------
 
-* PSR-3
+### PSR-3
 
 The PHP Framework Interop Group ([PHP-FIG]) represents the majority of php
 frameworks, in particular all main CMS.
@@ -139,7 +139,7 @@ key.
 Because the logs are translatable at user level, with a message and context, the
 message must not be translated when logging.
 
-* Logging extra data
+### Logging extra data
 
 The module adds three extra data to improve management of logs inside Omeka: the
 current user, the job and a reference. The user and the job are automatically
@@ -192,6 +192,8 @@ $this->logger()->info(
 // output in database: The item #43 has been updated by user #1.
 ```
 
+### Compatibility
+
 * Compatibility with the default stream logger
 
 The PSR-3 messages are converted into simple messages for the default logger.
@@ -202,7 +204,7 @@ Other extra data are appended.
 The logger stores the core messages as it, without context, so they can be
 displayed. They are not translatable if they use placeholders.
 
-* Helpers
+### Helpers
 
 - Direct database logging
 
