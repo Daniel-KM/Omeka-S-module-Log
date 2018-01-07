@@ -1,0 +1,66 @@
+<?php
+$escape = $this->plugin('escapeHtml');
+$job = $log->job();
+$user = $log->user();
+if ($user):
+    $userText = $this->hyperlink($user->email(), $this->url(
+        'admin/id',
+        ['controller' => 'user', 'action' => 'show', 'id' => $user->id()]
+    ));
+else:
+    $userText = '';
+endif;
+ ?>
+<div class="resource-details">
+    <h3 class="o-title"><?php echo $escape(sprintf($this->translate('Log #%d on %s'), $log->id(), $log->created()->format('Y-m-d H-i-s'))); ?></h3>
+    <div class="meta-group">
+        <h4><?php echo $escape($this->translate('Severity')); ?></h4>
+        <div class="value"><?php echo $escape($this->translate($log->severityLabel())); ?></div>
+    </div>
+    <div class="meta-group">
+        <h4><?php echo $escape($this->translate('Reference')); ?></h4>
+        <div class="value"><?php
+        $reference = $log->reference();
+        echo $reference ? $escape($this->translate($reference)) : '-';
+        ?></div>
+    </div>
+    <div class="meta-group">
+        <h4><?php echo $escape($this->translate('User')); ?></h4>
+        <div class="value"><?php echo $userText ?: '-'; ?></div>
+    </div>
+    <div class="meta-group">
+        <?php if ($job): ?>
+        <h4><?php echo $escape(sprintf($this->translate('Job #%d'), $job->id())); ?></h4>
+        <div class="value"><?php
+        echo $escape(sprintf($this->translate('Started at %s'), $job->started()->format('Y-m-d H-i-s')));
+        ?></div>
+        <div class="value"><?php
+        echo $escape(sprintf($this->translate('Ended at %s'), $job->ended() ? $job->ended()->format('Y-m-d H-i-s') : '-'));
+        ?></div>
+        <div class="value"><?php
+        echo $this->hyperlink($this->translate('Parameters'), $this->url('admin/id', ['controller' => 'job', 'action' => 'show', 'id' => $job->id()]));
+        ?></div>
+        <?php if ($job->log()): ?>
+        <div class="value"><?php
+        echo $this->hyperlink($this->translate('Log'), $this->url('admin/id', ['controller' => 'job', 'action' => 'log', 'id' => $job->id()]), ['target' => '_blank']);
+        ?></div>
+        <?php endif; ?>
+    <?php else: ?>
+        <h4><?php echo $escape($this->translate('Job')); ?></h4>
+        <?php echo '-'; ?>
+    <?php endif; ?>
+    </div>
+    <div class="meta-group">
+        <h4><?php echo $this->translate('Message'); ?>
+        <?php /*
+        <span class="actions"><?php echo $this->hyperlink('', '#', [
+            'class' => 'o-icon- fa fa-expand popover',
+            'title' => $this->translate('Full log'),
+        ]); ?>
+        </span>
+        */ ?>
+        </h4>
+        <div class="value log-message webui-popover-content"><?php echo $escape($log->message()); ?></div>
+    </div>
+    <?php $this->trigger('view.details', array('entity' => $log)); ?>
+</div>
