@@ -80,8 +80,24 @@ logging (this example shows the default levels):
     ],
 ```
 
-Note that in all cases, php fatal errors are logged only in the file `php_errors.log`
-of the server.
+### Php errors and exceptions
+
+By default, exceptions that are not managed by Omeka and php errors are logged
+only in the file `php_errors.log` of the server. To enable them inside the
+logger, add the options, at your choice:
+
+```php
+    'logger' => [
+        'options' => [
+            'exceptionhandler' => true,
+            'errorhandler' => true,
+            'fatal_error_shutdownfunction' => true,
+        ],
+    ],
+```
+
+Note that this will disable the default error logging of php and debug tools, so
+if you want to keep it, add a writer for it.
 
 ### External database
 

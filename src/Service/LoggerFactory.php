@@ -33,8 +33,12 @@ class LoggerFactory implements FactoryInterface
         }
 
         if (!empty($writers['stream'])) {
-            if (isset($config['logger']['priority'])) $writers['stream']['options']['filters'] = $config['logger']['priority'];
-            if (isset($config['logger']['path'])) $writers['stream']['options']['stream'] = $config['logger']['path'];
+            if (isset($config['logger']['priority'])) {
+                $writers['stream']['options']['filters'] = $config['logger']['priority'];
+            }
+            if (isset($config['logger']['path'])) {
+                $writers['stream']['options']['stream'] = $config['logger']['path'];
+            }
         }
 
         if (!empty($writers['db']) && empty($writers['db']['options']['db'])) {
