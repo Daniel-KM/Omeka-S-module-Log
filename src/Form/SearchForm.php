@@ -23,7 +23,7 @@ class SearchForm extends Form
                 'label' => 'Created', // @translate
             ],
             'attributes' => [
-                'placeholder' => 'Set a date with optional comparator...', // @translate
+                'placeholder' => 'Set a date with optional comparator…', // @translate
             ],
         ]);
 
@@ -43,10 +43,10 @@ class SearchForm extends Form
             'options' => [
                 'label' => 'Minimum severity', // @translate
                 'value_options' => $valueOptions,
-                'empty_option' => 'Select minimum severity below...', // @translate
+                'empty_option' => 'Select minimum severity below…', // @translate
             ],
             'attributes' => [
-                'placeholder' => 'Select minimum severity below...', // @translate
+                'placeholder' => 'Select minimum severity below…', // @translate
             ],
         ]);
         $this->add([
@@ -55,10 +55,10 @@ class SearchForm extends Form
             'options' => [
                 'label' => 'Maximum severity', // @translate
                 'value_options' => $valueOptions,
-                'empty_option' => 'Select maximum severity below...', // @translate
+                'empty_option' => 'Select maximum severity below…', // @translate
             ],
             'attributes' => [
-                'placeholder' => 'Select maximum severity below...', // @translate
+                'placeholder' => 'Select maximum severity below…', // @translate
             ],
         ]);
 
@@ -69,7 +69,7 @@ class SearchForm extends Form
                 'label' => 'Reference', // @translate
             ],
             'attributes' => [
-                'placeholder' => 'Set a reference...', // @translate
+                'placeholder' => 'Set a reference…', // @translate
             ],
         ]);
 
@@ -80,7 +80,7 @@ class SearchForm extends Form
                 'label' => 'Job', // @translate
             ],
             'attributes' => [
-                'placeholder' => 'Set a job id...', // @translate
+                'placeholder' => 'Set a job id…', // @translate
             ],
         ]);
 
@@ -91,7 +91,7 @@ class SearchForm extends Form
                 'label' => 'User', // @translate
             ],
             'attributes' => [
-                'placeholder' => 'Set a user id...', // @translate
+                'placeholder' => 'Set a user id…', // @translate
             ],
         ]);
 
