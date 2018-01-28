@@ -52,6 +52,8 @@ the core file `logs/application.log`, add this key in the main `config/local.con
 
 ```php
     'logger' => [
+        'path' => null,
+        'priority' => null,
         'writers' => [
             'stream' => false,
         ],
@@ -63,6 +65,8 @@ logging (this example shows the default levels):
 
 ```php
     'logger' => [
+        'path' => null,
+        'priority' => null,
         'options' => [
             'writers' => [
                 'db' => [
@@ -88,6 +92,8 @@ logger, add the options, at your choice:
 
 ```php
     'logger' => [
+        'path' => null,
+        'priority' => null,
         'options' => [
             'exceptionhandler' => true,
             'errorhandler' => true,
@@ -98,6 +104,8 @@ logger, add the options, at your choice:
 
 Note that this will disable the default error logging of php and debug tools, so
 if you want to keep it, add a writer for it.
+
+Furthermore, they are managed automatically for background jobs.
 
 ### External database
 
