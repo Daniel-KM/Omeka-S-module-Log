@@ -25,4 +25,6 @@ $(document).ready(function() {
         backdrop: true,
         onShow: function(element) { element.css({left: 0}); }
     });
+
+    $('a.popover').webuiPopover();
 });
