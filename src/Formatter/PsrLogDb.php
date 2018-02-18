@@ -29,7 +29,9 @@ class PsrLogDb extends Base
             $event['extra']['context']['extra'] = json_encode($event['extra']['context']['extra'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         }
 
-        if (!empty($event['extra']['context'])) {
+        if (empty($event['extra']['context'])) {
+            $event['extra']['context'] = '[]';
+        } else {
             $event['extra']['context'] = json_encode($event['extra']['context'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         }
 
