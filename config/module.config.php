@@ -159,9 +159,10 @@ return [
         'AdminGlobal' => [
             [
                 'label' => 'Logs',
-                'class' => 'fa fa-list',
+                'class' => 'fa-list',
                 'route' => 'admin/log',
                 'resource' => Controller\LogController::class,
+                'privilege' => 'browse',
             ],
         ],
     ],
