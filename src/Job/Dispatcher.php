@@ -2,6 +2,7 @@
 namespace Log\Job;
 
 use DateTime;
+use Doctrine\ORM\EntityManager;
 use Omeka\Job\DispatchStrategy\StrategyInterface;
 use Omeka\Entity\Job;
 
@@ -36,5 +37,25 @@ class Dispatcher extends \Omeka\Job\Dispatcher
             $entityManager->merge($job);
             $entityManager->flush();
         }
+    }
+
+    /**
+     * Get a new EntityManager sharing the settings of an old one.
+     *
+     * Internal Doctrine errors "close" the EntityManager and we can never use it again, so we need
+     * to create a new one if we want to save anything after one of those kinds of errors.
+     *
+     * Note: Copied from parent, because the method is private.
+     *
+     * @param EntityManager $entityManager
+     * @return EntityManager
+     */
+    private function getNewEntityManager(EntityManager $entityManager)
+    {
+        return EntityManager::create(
+            $entityManager->getConnection(),
+            $entityManager->getConfiguration(),
+            $entityManager->getEventManager()
+        );
     }
 }
