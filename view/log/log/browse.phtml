@@ -125,7 +125,7 @@ $sortHeadings = [
                     ]); ?></li>
                 </ul>
             </td>
-            <td><?php echo $log->created()->format('Y-m-d H-i-s'); ?></td>
+            <td><?php echo $log->created()->format('Y-m-d H:i:s'); ?></td>
             <td><?php echo $this->hyperlink($this->translate($log->severityLabel()), $this->url(null, [], ['query' => ['severity' => $log->severity()]], true)); ?></td>
             <td><?php echo $this->hyperlink($this->translate($log->reference()), $this->url(null, [], ['query' => ['reference' => $log->reference()]], true)); ?></td>
             <?php /*

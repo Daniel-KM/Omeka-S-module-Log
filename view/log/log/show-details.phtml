@@ -12,7 +12,7 @@ else:
 endif;
  ?>
 <div class="resource-details">
-    <h3 class="o-title"><?php echo $escape(sprintf($this->translate('Log #%d on %s'), $log->id(), $log->created()->format('Y-m-d H-i-s'))); ?></h3>
+    <h3 class="o-title"><?php echo $escape(sprintf($this->translate('Log #%d on %s'), $log->id(), $log->created()->format('Y-m-d H:i:s'))); ?></h3>
     <div class="meta-group">
         <h4><?php echo $escape($this->translate('Severity')); ?></h4>
         <div class="value"><?php echo $escape($this->translate($log->severityLabel())); ?></div>
@@ -32,10 +32,10 @@ endif;
         <?php if ($job): ?>
         <h4><?php echo $escape(sprintf($this->translate('Job #%d'), $job->id())); ?></h4>
         <div class="value"><?php
-        echo $escape(sprintf($this->translate('Started at %s'), $job->started()->format('Y-m-d H-i-s')));
+        echo $escape(sprintf($this->translate('Started at %s'), $job->started()->format('Y-m-d H:i:s')));
         ?></div>
         <div class="value"><?php
-        echo $escape(sprintf($this->translate('Ended at %s'), $job->ended() ? $job->ended()->format('Y-m-d H-i-s') : '-'));
+        echo $escape(sprintf($this->translate('Ended at %s'), $job->ended() ? $job->ended()->format('Y-m-d H:i:s') : '-'));
         ?></div>
         <div class="value"><?php
         echo $this->hyperlink($this->translate('Parameters'), $this->url('admin/id', ['controller' => 'job', 'action' => 'show', 'id' => $job->id()]));
