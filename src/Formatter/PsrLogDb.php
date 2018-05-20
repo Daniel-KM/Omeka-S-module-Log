@@ -3,13 +3,25 @@
 namespace Log\Formatter;
 
 use DateTime;
-use \Zend\Log\Formatter\Base;
+use Zend\Log\Formatter\Base;
 
 class PsrLogDb extends Base
 {
     use PsrLogAwareTrait;
 
     protected $dateTimeFormat = 'Y-m-d H:i:s';
+
+    public function __construct($dateTimeFormat = null)
+    {
+        // The date time format cannot be changed for this table in database.
+        // TODO Fix the construct/method for date time format to log in db.
+    }
+
+    public function setDateTimeFormat($dateTimeFormat)
+    {
+        // The date time format cannot be changed for this table in database.
+        return $this;
+    }
 
     /**
      * Formats data to be written by the writer.

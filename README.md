@@ -12,6 +12,9 @@ critical error occurs.
 The logs are [PSR-3] compliant: they can managed by any other tool that respects
 this standard (see below). They can be translated too.
 
+WARNING: Some exceptions may not be logged in some cases. So it may not be used
+for production for now.
+
 
 Installation
 ------------
