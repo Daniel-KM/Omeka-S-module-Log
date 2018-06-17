@@ -46,7 +46,7 @@ Config
 The job logs are automatically saved in the database and manageable in the admin
 interface.
 
-Note that the default job logging is disabled.
+Note that the default job logging is disabled in the default config.
 
 ### Default logs
 
@@ -121,6 +121,68 @@ beside the main `database.ini` of Omeka S, with its params.
 Other logging can be added. Just add their config in your `['logger']['options']`
 and enable them under the key `['logger']['writers']`. See the [Zend Framework Log]
 documentation for the format of the config.
+
+### Sentry
+
+[Sentry] is an error tracking service. It should be installed in a particular
+way, following these steps, from the root of Omeka S:
+
+- Sentry should be installed via composer in the root of Omeka, with platform
+  php = 7.0 instead of platform php = 5.6, so update it in `composer.json`. If
+  not, an old version of Sentry will be used, that doesn't work with other
+  dependencies.
+- Include the library:
+
+```bash
+composer require facile-it/sentry-module
+```
+
+- The psr formatter `facile-it/sentry-psr-log` may be added too (need config).
+- Copy the default config file (see // https://github.com/facile-it/sentry-module#client),
+  and set your Sentry dsn:
+
+```bash
+cp modules/Log/config/sentry.config.local.php.dist config/sentry.config.local.php
+sed -i -r "s|'dsn' => '',|'dsn' => 'https://abcdefabcdefabcdefabcdefabcdefab@sentry.io/1234567',|" config/sentry.config.local.php
+```
+
+In the file `application/config/application.config.php`, add the module
+`Facile\SentryModule` as the last module, plus the config file as new config_glob_paths
+of module_listener_options:
+
+```
+return [
+    'modules' => [
+        'Zend\Form',
+        'Zend\I18n',
+        'Zend\Mvc\I18n',
+        'Zend\Mvc\Plugin\Identity',
+        'Zend\Navigation',
+        'Zend\Router',
+        'Omeka',
+        'Facile\SentryModule',
+    ],
+    'module_listener_options' => [
+        'module_paths' => [
+            'Omeka' => OMEKA_PATH . '/application',
+            OMEKA_PATH . '/modules',
+        ],
+        'config_glob_paths' => [
+            OMEKA_PATH . '/config/local.config.php',
+            OMEKA_PATH . '/config/sentry.config.local.php',
+        ],
+    […]
+```
+
+Finally, enable Sentry via your `config/local.config.php`:
+
+```php
+        'writers' => [
+            'sentry' => true,
+        ],
+```
+
+That's all!
 
 
 PSR-3 and logging
@@ -312,6 +374,7 @@ The fact that you are presently reading this means that you have had knowledge
 of the CeCILL license and that you accept its terms.
 
 * The library [webui-popover] is published under the license [MIT].
+* The library [facile/sentry] is published under the license [MIT].
 
 
 Contact
@@ -328,6 +391,7 @@ Copyright
 * Copyright Daniel Berthereau, 2017-2018
 
 * Library [webui-popover]: Sandy Walker
+* Library [facile/sentry]: Copyright 2016 Thomas Mauro Vargiu
 
 
 [Log]: https://github.com/Daniel-KM/Omeka-S-module-Log
@@ -337,6 +401,8 @@ Copyright
 [webui-popover]: https://github.com/sandywalker/webui-popover
 [`Log.zip`]: https://github.com/Daniel-KM/Omeka-S-module-Log/releases
 [Zend Framework Log]: https://docs.zendframework.com/zend-log
+[Sentry]: https://sentry.io
+[facile/sentry]: https://github.com/facile-it/sentry-module
 [module issues]: https://github.com/Daniel-KM/Omeka-S-module-Log/issues
 [CeCILL v2.1]: https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html

@@ -57,6 +57,15 @@ class LoggerFactory implements FactoryInterface
             }
         }
 
+        // TODO The facile sentry sender should be autoloaded automagically.
+        if (isset($writers['sentry'])) {
+            if (empty($writers['sentry']['options']['sender'])
+                || $writers['sentry']['options']['sender'] === \Facile\Sentry\Common\Sender\SenderInterface::class
+            ) {
+                $writers['sentry']['options']['sender'] = $services->get(\Facile\Sentry\Common\Sender\SenderInterface::class);
+            }
+        }
+
         $config['logger']['options']['writers'] = $writers;
         if (!empty($config['logger']['options']['processors']['userid']['name'])) {
             $config['logger']['options']['processors']['userid']['name'] = $this->addUserIdProcessor($services);

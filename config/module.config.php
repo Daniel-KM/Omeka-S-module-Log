@@ -2,6 +2,7 @@
 namespace Log;
 
 return [
+    // TODO There seems to be a mix between logger plugin and log services: to be cleaned.
     'logger' => [
         'log' => true,
         // Nullify path and priority for compatibility with Omeka S 1.0 config.
@@ -11,6 +12,8 @@ return [
             // Note: even disabled, the database may be used via loggerDb().
             'db' => true,
             'stream' => true,
+            // Config for sentry (https://sentry.io). See readme to enable it.
+            'sentry' => false,
         ],
         'options' => [
             'writers' => [
@@ -40,6 +43,20 @@ return [
                         'filters' => \Zend\Log\Logger::NOTICE,
                         'stream' => OMEKA_PATH . '/logs/application.log',
                         'formatter' => Formatter\PsrLogSimple::class,
+                    ],
+                ],
+                // See https://github.com/facile-it/sentry-module#log-writer
+                'sentry' => [
+                    'name' => \Facile\SentryModule\Log\Writer\Sentry::class,
+                    'options' => [
+                        'filters' => [
+                            [
+                                'name' => 'priority',
+                                'options' => [
+                                    'priority' => \Zend\Log\Logger::ERR,
+                                ],
+                            ],
+                        ],
                     ],
                 ],
             ],
