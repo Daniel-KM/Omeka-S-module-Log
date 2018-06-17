@@ -18,9 +18,9 @@ class LoggerFactory implements FactoryInterface
      *
      * @return Logger
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $config = $serviceLocator->get('Config');
+        $config = $services->get('Config');
 
         if (empty($config['logger']['log'])) {
             return (new Logger)->addWriter(new Noop);
@@ -42,7 +42,7 @@ class LoggerFactory implements FactoryInterface
         }
 
         if (!empty($writers['db']) && empty($writers['db']['options']['db'])) {
-            $dbAdapter = $this->getDbAdapter($serviceLocator);
+            $dbAdapter = $this->getDbAdapter($services);
             if ($dbAdapter) {
                 $writers['db']['options']['db'] = $dbAdapter;
             } else {
@@ -59,7 +59,7 @@ class LoggerFactory implements FactoryInterface
 
         $config['logger']['options']['writers'] = $writers;
         if (!empty($config['logger']['options']['processors']['userid']['name'])) {
-            $config['logger']['options']['processors']['userid']['name'] = $this->addUserIdProcessor($serviceLocator);
+            $config['logger']['options']['processors']['userid']['name'] = $this->addUserIdProcessor($services);
         }
 
         // Checks are managed via the constructor.
@@ -74,17 +74,17 @@ class LoggerFactory implements FactoryInterface
      * uses the default doctrine entity manager.
      * @todo Use a second entity manager to manage logs in a isolated database.
      *
-     * @param ContainerInterface $serviceLocator
+     * @param ContainerInterface $services
      * @return  \Zend\Db\Adapter\AdapterInterface
      */
-    protected function getDbAdapter(ContainerInterface $serviceLocator)
+    protected function getDbAdapter(ContainerInterface $services)
     {
         $iniConfigPath = OMEKA_PATH . '/config/database-log.ini';
         if (file_exists($iniConfigPath) && is_readable($iniConfigPath)) {
             $reader = new \Zend\Config\Reader\Ini;
             $iniConfig = $reader->fromFile($databaseLogConfig);
         } else {
-            $iniConfig = $serviceLocator->get('Omeka\Connection')->getParams();
+            $iniConfig = $services->get('Omeka\Connection')->getParams();
         }
 
         $dbConfig = [
@@ -109,12 +109,12 @@ class LoggerFactory implements FactoryInterface
      * Add the log processor to add the current user id.
      *
      * @todo Load the user id log processor via log_processors.
-     * @param ContainerInterface $serviceLocator
+     * @param ContainerInterface $services
      * @return UserId
      */
-    protected function addUserIdProcessor(ContainerInterface $serviceLocator)
+    protected function addUserIdProcessor(ContainerInterface $services)
     {
         $userIdFactory = new UserIdFactory();
-        return $userIdFactory($serviceLocator, '');
+        return $userIdFactory($services, '');
     }
 }

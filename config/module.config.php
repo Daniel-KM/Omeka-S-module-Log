@@ -113,7 +113,7 @@ return [
             'admin' => [
                 'child_routes' => [
                     'log' => [
-                        'type' => 'Literal',
+                        'type' => \Zend\Router\Http\Literal::class,
                         'options' => [
                             'route' => '/log',
                             'defaults' => [
@@ -125,7 +125,7 @@ return [
                         'may_terminate' => true,
                         'child_routes' => [
                             'default' => [
-                                'type' => 'Segment',
+                                'type' => \Zend\Router\Http\Segment::class,
                                 'options' => [
                                     'route' => '/:action',
                                     'constraints' => [
@@ -137,7 +137,7 @@ return [
                                 ],
                             ],
                             'id' => [
-                                'type' => 'Segment',
+                                'type' => \Zend\Router\Http\Segment::class,
                                 'options' => [
                                     'route' => '/:id[/:action]',
                                     'constraints' => [
@@ -158,7 +158,7 @@ return [
     'navigation' => [
         'AdminGlobal' => [
             [
-                'label' => 'Logs',
+                'label' => 'Logs', // @translate
                 'class' => 'fa-list',
                 'route' => 'admin/log',
                 'resource' => Controller\LogController::class,
