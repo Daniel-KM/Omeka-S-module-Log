@@ -127,6 +127,7 @@ documentation for the format of the config.
 [Sentry] is an error tracking service. It should be installed in a particular
 way, following these steps, from the root of Omeka S:
 
+- Sentry requires the library `php-curl`, that should be enabled on the server.
 - Sentry should be installed via composer in the root of Omeka, with platform
   php = 7.0 instead of platform php = 5.6, so update it in `composer.json`. If
   not, an old version of Sentry will be used, that doesn't work with other
