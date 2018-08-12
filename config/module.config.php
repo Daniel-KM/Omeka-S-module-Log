@@ -178,6 +178,7 @@ return [
                 'label' => 'Logs', // @translate
                 'class' => 'fa-list',
                 'route' => 'admin/log',
+                'resource' => Controller\LogController::class,
                 'privilege' => 'browse',
             ],
         ],
