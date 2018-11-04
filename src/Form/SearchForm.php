@@ -2,13 +2,18 @@
 
 namespace Log\Form;
 
-use Zend\Form\Element\Select;
-use Zend\Form\Element\Submit;
-use Zend\Form\Element\Text;
+use Omeka\Form\Element\ResourceSelect;
+use Zend\Form\Element;
 use Zend\Form\Form;
+use Zend\View\Helper\Url;
 
 class SearchForm extends Form
 {
+    /**
+     * @var Url
+     */
+    protected $urlHelper;
+
     public function init()
     {
         $this->setAttribute('method', 'get');
@@ -16,8 +21,10 @@ class SearchForm extends Form
         // No csrf: see main search form.
         $this->remove('csrf');
 
+        $urlHelper = $this->getUrlHelper();
+
         $this->add([
-            'type' => Text::class,
+            'type' => Element\Text::class,
             'name' => 'created',
             'options' => [
                 'label' => 'Created', // @translate
@@ -39,31 +46,31 @@ class SearchForm extends Form
         ];
         $this->add([
             'name' => 'severity_min',
-            'type' => Select::class,
+            'type' => Element\Select::class,
             'options' => [
                 'label' => 'Minimum severity', // @translate
                 'value_options' => $valueOptions,
-                'empty_option' => 'Select minimum severity below…', // @translate
+                'empty_option' => 'Select minimum severity…', // @translate
             ],
             'attributes' => [
-                'placeholder' => 'Select minimum severity below…', // @translate
+                'placeholder' => 'Select minimum severity…', // @translate
             ],
         ]);
         $this->add([
             'name' => 'severity_max',
-            'type' => Select::class,
+            'type' => Element\Select::class,
             'options' => [
                 'label' => 'Maximum severity', // @translate
                 'value_options' => $valueOptions,
-                'empty_option' => 'Select maximum severity below…', // @translate
+                'empty_option' => 'Select maximum severity…', // @translate
             ],
             'attributes' => [
-                'placeholder' => 'Select maximum severity below…', // @translate
+                'placeholder' => 'Select maximum severity…', // @translate
             ],
         ]);
 
         $this->add([
-            'type' => Text::class,
+            'type' => Element\Text::class,
             'name' => 'reference',
             'options' => [
                 'label' => 'Reference', // @translate
@@ -74,7 +81,7 @@ class SearchForm extends Form
         ]);
 
         $this->add([
-            'type' => Text::class,
+            'type' => Element\Number::class,
             'name' => 'job_id',
             'options' => [
                 'label' => 'Job', // @translate
@@ -85,19 +92,30 @@ class SearchForm extends Form
         ]);
 
         $this->add([
-            'type' => Text::class,
             'name' => 'user_id',
+            'type' => ResourceSelect::class,
             'options' => [
-                'label' => 'User', // @translate
+                'label' => 'Owner', // @translate
+                'resource_value_options' => [
+                    'resource' => 'users',
+                    'query' => [],
+                    'option_text_callback' => function ($user) {
+                        return $user->name();
+                    },
+                ],
+                'empty_option' => 'Select a user…', // @translate
             ],
             'attributes' => [
-                'placeholder' => 'Set a user id…', // @translate
+                'id' => 'user_id',
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select a user…', // @translate
+                'data-api-base-url' => $urlHelper('api/default', ['resource' => 'users']),
             ],
         ]);
 
         $this->add([
             'name' => 'submit',
-            'type' => Submit::class,
+            'type' => Element\Submit::class,
             'attributes' => [
                 'value' => 'Search', // @translate
                 'type' => 'submit',
@@ -109,5 +127,21 @@ class SearchForm extends Form
             'name' => 'severity',
             'required' => false,
         ]);
+    }
+
+    /**
+     * @param Url $urlHelper
+     */
+    public function setUrlHelper(Url $urlHelper)
+    {
+        $this->urlHelper = $urlHelper;
+    }
+
+    /**
+     * @return \Zend\View\Helper\Url
+     */
+    public function getUrlHelper()
+    {
+        return $this->urlHelper;
     }
 }

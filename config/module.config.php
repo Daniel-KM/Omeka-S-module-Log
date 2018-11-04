@@ -91,8 +91,8 @@ return [
         ],
     ],
     'form_elements' => [
-        'invokables' => [
-            Form\SearchForm::class => Form\SearchForm::class,
+        'factories' => [
+            Form\SearchForm::class => Service\Form\SearchFormFactory::class,
         ],
     ],
     'controllers' => [

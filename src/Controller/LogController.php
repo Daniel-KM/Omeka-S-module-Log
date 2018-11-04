@@ -4,6 +4,7 @@ namespace Log\Controller;
 use Log\Form\SearchForm;
 use Omeka\Form\ConfirmForm;
 use Omeka\Job\Dispatcher;
+use Omeka\Stdlib\Message;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -31,15 +32,22 @@ class LogController extends AbstractActionController
         $formSearch = $this->getForm(SearchForm::class);
         $formSearch->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'browse'], true));
         $formSearch->setAttribute('id', 'log-search');
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            $formSearch->setData($data);
+        } elseif ($this->getRequest()->isGet()) {
+            $data = $this->params()->fromQuery();
+            $formSearch->setData($data);
+        }
 
         $formDeleteSelected = $this->getForm(ConfirmForm::class);
         $formDeleteSelected->setAttribute('action', $this->url()->fromRoute('admin/log/default', ['action' => 'batch-delete'], true));
-        $formDeleteSelected->setButtonLabel('Confirm Delete'); // @translate
+        $formDeleteSelected->setButtonLabel('Confirm delete'); // @translate
         $formDeleteSelected->setAttribute('id', 'confirm-delete-selected');
 
         $formDeleteAll = $this->getForm(ConfirmForm::class);
         $formDeleteAll->setAttribute('action', $this->url()->fromRoute('admin/log/default', ['action' => 'batch-delete-all'], true));
-        $formDeleteAll->setButtonLabel('Confirm Delete'); // @translate
+        $formDeleteAll->setButtonLabel('Confirm delete'); // @translate
         $formDeleteAll->setAttribute('id', 'confirm-delete-all');
         $formDeleteAll->get('submit')->setAttribute('disabled', true);
 
@@ -151,7 +159,16 @@ class LogController extends AbstractActionController
                 'resource' => 'logs',
                 'query' => $query,
             ]);
-            $this->messenger()->addSuccess('Deleting logs. This may take a while.'); // @translate
+            $message = new Message(
+                'Deleting logs in background (%sjob #%d%s). This may take a while', // @translate
+                sprintf('<a href="%s">',
+                    htmlspecialchars($this->url()->fromRoute('admin/id', ['controller' => 'job', 'id' => $job->getId()]))
+                ),
+                $job->getId(),
+                '</a>'
+            );
+            $message->setEscapeHtml(false);
+            $this->messenger()->addSuccess($message);
         } else {
             $this->messenger()->addFormErrors($form);
         }
