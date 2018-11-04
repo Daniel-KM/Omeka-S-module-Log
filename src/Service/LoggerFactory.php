@@ -32,6 +32,7 @@ class LoggerFactory implements FactoryInterface
             return (new Logger)->addWriter(new Noop);
         }
 
+        // For compatibility with Omeka default config, that may be customized.
         if (!empty($writers['stream'])) {
             if (isset($config['logger']['priority'])) {
                 $writers['stream']['options']['filters'] = $config['logger']['priority'];

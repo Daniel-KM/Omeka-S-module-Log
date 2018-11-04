@@ -4,8 +4,9 @@ namespace Log;
 return [
     // TODO There seems to be a mix between logger plugin and log services: to be cleaned.
     'logger' => [
+        // The default config is false, but this module is designed to log.
         'log' => true,
-        // Nullify path and priority for compatibility with Omeka S 1.0 config.
+        // Nullify path and priority for compatibility with Omeka default config.
         'path' => null,
         'priority' => null,
         'writers' => [
@@ -40,6 +41,7 @@ return [
                 'stream' => [
                     'name' => 'stream',
                     'options' => [
+                        // This is the default level in the standard config.
                         'filters' => \Zend\Log\Logger::NOTICE,
                         'stream' => OMEKA_PATH . '/logs/application.log',
                         'formatter' => Formatter\PsrLogSimple::class,
