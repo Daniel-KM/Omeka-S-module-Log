@@ -91,7 +91,7 @@ class LoggerFactory implements FactoryInterface
         $iniConfigPath = OMEKA_PATH . '/config/database-log.ini';
         if (file_exists($iniConfigPath) && is_readable($iniConfigPath)) {
             $reader = new \Zend\Config\Reader\Ini;
-            $iniConfig = $reader->fromFile($databaseLogConfig);
+            $iniConfig = $reader->fromFile($iniConfigPath);
         } else {
             $iniConfig = $services->get('Omeka\Connection')->getParams();
         }
