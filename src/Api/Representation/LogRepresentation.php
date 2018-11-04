@@ -31,7 +31,7 @@ class LogRepresentation extends AbstractEntityRepresentation
         // TODO Find the schema for log severity. See https://tools.ietf.org/html/rfc3164.
 
         $created = [
-            '@value' => $this->getDateTime($created),
+            '@value' => $this->getDateTime($this->created()),
             '@type' => 'http://www.w3.org/2001/XMLSchema#dateTime',
         ];
 
