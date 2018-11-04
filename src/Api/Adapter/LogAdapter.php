@@ -126,6 +126,7 @@ class LogAdapter extends AbstractEntityAdapter
      */
     protected function buildQueryComparison(QueryBuilder $qb, array $query, $value, $column)
     {
+        $matches = [];
         preg_match('/^[^\d]+/', $value, $matches);
         if (!empty($matches[0])) {
             $operators = [

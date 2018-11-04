@@ -69,6 +69,7 @@ SQL;
 
     public function uninstall(ServiceLocatorInterface $serviceLocator)
     {
+        // TODO Move all job logs into standard log.
         $connection = $serviceLocator->get('Omeka\Connection');
         $sql = <<<'SQL'
 ALTER TABLE log DROP FOREIGN KEY FK_8F3F68C5A76ED395;

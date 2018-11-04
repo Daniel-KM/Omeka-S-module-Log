@@ -1,4 +1,10 @@
 <?php
+/**
+ * @var \Zend\View\Renderer\PhpRenderer $this
+ * @var \Log\Api\Representation\LogRepresentation[] $logs
+ * @var \Log\Form\SearchForm $formSearch
+ */
+
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'logs browse');
@@ -144,11 +150,10 @@ $sortHeadings = [
             <td>
             <?php $job = $log->job(); ?>
             <?php if ($job): ?>
-                <?php $jobArgs = $job->args(); ?>
                 <span class="log-job-status">
                 <?php echo $this->hyperlink($translate($job->statusLabel()), $this->url(null, [], ['query' => ['job_id' => $job->id()]], true)); ?>
                 </span>
-                <br />
+                -
                 <span class="log-job-param">
                 <?php echo $this->hyperlink($translate('Parameters'), $this->url('admin/id', ['controller' => 'job', 'action' => 'show', 'id' => $job->id()])); ?>
                 </span>
