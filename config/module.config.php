@@ -96,8 +96,8 @@ return [
         ],
     ],
     'controllers' => [
-        'factories' => [
-            Controller\LogController::class => Service\Controller\LogControllerFactory::class,
+        'invokables' => [
+            Controller\Admin\LogController::class => Controller\Admin\LogController::class,
         ],
     ],
     'controller_plugins' => [
@@ -134,8 +134,8 @@ return [
                         'options' => [
                             'route' => '/log',
                             'defaults' => [
-                                '__NAMESPACE__' => 'Log\Controller',
-                                'controller' => Controller\LogController::class,
+                                '__NAMESPACE__' => 'Log\Controller\Admin',
+                                'controller' => Controller\Admin\LogController::class,
                                 'action' => 'browse',
                             ],
                         ],
@@ -178,7 +178,7 @@ return [
                 'label' => 'Logs', // @translate
                 'class' => 'fa-list',
                 'route' => 'admin/log',
-                'resource' => Controller\LogController::class,
+                'resource' => Controller\Admin\LogController::class,
                 'privilege' => 'browse',
             ],
         ],

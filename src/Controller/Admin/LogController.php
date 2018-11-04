@@ -1,28 +1,14 @@
 <?php
-namespace Log\Controller;
+namespace Log\Controller\Admin;
 
 use Log\Form\SearchForm;
 use Omeka\Form\ConfirmForm;
-use Omeka\Job\Dispatcher;
 use Omeka\Stdlib\Message;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 class LogController extends AbstractActionController
 {
-    /**
-     * @var Dispatcher
-     */
-    protected $dispatcher;
-
-    /**
-     * @param Dispatcher $dispatcher
-     */
-    public function __construct(Dispatcher $dispatcher)
-    {
-        $this->dispatcher = $dispatcher;
-    }
-
     public function browseAction()
     {
         $this->setBrowseDefaults('created');
@@ -155,7 +141,7 @@ class LogController extends AbstractActionController
         $form = $this->getForm(ConfirmForm::class);
         $form->setData($this->getRequest()->getPost());
         if ($form->isValid()) {
-            $job = $this->dispatcher->dispatch('Omeka\Job\BatchDelete', [
+            $job = $this->jobDispatcher()->dispatch('Omeka\Job\BatchDelete', [
                 'resource' => 'logs',
                 'query' => $query,
             ]);
