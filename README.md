@@ -12,15 +12,14 @@ critical error occurs.
 The logs are [PSR-3] compliant: they can managed by any other tool that respects
 this standard (see below). They can be translated too.
 
-WARNING: Some exceptions may not be logged in some cases. So it may not be used
-for production for now.
-
 
 Installation
 ------------
 
-The module uses an external library, [webui-popover], so use the release zip to
+The module uses an external library, [`webui-popover`], so use the release zip to
 install it, or use and init the source.
+
+See general end user documentation for [installing a module].
 
 * From the zip
 
@@ -41,17 +40,14 @@ the module to `Log`, go to the root module, and run:
 Config
 ------
 
-### Background job logs
-
-The job logs are automatically saved in the database and manageable in the admin
-interface.
-
-Note that the default job logging is disabled in the default config.
+The default config allows to keep existing log mechanisms (file `logs/application.log`
+and logs in the table `job` inside the Omeka database. They can be disabled if
+wanted.
 
 ### Default logs
 
-The default logs are saved in the database too. To disable double logging with
-the core file `logs/application.log`, add this key in the main `config/local.config.php`:
+To disable double the file logging (stream), add these keys in your own
+`config/local.config.php`:
 
 ```php
     'logger' => [
@@ -82,6 +78,26 @@ logging (this example shows the default levels):
                         'filters' => \Zend\Log\Logger::NOTICE,
                     ],
                 ],
+            ],
+        ],
+    ],
+```
+
+### Background job logs
+
+The job logs are automatically saved in the database and manageable in the admin
+interface.
+
+The default job logging is still enabled by default in config. To disable it,
+set the key `['logger']['writers']['job']` to false in your own `config/local.config.php`:
+
+```php
+    'logger' => [
+        'path' => null,
+        'priority' => null,
+        'options' => [
+            'writers' => [
+                'job' => false,
             ],
         ],
     ],
@@ -374,36 +390,29 @@ conditions as regards security.
 The fact that you are presently reading this means that you have had knowledge
 of the CeCILL license and that you accept its terms.
 
-* The library [webui-popover] is published under the license [MIT].
-* The library [facile/sentry] is published under the license [MIT].
-
-
-Contact
--------
-
-Current maintainers:
-
-* Daniel Berthereau (see [Daniel-KM] on GitHub)
+* The library [`webui-popover`] is published under the license [MIT].
+* The library [`facile/sentry`] is published under the license [MIT].
 
 
 Copyright
 ---------
 
-* Copyright Daniel Berthereau, 2017-2018
+* Copyright Daniel Berthereau, 2017-2018 [Daniel-KM] on GitHub)
 
-* Library [webui-popover]: Sandy Walker
-* Library [facile/sentry]: Copyright 2016 Thomas Mauro Vargiu
+* Library [`webui-popover`]: Sandy Walker
+* Library [`facile/sentry`]: Copyright 2016 Thomas Mauro Vargiu
 
 
 [Log]: https://github.com/Daniel-KM/Omeka-S-module-Log
 [Omeka S]: https://omeka.org/s
 [PSR-3]: http://www.php-fig.org/psr/psr-3
 [PHP-FIG]: http://www.php-fig.org
-[webui-popover]: https://github.com/sandywalker/webui-popover
+[`webui-popover`]: https://github.com/sandywalker/webui-popover
+[installing a module]: http://dev.omeka.org/docs/s/user-manual/modules/#installing-modules
 [`Log.zip`]: https://github.com/Daniel-KM/Omeka-S-module-Log/releases
 [Zend Framework Log]: https://docs.zendframework.com/zend-log
 [Sentry]: https://sentry.io
-[facile/sentry]: https://github.com/facile-it/sentry-module
+[`facile/sentry`]: https://github.com/facile-it/sentry-module
 [module issues]: https://github.com/Daniel-KM/Omeka-S-module-Log/issues
 [CeCILL v2.1]: https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html
