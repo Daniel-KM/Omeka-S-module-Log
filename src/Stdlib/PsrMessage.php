@@ -73,6 +73,8 @@ class PsrMessage implements \JsonSerializable, PsrInterpolateInterface
 
     /**
      * Get the message arguments for compatibility purpose.
+     *
+     * @deprecated Use hasContext() instead.
      */
     public function getArgs()
     {
@@ -82,6 +84,7 @@ class PsrMessage implements \JsonSerializable, PsrInterpolateInterface
     /**
      * Does this message have arguments? For compatibility purpose.
      *
+     * @deprecated Use hasContext() instead.
      * @return bool
      */
     public function hasArgs()
