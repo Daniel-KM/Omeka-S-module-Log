@@ -10,10 +10,16 @@ return [
         'path' => null,
         'priority' => null,
         'writers' => [
+            // The database used by this module.
             // Note: even disabled, the database may be used via loggerDb().
             'db' => true,
+            // Log for Omeka jobs (useless with this module, but kept for testing purpose.
+            // This is a standard Zend writer, but there is no more parameters.
+            'job' => true,
+            // This is the default log file of Omeka (logs/application.log).
             'stream' => true,
-            // Config for sentry (https://sentry.io). See readme to enable it.
+            // Config for sentry, an error tracking service (https://sentry.io).
+            // See readme to enable it.
             'sentry' => false,
         ],
         'options' => [

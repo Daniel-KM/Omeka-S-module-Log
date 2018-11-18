@@ -5,13 +5,22 @@ use DateTime;
 use Doctrine\ORM\EntityManager;
 use Omeka\Job\DispatchStrategy\StrategyInterface;
 use Omeka\Entity\Job;
+use Omeka\Log\Writer\Job as JobWriter;
 
 class Dispatcher extends \Omeka\Job\Dispatcher
 {
+    /**
+     * @var bool
+     */
+    protected $useJobWriter;
+
     public function send(Job $job, StrategyInterface $strategy)
     {
-        // Disable the default writer.
-        // $this->logger->addWriter(new JobWriter($job));
+        // Keep the default writer if wanted.
+        if ($this->useJobWriter) {
+            $this->logger->addWriter(new JobWriter($job));
+        }
+
         // Enable the user and job id in the default logger.
         $userJobIdProcessor = new \Log\Processor\UserJobId($job);
         // The priority "0" fixes a precedency issue with the processor UserId.
@@ -57,5 +66,10 @@ class Dispatcher extends \Omeka\Job\Dispatcher
             $entityManager->getConfiguration(),
             $entityManager->getEventManager()
         );
+    }
+
+    public function useJobWriter($useJobWriter)
+    {
+        $this->useJobWriter = $useJobWriter;
     }
 }
