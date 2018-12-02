@@ -41,44 +41,30 @@ class Module extends AbstractModule
 
     public function install(ServiceLocatorInterface $serviceLocator)
     {
-        $connection = $serviceLocator->get('Omeka\Connection');
-        $sql = <<<'SQL'
-CREATE TABLE log (
-    id INT AUTO_INCREMENT NOT NULL,
-    user_id INT DEFAULT NULL,
-    job_id INT DEFAULT NULL,
-    reference VARCHAR(190) DEFAULT '' NOT NULL,
-    severity INT DEFAULT 0 NOT NULL,
-    message LONGTEXT NOT NULL,
-    context LONGTEXT NOT NULL COMMENT '(DC2Type:json_array)',
-    created DATETIME NOT NULL,
-    INDEX user_idx (user_id),
-    INDEX job_idx (job_id),
-    INDEX reference_idx (reference),
-    INDEX severity_idx (severity),
-    PRIMARY KEY(id)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB;
-ALTER TABLE log ADD CONSTRAINT FK_8F3F68C5A76ED395 FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE SET NULL;
-ALTER TABLE log ADD CONSTRAINT FK_8F3F68C5BE04EA9 FOREIGN KEY (job_id) REFERENCES job (id) ON DELETE CASCADE;
-SQL;
-        $sqls = array_filter(array_map('trim', explode(';', $sql)));
-        foreach ($sqls as $sql) {
-            $connection->exec($sql);
-        }
+        $this->setServiceLocator($serviceLocator);
+        $this->execSqlFromFile(__DIR__ . '/data/install/schema.sql');
     }
 
     public function uninstall(ServiceLocatorInterface $serviceLocator)
     {
-        // TODO Move all job logs into standard log.
-        $connection = $serviceLocator->get('Omeka\Connection');
-        $sql = <<<'SQL'
-ALTER TABLE log DROP FOREIGN KEY FK_8F3F68C5A76ED395;
-ALTER TABLE log DROP FOREIGN KEY FK_8F3F68C5BE04EA9;
-DROP TABLE IF EXISTS log;
-SQL;
-        $sqls = array_filter(array_map('trim', explode(';', $sql)));
-        foreach ($sqls as $sql) {
-            $connection->exec($sql);
+        $this->setServiceLocator($serviceLocator);
+        $this->execSqlFromFile(__DIR__ . '/data/install/uninstall.sql');
+    }
+
+    /**
+     * Execute a sql from a file.
+     *
+     * @param string $filepath
+     * @return mixed
+     */
+    protected function execSqlFromFile($filepath)
+    {
+        if (!file_exists($filepath) || !filesize($filepath) || !is_readable($filepath)) {
+            throw new \Omeka\Module\Exception\ModuleCannotInstallException(sprintf('The file "%s" is missing.', $filepath));
         }
+        $services = $this->getServiceLocator();
+        $connection = $services->get('Omeka\Connection');
+        $sql = file_get_contents($filepath);
+        return $connection->exec($sql);
     }
 }
