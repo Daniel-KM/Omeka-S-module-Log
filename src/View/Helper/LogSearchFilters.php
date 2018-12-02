@@ -47,41 +47,41 @@ class LogSearchFilters extends AbstractHelper
             }
             switch ($key) {
                 case 'created':
-                    $filterLabel = $translate('Created');
+                    $filterLabel = $translate('Created'); // @translate
                     $filterValue = $value;
                     $filters[$filterLabel][] = $filterValue;
                     break;
 
                 case 'reference':
-                    $filterLabel = $translate('Reference');
+                    $filterLabel = $translate('Reference'); // @translate
                     $filterValue = $value;
                     $filters[$filterLabel][] = $filterValue;
                     break;
 
                 case 'severity':
-                    $filterLabel = $translate('Severity');
+                    $filterLabel = $translate('Severity'); // @translate
                     $filterValue = isset($severities[$value]) ? $severities[$value] : $value;
                     $filters[$filterLabel][] = $filterValue;
                     break;
                 case 'severity_min':
-                    $filterLabel = $translate('Severity');
+                    $filterLabel = $translate('Severity'); // @translate
                     $filterValue = '>=';
                     $filterValue .= isset($severities[$value]) ? $severities[$value] : $value;
                     $filters[$filterLabel][] = $filterValue;
                     break;
                 case 'severity_max':
-                    $filterLabel = $translate('Severity');
+                    $filterLabel = $translate('Severity'); // @translate
                     $filterValue = '<=';
                     $filterValue .= isset($severities[$value]) ? $severities[$value] : $value;
                     $filters[$filterLabel][] = $filterValue;
                     break;
 
                 case 'owner_id':
-                    $filterLabel = $translate('User');
+                    $filterLabel = $translate('User'); // @translate
                     try {
                         $filterValue = $api->read('users', $value)->getContent()->name();
                     } catch (NotFoundException $e) {
-                        $filterValue = $translate('Unknown user');
+                        $filterValue = $translate('Unknown user'); // @translate
                     }
                     $filters[$filterLabel][] = $filterValue;
                     break;
@@ -91,7 +91,7 @@ class LogSearchFilters extends AbstractHelper
                     try {
                         $filterValue = $api->read('jobs', $value)->getContent()->id();
                     } catch (NotFoundException $e) {
-                        $filterValue = $translate('Unknown job');
+                        $filterValue = $translate('Unknown job'); // @translate
                     }
                     $filters[$filterLabel][] = $filterValue;
                     break;

@@ -40,6 +40,7 @@ class LogController extends AbstractActionController
         $view = new ViewModel;
         $logs = $response->getContent();
         $view->setVariable('logs', $logs);
+        $view->setVariable('resources', $logs);
         $view->setVariable('formSearch', $formSearch);
         $view->setVariable('formDeleteSelected', $formDeleteSelected);
         $view->setVariable('formDeleteAll', $formDeleteAll);
@@ -147,7 +148,8 @@ class LogController extends AbstractActionController
             ]);
             $message = new Message(
                 'Deleting logs in background (%sjob #%d%s). This may take a while', // @translate
-                sprintf('<a href="%s">',
+                sprintf(
+                    '<a href="%s">',
                     htmlspecialchars($this->url()->fromRoute('admin/id', ['controller' => 'job', 'id' => $job->getId()]))
                 ),
                 $job->getId(),
