@@ -34,37 +34,6 @@ class LogAdapter extends AbstractEntityAdapter
         return \Log\Entity\Log::class;
     }
 
-    public function hydrate(Request $request, EntityInterface $entity,
-        ErrorStore $errorStore
-    ) {
-        switch ($request->getOperation()) {
-            case Request::CREATE:
-                $data = $request->getContent();
-                if (empty($data['o:user'])) {
-                    $user = null;
-                } elseif (is_object($data['o:user'])) {
-                    $user = $data['o:user'];
-                } else {
-                    $user = $this->getAdapter('users')->findEntity($data['o:user']['o:id']);
-                }
-                if (empty($data['o:job'])) {
-                    $job = null;
-                } elseif (is_object($data['o:job'])) {
-                    $job = $data['o:job'];
-                } else {
-                    $job = $this->getAdapter('jobs')->findEntity($data['o:job']['o:id']);
-                }
-                $entity->setUser($user);
-                $entity->setJob($job);
-                $entity->setReference($data['o:reference']);
-                $entity->setSeverity($data['o:severity']);
-                $entity->setMessage($data['o:message']);
-                $entity->setContext($data['o:context']);
-                $entity->setCreated(new \DateTime('now'));
-                break;
-        }
-    }
-
     public function buildQuery(QueryBuilder $qb, array $query)
     {
         if (isset($query['user_id']) && strlen($query['user_id'])) {
@@ -112,7 +81,38 @@ class LogAdapter extends AbstractEntityAdapter
         }
 
         if (isset($query['created']) && strlen($query['created'])) {
-            $this->buildQueryComparison($qb, $query, $query['created'], 'created');
+            $this->buildQueryDateComparison($qb, $query, $query['created'], 'created');
+        }
+    }
+
+    public function hydrate(Request $request, EntityInterface $entity,
+        ErrorStore $errorStore
+    ) {
+        switch ($request->getOperation()) {
+            case Request::CREATE:
+                $data = $request->getContent();
+                if (empty($data['o:user'])) {
+                    $user = null;
+                } elseif (is_object($data['o:user'])) {
+                    $user = $data['o:user'];
+                } else {
+                    $user = $this->getAdapter('users')->findEntity($data['o:user']['o:id']);
+                }
+                if (empty($data['o:job'])) {
+                    $job = null;
+                } elseif (is_object($data['o:job'])) {
+                    $job = $data['o:job'];
+                } else {
+                    $job = $this->getAdapter('jobs')->findEntity($data['o:job']['o:id']);
+                }
+                $entity->setUser($user);
+                $entity->setJob($job);
+                $entity->setReference($data['o:reference']);
+                $entity->setSeverity($data['o:severity']);
+                $entity->setMessage($data['o:message']);
+                $entity->setContext($data['o:context']);
+                $entity->setCreated(new \DateTime('now'));
+                break;
         }
     }
 
@@ -124,8 +124,9 @@ class LogAdapter extends AbstractEntityAdapter
      * @param string $value
      * @param string $column
      */
-    protected function buildQueryComparison(QueryBuilder $qb, array $query, $value, $column)
+    protected function buildQueryDateComparison(QueryBuilder $qb, array $query, $value, $column)
     {
+        // TODO Format the date into a standard mysql datetime.
         $matches = [];
         preg_match('/^[^\d]+/', $value, $matches);
         if (!empty($matches[0])) {
@@ -142,18 +143,96 @@ class LogAdapter extends AbstractEntityAdapter
                 'lte' => Comparison::LTE,
                 'neq' => Comparison::NEQ,
                 'eq' => Comparison::EQ,
+                'ex' => 'IS NOT NULL',
+                'nex' => 'IS NULL',
             ];
-            $operator = isset($operators[$matches[0]])
-                ? $operators[$matches[0]]
+            $operator = trim($matches[0]);
+            $operator = isset($operators[$operator])
+                ? $operators[$operator]
                 : Comparison::EQ;
-            $value = (int) substr($value, strlen($matches[0]));
+            $value = substr($value, strlen($matches[0]));
         } else {
             $operator = Comparison::EQ;
         }
-        $qb->andWhere(new Comparison(
-            $this->getEntityClass() . '.' . $column,
-            $operator,
-            $this->createNamedParameter($qb, $value)
-        ));
+        $value = trim($value);
+
+        // By default, sql replace missing time by 00:00:00, but this is not
+        // clear for the user. And it doesn't allow partial date/time.
+        // See module Advanced Search Plus.
+
+        // $qb->andWhere(new Comparison(
+        //     $this->getEntityClass() . '.' . $column,
+        //     $operator,
+        //     $this->createNamedParameter($qb, $value)
+        // ));
+        // return;
+
+        $field = $this->getEntityClass() . '.' . $column;
+        switch ($operator) {
+            case Comparison::GT:
+                if (strlen($value) < 19) {
+                    $value = substr_replace('9999-12-31 23:59:59', $value, 0, strlen($value) - 19);
+                }
+                $param = $this->createNamedParameter($qb, $value);
+                $predicateExpr = $qb->expr()->gt($field, $param);
+                break;
+            case Comparison::GTE:
+                if (strlen($value) < 19) {
+                    $value = substr_replace('0000-01-01 00:00:00', $value, 0, strlen($value) - 19);
+                }
+                $param = $this->createNamedParameter($qb, $value);
+                $predicateExpr = $qb->expr()->gte($field, $param);
+                break;
+            case Comparison::EQ:
+                if (strlen($value) < 19) {
+                    $valueFrom = substr_replace('0000-01-01 00:00:00', $value, 0, strlen($value) - 19);
+                    $valueTo = substr_replace('9999-12-31 23:59:59', $value, 0, strlen($value) - 19);
+                    $paramFrom = $this->createNamedParameter($qb, $valueFrom);
+                    $paramTo = $this->createNamedParameter($qb, $valueTo);
+                    $predicateExpr = $qb->expr()->between($field, $paramFrom, $paramTo);
+                } else {
+                    $param = $this->createNamedParameter($qb, $value);
+                    $predicateExpr = $qb->expr()->eq($field, $param);
+                }
+                break;
+            case Comparison::NEQ:
+                if (strlen($value) < 19) {
+                    $valueFrom = substr_replace('0000-01-01 00:00:00', $value, 0, strlen($value) - 19);
+                    $valueTo = substr_replace('9999-12-31 23:59:59', $value, 0, strlen($value) - 19);
+                    $paramFrom = $this->createNamedParameter($qb, $valueFrom);
+                    $paramTo = $this->createNamedParameter($qb, $valueTo);
+                    $predicateExpr = $qb->expr()->not(
+                        $qb->expr()->between($field, $paramFrom, $paramTo)
+                    );
+                } else {
+                    $param = $this->createNamedParameter($qb, $value);
+                    $predicateExpr = $qb->expr()->neq($field, $param);
+                }
+                break;
+            case Comparison::LTE:
+                if (strlen($value) < 19) {
+                    $value = substr_replace('9999-12-31 23:59:59', $value, 0, strlen($value) - 19);
+                }
+                $param = $this->createNamedParameter($qb, $value);
+                $predicateExpr = $qb->expr()->lte($field, $param);
+                break;
+            case Comparison::LT:
+                if (strlen($value) < 19) {
+                    $value = substr_replace('0000-01-01 00:00:00', $value, 0, strlen($value) - 19);
+                }
+                $param = $this->createNamedParameter($qb, $value);
+                $predicateExpr = $qb->expr()->lt($field, $param);
+                break;
+            case 'IS NOT NULL':
+                $predicateExpr = $qb->expr()->isNotNull($field);
+                break;
+            case 'IS NULL':
+                $predicateExpr = $qb->expr()->isNull($field);
+                break;
+            default:
+                return;
+        }
+
+        $qb->andWhere($predicateExpr);
     }
 }
