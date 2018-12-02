@@ -36,35 +36,29 @@ class LogAdapter extends AbstractEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query)
     {
+        // User table is not joined to get only existing users: useless with
+        // "on delete set null".
         if (isset($query['owner_id']) && strlen($query['owner_id'])) {
-            $alias = $this->createAlias();
-            $qb->innerJoin(
-                $this->getEntityClass() . '.owner',
-                $alias
-            );
             $qb->andWhere($qb->expr()->eq(
-                $alias . '.id',
-                $this->createNamedParameter($qb, $query['owner_id']))
-            );
+                $this->getEntityClass() . '.owner',
+                $this->createNamedParameter($qb, $query['owner_id'])
+            ));
         }
 
+        // Job table is not joined to get only existing jobs: useless with
+        // "on delete cascade".
         if (isset($query['job_id']) && strlen($query['job_id'])) {
-            $alias = $this->createAlias();
-            $qb->innerJoin(
-                $this->getEntityClass() . '.job',
-                $alias
-            );
             $qb->andWhere($qb->expr()->eq(
-                $alias . '.id',
-                $this->createNamedParameter($qb, $query['job_id']))
-            );
+                $this->getEntityClass() . '.job',
+                $this->createNamedParameter($qb, $query['job_id'])
+            ));
         }
 
         if (isset($query['reference']) && strlen($query['reference'])) {
             $qb->andWhere($qb->expr()->eq(
                 $this->getEntityClass() . '.reference',
-                $this->createNamedParameter($qb, $query['reference']))
-            );
+                $this->createNamedParameter($qb, $query['reference'])
+            ));
         }
 
         // TODO Allow to search severity by standard name.
@@ -85,7 +79,9 @@ class LogAdapter extends AbstractEntityAdapter
         }
     }
 
-    public function hydrate(Request $request, EntityInterface $entity,
+    public function hydrate(
+        Request $request,
+        EntityInterface $entity,
         ErrorStore $errorStore
     ) {
         switch ($request->getOperation()) {
