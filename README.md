@@ -2,12 +2,12 @@ Log (module for Omeka S)
 ========================
 
 [Log] is a module for [Omeka S] that allows to monitor all logging messages and
-background jobs directly in the admin board or via third parties and make them
-easily checkable.
+background jobs directly in the admin board, in syslog, or in cloud services via
+third parties and make them easily checkable.
 
-Furthermore, additionnal logging destinations (syslog, alternative monitor...)
-can be set just by providing their config, for example to send an email when a
-critical error occurs.
+Furthermore, additionnal logging destinations (alternative monitor, custom
+logging…) and behaviors can be set just by providing their config, for example
+to send an email when a critical error occurs.
 
 The logs are [PSR-3] compliant: they can managed by any other tool that respects
 this standard (see below). They can be translated too.
@@ -16,8 +16,8 @@ this standard (see below). They can be translated too.
 Installation
 ------------
 
-The module uses an external library, [`webui-popover`], so use the release zip to
-install it, or use and init the source.
+The module uses an external library, [`webui-popover`], so use the release zip
+to install it, or use and init the source.
 
 See general end user documentation for [installing a module].
 
@@ -40,21 +40,37 @@ the module to `Log`, go to the root module, and run:
 Config
 ------
 
-The default config allows to keep existing log mechanisms (file `logs/application.log`
-and logs in the table `job` inside the Omeka database. They can be disabled if
-wanted.
+The config is a pure Zend log config: see the [Zend Framework Log] documentation
+for the format. Only common settings are explained here.
+
+To enable or disable an option or a writer, it is recommended to copy the wanted
+keys inside your own `config/local.config.php`, so the maintenance will be
+simpler.
+
+The default config allows to keep existing log mechanisms: the file `logs/application.log`
+and the background logs in the table `job` inside the Omeka database. They can
+be disabled if wanted.
+
+The logger allows to define one or more of writers (a file, a database, a cloud
+service, syslog, etc.). All the writers are listed in `config['logger']['writers']`.
+When enable, a writer take its own config in the `config['logger']['options']['writers']`.
+See the example in the [config of the module].
+
+Note: External logs (db, sentry, etc.) are not fully checked for performance
+reasons, and may fail silently, so their config should be checked separately.
 
 ### Default logs
 
-To disable double the file logging (stream), add these keys in your own
-`config/local.config.php`:
+After testing the module, if you want to disable double logging (stream for
+direct logging and Omeka database for background jobs), add these keys in your
+own `config/local.config.php`:
 
 ```php
     'logger' => [
-        'path' => null,
-        'priority' => null,
+        'log' => true,
         'writers' => [
             'stream' => false,
+            'job' => false,
         ],
     ],
 ```
@@ -64,8 +80,12 @@ logging (this example shows the default levels):
 
 ```php
     'logger' => [
-        'path' => null,
-        'priority' => null,
+        'log' => true,
+        'writers' => [
+            'stream' => false,
+            'job' => false,
+            'syslog' => true,
+        ],
         'options' => [
             'writers' => [
                 'db' => [
@@ -76,6 +96,11 @@ logging (this example shows the default levels):
                 'stream' => [
                     'options' => [
                         'filters' => \Zend\Log\Logger::NOTICE,
+                    ],
+                ],
+                'syslog' => [
+                    'options' => [
+                        'filters' => \Zend\Log\Logger::ERR,
                     ],
                 ],
             ],
@@ -93,12 +118,8 @@ set the key `['logger']['writers']['job']` to false in your own `config/local.co
 
 ```php
     'logger' => [
-        'path' => null,
-        'priority' => null,
-        'options' => [
-            'writers' => [
-                'job' => false,
-            ],
+        'writers' => [
+            'job' => false,
         ],
     ],
 ```
@@ -111,8 +132,6 @@ logger, add the options, at your choice:
 
 ```php
     'logger' => [
-        'path' => null,
-        'priority' => null,
         'options' => [
             'exceptionhandler' => true,
             'errorhandler' => true,
@@ -128,9 +147,24 @@ Furthermore, they are managed automatically for background jobs.
 
 ### External database
 
-The logs can be saved in an external database, but in that case, the admin
-interface cannot be used for now. To config it, add a file `database-log.ini`
-beside the main `database.ini` of Omeka S, with its params.
+The logs can be saved in an external database. To config it, add a file
+`database-log.ini` beside the main `database.ini` of Omeka S, with its params,
+and the params of the table inside `config['logger']['options']['writers']['db']['options']`.
+Warning: for technical reasons, Omeka use `dbname` and `user`, but Zend uses
+`database` and `username`:
+
+```ini
+username = ""
+password = ""
+database = ""
+host     = ""
+;port     =
+;unix_socket =
+;driver   =
+```
+
+Note that when the logs are logged externally, the admin interface cannot be
+used.
 
 ### Additionnal logging
 
@@ -411,6 +445,7 @@ Copyright
 [installing a module]: http://dev.omeka.org/docs/s/user-manual/modules/#installing-modules
 [`Log.zip`]: https://github.com/Daniel-KM/Omeka-S-module-Log/releases
 [Zend Framework Log]: https://docs.zendframework.com/zend-log
+[config of the module]: https://github.com/Daniel-KM/Omeka-S-module-Log/blob/master/config/module.config.php#L5-L115
 [Sentry]: https://sentry.io
 [`facile/sentry`]: https://github.com/facile-it/sentry-module
 [module issues]: https://github.com/Daniel-KM/Omeka-S-module-Log/issues
