@@ -127,6 +127,9 @@ return [
         'proxy_paths' => [
             dirname(__DIR__) . '/data/doctrine-proxies',
         ],
+        'filters' => [
+            'log_visibility' => Db\Filter\LogVisibilityFilter::class,
+        ],
     ],
     'view_manager' => [
         'template_path_stack' => [

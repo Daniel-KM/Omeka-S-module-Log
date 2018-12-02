@@ -30,6 +30,8 @@
 namespace Log;
 
 use Omeka\Module\AbstractModule;
+use Omeka\Permissions\Assertion\OwnsEntityAssertion;
+use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Module extends AbstractModule
@@ -37,6 +39,12 @@ class Module extends AbstractModule
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
+    }
+
+    public function onBootstrap(MvcEvent $event)
+    {
+        parent::onBootstrap($event);
+        $this->addAclRules();
     }
 
     public function install(ServiceLocatorInterface $serviceLocator)
@@ -56,6 +64,95 @@ class Module extends AbstractModule
         $this->setServiceLocator($serviceLocator);
         $filepath = __DIR__ . '/data/scripts/upgrade.php';
         require_once $filepath;
+    }
+
+    /**
+     * Add ACL role and rules for this module.
+     *
+     * @todo Keep rights for Annotation only (body and  target are internal classes).
+     */
+    protected function addAclRules()
+    {
+        /** @var \Omeka\Permissions\Acl $acl */
+        $services = $this->getServiceLocator();
+        $acl = $services->get('Omeka\Acl');
+
+        // The resources are added automatically by Omeka (@see \Omeka\Service\AclFactory::addResources).
+
+        // Nevertheless, acl should be specified, because log is not resource.
+        $entityManagerFilters = $services->get('Omeka\EntityManager')->getFilters();
+        $entityManagerFilters->enable('log_visibility');
+        $entityManagerFilters->getFilter('log_visibility')->setAcl($acl);
+
+        // Public users cannot see own logs.
+        // TODO How to make a distinction between public and admin roles? Which new rule?
+        $baseRoles = [
+            \Omeka\Permissions\Acl::ROLE_RESEARCHER,
+            \Omeka\Permissions\Acl::ROLE_AUTHOR,
+        ];
+        $editorRoles = [
+            \Omeka\Permissions\Acl::ROLE_REVIEWER,
+            \Omeka\Permissions\Acl::ROLE_EDITOR,
+        ];
+        $adminRoles = [
+            \Omeka\Permissions\Acl::ROLE_SITE_ADMIN,
+            \Omeka\Permissions\Acl::ROLE_GLOBAL_ADMIN,
+        ];
+
+        // TODO Check if not allowed to create log by api?
+        // Everybody can create log.
+        $acl->allow(
+            null,
+            [
+                \Log\Api\Adapter\LogAdapter::class,
+                \Log\Entity\Log::class,
+            ],
+            ['create']
+        );
+
+        // Everybody can see own logs, except guest user or visitors.
+
+        $acl->allow(
+            $baseRoles,
+            [\Log\Entity\Log::class],
+            ['read'],
+            new OwnsEntityAssertion
+        );
+        $acl->allow(
+            $baseRoles,
+            [\Log\Api\Adapter\LogAdapter::class],
+            ['read', 'search']
+        );
+        $acl->allow(
+            $baseRoles,
+            [\Log\Controller\Admin\LogController::class],
+            ['browse', 'search', 'show-details']
+        );
+
+        $acl->allow(
+            $editorRoles,
+            [\Log\Entity\Log::class],
+            ['read', 'view-all']
+        );
+        $acl->allow(
+            $editorRoles,
+            [\Log\Api\Adapter\LogAdapter::class],
+            ['read', 'search']
+        );
+        $acl->allow(
+            $editorRoles,
+            [\Log\Controller\Admin\LogController::class],
+            ['browse', 'search', 'show-details']
+        );
+
+        $acl->allow(
+            $adminRoles,
+            [
+                \Log\Entity\Log::class,
+                \Log\Api\Adapter\LogAdapter::class,
+                \Log\Controller\Admin\LogController::class,
+            ]
+        );
     }
 
     /**
