@@ -12,7 +12,7 @@ class LogAdapter extends AbstractEntityAdapter
 {
     protected $sortFields = [
         'id' => 'id',
-        'user' => 'user',
+        'owner' => 'owner',
         'job' => 'job',
         'reference' => 'reference',
         'severity' => 'severity',
@@ -36,15 +36,15 @@ class LogAdapter extends AbstractEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query)
     {
-        if (isset($query['user_id']) && strlen($query['user_id'])) {
+        if (isset($query['owner_id']) && strlen($query['owner_id'])) {
             $alias = $this->createAlias();
             $qb->innerJoin(
-                $this->getEntityClass() . '.user',
+                $this->getEntityClass() . '.owner',
                 $alias
             );
             $qb->andWhere($qb->expr()->eq(
                 $alias . '.id',
-                $this->createNamedParameter($qb, $query['user_id']))
+                $this->createNamedParameter($qb, $query['owner_id']))
             );
         }
 
@@ -91,12 +91,12 @@ class LogAdapter extends AbstractEntityAdapter
         switch ($request->getOperation()) {
             case Request::CREATE:
                 $data = $request->getContent();
-                if (empty($data['o:user'])) {
-                    $user = null;
-                } elseif (is_object($data['o:user'])) {
-                    $user = $data['o:user'];
+                if (empty($data['o:owner'])) {
+                    $owner = null;
+                } elseif (is_object($data['o:owner'])) {
+                    $owner = $data['o:owner'];
                 } else {
-                    $user = $this->getAdapter('users')->findEntity($data['o:user']['o:id']);
+                    $owner = $this->getAdapter('users')->findEntity($data['o:owner']['o:id']);
                 }
                 if (empty($data['o:job'])) {
                     $job = null;
@@ -105,7 +105,7 @@ class LogAdapter extends AbstractEntityAdapter
                 } else {
                     $job = $this->getAdapter('jobs')->findEntity($data['o:job']['o:id']);
                 }
-                $entity->setUser($user);
+                $entity->setOwner($owner);
                 $entity->setJob($job);
                 $entity->setReference($data['o:reference']);
                 $entity->setSeverity($data['o:severity']);

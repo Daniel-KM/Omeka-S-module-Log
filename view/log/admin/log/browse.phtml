@@ -32,7 +32,7 @@ $sortHeadings = [
     ],
     [
         'label' => $translate('User'),
-        'value' => 'user'
+        'value' => 'owner'
     ],
 ];
 ?>
@@ -85,18 +85,18 @@ $sortHeadings = [
                 <th><?php echo $this->sortLink($translate('Severity'), 'severity');?></th>
                 <th><?php echo $this->sortLink($translate('Reference'), 'reference');?></th>
                 <?php /*
-                <th><?php echo $this->sortLink($translate('User'), 'user');?></th>
+                <th><?php echo $this->sortLink($translate('User'), 'owner');?></th>
                 */ ?>
                 <th><?php echo $this->sortLink($translate('Job'), 'job');?></th>
             </tr>
         </thead>
         <tbody>
         <?php foreach ($logs as $log): ?>
-        <?php $userIsAllowedDelete = $log->userIsAllowed('delete'); ?>
+        <?php $ownerIsAllowedDelete = $log->userIsAllowed('delete'); ?>
         <tr>
             <td class="webui-popover-parent">
                 <?php if ($userIsAllowedBatchDelete): ?>
-                <input type="checkbox" name="resource_ids[]" value="<?php echo $log->id(); ?>"<?php if (!$userIsAllowedDelete): ?> disabled="disabled"<?php endif; ?>>
+                <input type="checkbox" name="resource_ids[]" value="<?php echo $log->id(); ?>"<?php if (!$ownerIsAllowedDelete): ?> disabled="disabled"<?php endif; ?>>
                 <?php endif; ?>
                 <div class="log-message">
                 <?php $text = $log->message(); ?>
@@ -116,7 +116,7 @@ $sortHeadings = [
                     <div class="log-message-full webui-popover-content webui-popover-current"><?php echo nl2br($escape($text)); ?></div>
                     </li>
                     <?php endif; ?>
-                    <?php if ($userIsAllowedDelete): ?>
+                    <?php if ($ownerIsAllowedDelete): ?>
                     <li><?php echo $this->hyperlink('', '#', [
                         'data-sidebar-selector' => '#sidebar',
                         'data-sidebar-content-url' => $log->url('delete-confirm'),
@@ -136,16 +136,16 @@ $sortHeadings = [
             <td><?php echo $this->hyperlink($translate($log->severityLabel()), $this->url(null, [], ['query' => ['severity' => $log->severity()]], true)); ?></td>
             <td><?php echo $this->hyperlink($translate($log->reference()), $this->url(null, [], ['query' => ['reference' => $log->reference()]], true)); ?></td>
             <?php /*
-            if ($user = $log->user()) {
-                $userText = $this->hyperlink($user->email(), $this->url(
+            if ($owner = $log->owner()) {
+                $ownerText = $this->hyperlink($owner->email(), $this->url(
                     'admin/id',
-                    ['controller' => 'user', 'action' => 'show', 'id' => $user->id()]
+                    ['controller' => 'user', 'action' => 'show', 'id' => $owner->id()]
                 ));
             } else {
-                $userText = '';
+                $ownerText = '';
             }
             ?>
-            <td><?php echo $userText; ?></td>
+            <td><?php echo $ownerText; ?></td>
             */ ?>
             <td>
             <?php $job = $log->job(); ?>

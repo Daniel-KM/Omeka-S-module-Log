@@ -76,7 +76,7 @@ class LogSearchFilters extends AbstractHelper
                     $filters[$filterLabel][] = $filterValue;
                     break;
 
-                case 'user_id':
+                case 'owner_id':
                     $filterLabel = $translate('User');
                     try {
                         $filterValue = $api->read('users', $value)->getContent()->name();

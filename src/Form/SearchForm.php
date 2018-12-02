@@ -92,7 +92,7 @@ class SearchForm extends Form
         ]);
 
         $this->add([
-            'name' => 'user_id',
+            'name' => 'owner_id',
             'type' => ResourceSelect::class,
             'options' => [
                 'label' => 'Owner', // @translate
@@ -106,7 +106,7 @@ class SearchForm extends Form
                 'empty_option' => 'Select a user…', // @translate
             ],
             'attributes' => [
-                'id' => 'user_id',
+                'id' => 'owner_id',
                 'class' => 'chosen-select',
                 'data-placeholder' => 'Select a user…', // @translate
                 'data-api-base-url' => $urlHelper('api/default', ['resource' => 'users']),

@@ -64,10 +64,10 @@ class Log extends \Log\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'user', 'job', 'reference', 'severity', 'message', 'context', 'created'];
+            return ['__isInitialized__', 'id', 'owner', 'job', 'reference', 'severity', 'message', 'context', 'created'];
         }
 
-        return ['__isInitialized__', 'id', 'user', 'job', 'reference', 'severity', 'message', 'context', 'created'];
+        return ['__isInitialized__', 'id', 'owner', 'job', 'reference', 'severity', 'message', 'context', 'created'];
     }
 
     /**
@@ -191,23 +191,23 @@ class Log extends \Log\Entity\Log implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function setUser(\Omeka\Entity\User $user = NULL)
+    public function setOwner(\Omeka\Entity\User $owner = NULL)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUser', [$user]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setOwner', [$owner]);
 
-        return parent::setUser($user);
+        return parent::setOwner($owner);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getUser()
+    public function getOwner()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getUser', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getOwner', []);
 
-        return parent::getUser();
+        return parent::getOwner();
     }
 
     /**

@@ -8,14 +8,14 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $job = $log->job();
-$user = $log->user();
-if ($user):
-    $userText = $this->hyperlink($user->email(), $this->url(
+$owner = $log->owner();
+if ($owner):
+    $ownerText = $this->hyperlink($owner->email(), $this->url(
         'admin/id',
-        ['controller' => 'user', 'action' => 'show', 'id' => $user->id()]
+        ['controller' => 'user', 'action' => 'show', 'id' => $owner->id()]
     ));
 else:
-    $userText = '';
+    $ownerText = '';
 endif;
  ?>
 <div class="resource-details">
@@ -33,7 +33,7 @@ endif;
     </div>
     <div class="meta-group">
         <h4><?php echo $escape($translate('User')); ?></h4>
-        <div class="value"><?php echo $userText ?: '-'; ?></div>
+        <div class="value"><?php echo $ownerText ?: '-'; ?></div>
     </div>
     <div class="meta-group">
         <?php if ($job): ?>

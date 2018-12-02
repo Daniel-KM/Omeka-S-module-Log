@@ -11,7 +11,7 @@ use Omeka\Entity\User;
  * @Entity
  * @Table(
  *     indexes={
- *         @Index(name="user_idx", columns={"user_id"}),
+ *         @Index(name="owner_idx", columns={"owner_id"}),
  *         @Index(name="job_idx", columns={"job_id"}),
  *         @Index(name="reference_idx", columns={"reference"}),
  *         @Index(name="severity_idx", columns={"severity"})
@@ -38,7 +38,7 @@ class Log extends AbstractEntity
      *     onDelete="SET NULL"
      * )
      */
-    protected $user;
+    protected $owner;
 
     /**
      * @ManyToOne(
@@ -92,14 +92,14 @@ class Log extends AbstractEntity
         return $this->id;
     }
 
-    public function setUser(User $user = null)
+    public function setOwner(User $owner = null)
     {
-        $this->user = $user;
+        $this->owner = $owner;
     }
 
-    public function getUser()
+    public function getOwner()
     {
-        return $this->user;
+        return $this->owner;
     }
 
     public function setJob(Job $job = null)

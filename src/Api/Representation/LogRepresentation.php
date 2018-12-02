@@ -18,9 +18,9 @@ class LogRepresentation extends AbstractEntityRepresentation
 
     public function getJsonLd()
     {
-        $user = $this->user();
-        if ($user) {
-            $user = $user->getReference();
+        $owner = $this->owner();
+        if ($owner) {
+            $owner = $owner->getReference();
         }
 
         $job = $this->job();
@@ -41,7 +41,7 @@ class LogRepresentation extends AbstractEntityRepresentation
             'o:message' => $this->message(),
             'o:context' => $this->context(),
             'o:created' => $created,
-            'o:user' => $user,
+            'o:owner' => $owner,
             'o:job' => $job,
         ];
     }
@@ -92,11 +92,11 @@ class LogRepresentation extends AbstractEntityRepresentation
         return $this->resource->getCreated();
     }
 
-    public function user()
+    public function owner()
     {
-        $user = $this->resource->getUser();
-        return $user
-            ? $this->getAdapter('users')->getRepresentation($user)
+        $owner = $this->resource->getOwner();
+        return $owner
+            ? $this->getAdapter('users')->getRepresentation($owner)
             : null;
     }
 

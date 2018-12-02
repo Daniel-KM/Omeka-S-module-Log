@@ -55,12 +55,8 @@ $sortHeadings = [
         if ($owner = $job->owner()) {
             $ownerText = $this->hyperlink($owner->email(), $this->url(
                 'admin/id',
-                [
-                    'controller' => 'user',
-                    'action' => 'show',
-                    'id' => $owner->id()]
-                )
-            );
+                ['controller' => 'user', 'action' => 'show', 'id' => $owner->id()]
+            ));
         } else {
             $ownerText = $translate('[no owner]');
         }

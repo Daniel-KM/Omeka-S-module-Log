@@ -51,6 +51,13 @@ class Module extends AbstractModule
         $this->execSqlFromFile(__DIR__ . '/data/install/uninstall.sql');
     }
 
+    public function upgrade($oldVersion, $newVersion, ServiceLocatorInterface $serviceLocator)
+    {
+        $this->setServiceLocator($serviceLocator);
+        $filepath = __DIR__ . '/data/scripts/upgrade.php';
+        require_once $filepath;
+    }
+
     /**
      * Execute a sql from a file.
      *
