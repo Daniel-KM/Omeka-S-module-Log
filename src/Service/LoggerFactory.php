@@ -33,12 +33,23 @@ class LoggerFactory implements FactoryInterface
         }
 
         // For compatibility with Omeka default config, that may be customized.
-        if (!empty($writers['stream'])) {
+        $hasStream = !empty($writers['stream']);
+        if ($hasStream) {
             if (isset($config['logger']['priority'])) {
                 $writers['stream']['options']['filters'] = $config['logger']['priority'];
             }
             if (isset($config['logger']['path'])) {
                 $writers['stream']['options']['stream'] = $config['logger']['path'];
+            }
+
+            if (!is_file($writers['stream']['options']['stream'])
+                || !is_writeable($writers['stream']['options']['stream'])
+            ) {
+                error_log('[Omeka S] File logging disabled: not writeable.'); // @translate
+                unset($writers['stream']);
+                if (empty($writers)) {
+                    return (new Logger)->addWriter(new Noop);
+                }
             }
         }
 
@@ -47,11 +58,8 @@ class LoggerFactory implements FactoryInterface
             if ($dbAdapter) {
                 $writers['db']['options']['db'] = $dbAdapter;
             } else {
-                trigger_error(
-                    'Database logging disabled: wrong config.',
-                    E_USER_WARNING
-                );
                 unset($writers['db']);
+                error_log('[Omeka S] Database logging disabled: wrong config.'); // @translate
                 if (empty($writers)) {
                     return (new Logger)->addWriter(new Noop);
                 }
@@ -95,23 +103,23 @@ class LoggerFactory implements FactoryInterface
             $iniConfig = $reader->fromFile($iniConfigPath);
         } else {
             $iniConfig = $services->get('Omeka\Connection')->getParams();
+            $iniConfig['database'] = $iniConfig['dbname'];
+            $iniConfig['username'] = $iniConfig['user'];
+            unset($iniConfig['dbname']);
+            unset($iniConfig['user']);
         }
 
-        $dbConfig = [
-            'driver' => 'Mysqli',
-            'database' => $iniConfig['dbname'],
-            'username' => $iniConfig['user'],
-            'password' => $iniConfig['password'],
+        $defaultConfig = [
+            'driver' => 'pdo_mysql',
+            'database' => null,
+            'username' => null,
+            'password' => null,
+            'unix_socket' => null,
+            'host' => null,
+            'port' => null,
         ];
-        if (!empty($iniConfig['unix_socket'])) {
-            $dbConfig['unix_socket'] = $iniConfig['unix_socket'];
-        } else {
-            $dbConfig['host'] = $iniConfig['host'];
-            if (!empty($dbConfig['port'])) {
-                $dbConfig['port'] = $iniConfig['port'];
-            }
-        }
 
+        $dbConfig = array_filter($iniConfig + $defaultConfig);
         return new \Zend\Db\Adapter\Adapter($dbConfig);
     }
 
