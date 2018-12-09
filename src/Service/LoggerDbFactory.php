@@ -15,28 +15,26 @@ class LoggerDbFactory extends LoggerFactory
      *
      * @return Logger
      */
-    public function __invoke(ContainerInterface $serviceLocator, $requestedName, array $options = null)
+    public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $config = $serviceLocator->get('Config');
+        $config = $services->get('Config');
 
         $writers = ['db' => $config['logger']['options']['writers']['db']];
 
         if (empty($writers['db']['options']['db'])) {
-            $dbAdapter = $this->getDbAdapter($serviceLocator);
+            $dbAdapter = $this->getDbAdapter($services);
             if ($dbAdapter) {
                 $writers['db']['options']['db'] = $dbAdapter;
             } else {
-                trigger_error(
-                    'Database logging disabled: wrong config.',
-                    E_USER_WARNING
-                );
+                error_log('[Omeka S] Database logging disabled: wrong config.'); // @translate
                 return (new Logger)->addWriter(new Noop);
             }
         }
 
         $config['logger']['options']['writers'] = $writers;
+
         if (!empty($config['logger']['options']['processors']['userid']['name'])) {
-            $config['logger']['options']['processors']['userid']['name'] = $this->addUserIdProcessor($serviceLocator);
+            $config['logger']['options']['processors']['userid']['name'] = $this->addUserIdProcessor($services);
         }
 
         // Checks are managed via the constructor.
