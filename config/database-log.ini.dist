@@ -1,9 +1,23 @@
 ; Sample of config of the database used for log. It should be saved
-; beside the default db config file of Omeka S as config/database-log.ini.
-username = ""
-password = ""
-database = ""
-host     = ""
+; beside the default db config file of Omeka S as "config/database-log.ini".
+
+; Important: if you don’t use it, don’t let the file "database-log.ini" in the
+; directory "config/", or comment any value from it, else the logger will
+; believe it is a good config: for performance reasons, there is no initial
+; check currently.
+
+; When this file has no value, the Omeka database is used.
+; To disable the logging in database, set `['logger']['writers']['db'] => false`
+; in "config/local.config.php".
+
+; Currently, this is a config for Zend ("\Zend\Db\Adapter\Adapter"), not for
+; Doctrine ("\Doctrine\DBAL\DriverManager"), so "database" and "username" are
+; used instead of "dbname" and "user".
+
+username =
+password =
+database =
+host     =
 ;port     =
 ;unix_socket =
 ;driver   =

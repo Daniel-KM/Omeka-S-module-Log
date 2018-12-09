@@ -66,8 +66,10 @@ class LoggerFactory implements FactoryInterface
             }
         }
 
-        // TODO The facile sentry sender should be autoloaded automagically.
-        if (isset($writers['sentry'])) {
+        // A specific check is needed for Sentry: the sender may be autoloaded
+        // automagically, but the config should avoid to include an object when
+        // it is not used.
+        if (!empty($writers['sentry'])) {
             if (empty($writers['sentry']['options']['sender'])
                 || $writers['sentry']['options']['sender'] === \Facile\Sentry\Common\Sender\SenderInterface::class
             ) {
@@ -85,12 +87,14 @@ class LoggerFactory implements FactoryInterface
     }
 
     /**
-     * Get the database param.
+     * Get the database params, or the Omeka database params.
+     *
+     * To disable the database, set `"db" => false` in the module config.
      *
      * For performance, flexibility and stability reasons, the write process
      * uses a specific Zend Db adapter. The read/delete process in api or ui
      * uses the default doctrine entity manager.
-     * @todo Use a second entity manager to manage logs in a isolated database.
+     * @todo Use a second entity manager to manage the database and save logs in real time.
      *
      * @param ContainerInterface $services
      * @return  \Zend\Db\Adapter\AdapterInterface
@@ -101,26 +105,22 @@ class LoggerFactory implements FactoryInterface
         if (file_exists($iniConfigPath) && is_readable($iniConfigPath)) {
             $reader = new \Zend\Config\Reader\Ini;
             $iniConfig = $reader->fromFile($iniConfigPath);
-        } else {
+            $iniConfig = array_filter($iniConfig);
+        }
+
+        if (empty($iniConfig)) {
             $iniConfig = $services->get('Omeka\Connection')->getParams();
             $iniConfig['database'] = $iniConfig['dbname'];
             $iniConfig['username'] = $iniConfig['user'];
             unset($iniConfig['dbname']);
             unset($iniConfig['user']);
         }
+        // Avoid an issue on common config.
+        elseif (empty($iniConfig['driver'])) {
+            $iniConfig['driver'] = 'pdo_mysql';
+        }
 
-        $defaultConfig = [
-            'driver' => 'pdo_mysql',
-            'database' => null,
-            'username' => null,
-            'password' => null,
-            'unix_socket' => null,
-            'host' => null,
-            'port' => null,
-        ];
-
-        $dbConfig = array_filter($iniConfig + $defaultConfig);
-        return new \Zend\Db\Adapter\Adapter($dbConfig);
+        return new \Zend\Db\Adapter\Adapter($iniConfig);
     }
 
     /**
