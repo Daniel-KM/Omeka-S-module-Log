@@ -3,11 +3,14 @@
  * @var \Zend\View\Renderer\PhpRenderer $this
  * @var \Log\Api\Representation\LogRepresentation[] $logs
  * @var \Log\Api\Representation\LogRepresentation[] $resources
+ * @var \Omeka\Form\ConfirmForm $formDeleteSelected
+ * @var \Omeka\Form\ConfirmForm $formDeleteAll
  * @var \Log\Form\SearchForm $formSearch
  */
 
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$hyperlink = $this->plugin('hyperlink');
 $this->htmlElement('body')->appendAttribute('class', 'logs browse');
 $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::class, 'batch_delete');
 $this->headLink()->appendStylesheet($this->assetUrl('vendor/webui-popover/jquery.webui-popover.min.css', 'Log'));
@@ -16,36 +19,35 @@ $this->headScript()->appendFile($this->assetUrl('vendor/webui-popover/jquery.web
 $this->headScript()->appendFile($this->assetUrl('js/log.js', 'Log'));
 $sortHeadings = [
     [
-        'label' => $translate('Created'),
-        'value' => 'created'
+        'label' => $translate('Date'),
+        'value' => 'created',
     ],
     [
         'label' => $translate('Reference'),
-        'value' => 'reference'
+        'value' => 'reference',
     ],
     [
         'label' => $translate('Severity'),
-        'value' => 'severity'
+        'value' => 'severity',
     ],
     [
         'label' => $translate('Job'),
-        'value' => 'job'
+        'value' => 'job',
     ],
     [
         'label' => $translate('User'),
-        'value' => 'owner'
+        'value' => 'owner',
     ],
 ];
 ?>
 
-<?php echo $this->pageTitle($translate('Logs')); ?>
+<?php echo $this->pageTitle('', 1, $translate('Logs')); ?>
 
 <?php echo $this->logSearchFilters(); ?>
 
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
-    <?php // echo $this->hyperlink($translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
-    <?php echo $this->hyperlink($translate('Search'), '#', ['class' => 'search advanced-search']); ?>
+    <?php echo $hyperlink($translate('Search'), '#', ['class' => 'search advanced-search']); ?>
     <?php echo $this->sortSelector($sortHeadings); ?>
 </div>
 
@@ -110,7 +112,7 @@ $sortHeadings = [
                 </div>
                 <ul class="actions">
                     <?php if ($isLong): ?>
-                    <li><?php echo $this->hyperlink('', '#', [
+                    <li><?php echo $hyperlink('', '#', [
                         'class' => 'o-icon- fa fa-expand popover',
                         'title' => $translate('Full log'),
                     ]); ?>
@@ -118,14 +120,14 @@ $sortHeadings = [
                     </li>
                     <?php endif; ?>
                     <?php if ($ownerIsAllowedDelete): ?>
-                    <li><?php echo $this->hyperlink('', '#', [
+                    <li><?php echo $hyperlink('', '#', [
                         'data-sidebar-selector' => '#sidebar',
                         'data-sidebar-content-url' => $log->url('delete-confirm'),
                         'class' => 'o-icon-delete sidebar-content',
                         'title' => $translate('Delete'),
                     ]); ?></li>
                     <?php endif; ?>
-                    <li><?php echo $this->hyperlink('', '#', [
+                    <li><?php echo $hyperlink('', '#', [
                         'data-sidebar-selector' => '#sidebar',
                         'data-sidebar-content-url' => $log->url('show-details'),
                         'class' => 'o-icon-more sidebar-content',
@@ -134,11 +136,11 @@ $sortHeadings = [
                 </ul>
             </td>
             <td><?php echo $log->created()->format('Y-m-d H:i:s'); ?></td>
-            <td><?php echo $this->hyperlink($translate($log->severityLabel()), $this->url(null, [], ['query' => ['severity' => $log->severity()]], true)); ?></td>
-            <td><?php echo $this->hyperlink($translate($log->reference()), $this->url(null, [], ['query' => ['reference' => $log->reference()]], true)); ?></td>
+            <td><?php echo $hyperlink($translate($log->severityLabel()), $this->url(null, [], ['query' => ['severity' => $log->severity()]], true)); ?></td>
+            <td><?php echo $hyperlink($translate($log->reference()), $this->url(null, [], ['query' => ['reference' => $log->reference()]], true)); ?></td>
             <?php /*
             if ($owner = $log->owner()) {
-                $ownerText = $this->hyperlink($owner->email(), $this->url(
+                $ownerText = $hyperlink($owner->email(), $this->url(
                     'admin/id',
                     ['controller' => 'user', 'action' => 'show', 'id' => $owner->id()]
                 ));
@@ -152,16 +154,16 @@ $sortHeadings = [
             <?php $job = $log->job(); ?>
             <?php if ($job): ?>
                 <span class="log-job-status">
-                <?php echo $this->hyperlink($translate($job->statusLabel()), $this->url(null, [], ['query' => ['job_id' => $job->id()]], true)); ?>
+                <?php echo $hyperlink($translate($job->statusLabel()), $this->url(null, [], ['query' => ['job_id' => $job->id()]], true)); ?>
                 </span>
                 -
                 <span class="log-job-param">
-                <?php echo $this->hyperlink($translate('Parameters'), $this->url('admin/id', ['controller' => 'job', 'action' => 'show', 'id' => $job->id()])); ?>
+                <?php echo $hyperlink($translate('Parameters'), $this->url('admin/id', ['controller' => 'job', 'action' => 'show', 'id' => $job->id()])); ?>
                 </span>
                 <?php if ($job->log()): ?>
                 /
                 <span class="log-job-log">
-                <?php  echo $this->hyperlink($translate('Log'), $this->url('admin/id', ['controller' => 'job', 'action' => 'log', 'id' => $job->id()]), ['target' => '_blank']); ?>
+                <?php  echo $hyperlink($translate('Log'), $this->url('admin/id', ['controller' => 'job', 'action' => 'log', 'id' => $job->id()]), ['target' => '_blank']); ?>
                 </span>
                 <?php endif; ?>
             <?php endif; ?>
@@ -178,7 +180,7 @@ $sortHeadings = [
 </div>
 
 <div id="sidebar" class="sidebar">
-    <?php echo $this->hyperlink('', '#', [
+    <?php echo $hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
         'title' => $translate('Close'),
     ]); ?>
@@ -187,7 +189,7 @@ $sortHeadings = [
 
 <?php if ($userIsAllowedBatchDelete): ?>
 <div id="sidebar-delete-selected" class="sidebar">
-    <?php echo $this->hyperlink('', '#', [
+    <?php echo $hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
         'title' => $translate('Close'),
     ]); ?>
@@ -205,7 +207,7 @@ $sortHeadings = [
     </div>
 </div>
 <div id="sidebar-delete-all" class="sidebar">
-    <?php echo $this->hyperlink('', '#', [
+    <?php echo $hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
         'title' => $translate('Close'),
     ]); ?>
@@ -235,13 +237,14 @@ $sortHeadings = [
 <?php endif; ?>
 
 <div id="sidebar-search" class="sidebar search">
-    <?php echo $this->hyperlink('', '#', [
+    <?php echo $hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
         'title' => $translate('Close'),
     ]); ?>
     <div class="sidebar-content">
         <div id="sidebar-search-form" class="disable-unsaved-warning">
             <h3><?php echo $translate('Search logs'); ?></h3>
+            <?php // echo $hyperlink($translate('Advanced search'), $this->url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']); ?>
             <?php echo $this->form($formSearch); ?>
         </div>
     </div>

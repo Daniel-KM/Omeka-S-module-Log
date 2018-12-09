@@ -27,7 +27,7 @@ class SearchForm extends Form
             'type' => Element\Text::class,
             'name' => 'created',
             'options' => [
-                'label' => 'Created', // @translate
+                'label' => 'Date', // @translate
             ],
             'attributes' => [
                 'placeholder' => 'Set a date with optional comparator…', // @translate
@@ -50,10 +50,11 @@ class SearchForm extends Form
             'options' => [
                 'label' => 'Minimum severity', // @translate
                 'value_options' => $valueOptions,
-                'empty_option' => 'Select minimum severity…', // @translate
+                'empty_option' => '',
             ],
             'attributes' => [
-                'placeholder' => 'Select minimum severity…', // @translate
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select minimum severity…', // @translate
             ],
         ]);
         $this->add([
@@ -62,10 +63,11 @@ class SearchForm extends Form
             'options' => [
                 'label' => 'Maximum severity', // @translate
                 'value_options' => $valueOptions,
-                'empty_option' => 'Select maximum severity…', // @translate
+                'empty_option' => '',
             ],
             'attributes' => [
-                'placeholder' => 'Select maximum severity…', // @translate
+                'class' => 'chosen-select',
+                'data-placeholder' => 'Select maximum severity…', // @translate
             ],
         ]);
 
@@ -103,7 +105,7 @@ class SearchForm extends Form
                         return $user->name();
                     },
                 ],
-                'empty_option' => 'Select a user…', // @translate
+                'empty_option' => '',
             ],
             'attributes' => [
                 'id' => 'owner_id',

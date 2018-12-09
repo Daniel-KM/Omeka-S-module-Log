@@ -1,5 +1,8 @@
 $(document).ready(function() {
 
+    /**
+     * Search sidebar.
+     */
     $('#content').on('click', 'a.search', function(e) {
         e.preventDefault();
         var sidebar = $('#sidebar-search');
@@ -13,6 +16,9 @@ $(document).ready(function() {
         });
     });
 
+    /**
+     * Better display of big logs.
+     */
     $('a.popover').webuiPopover('destroy').webuiPopover({
         placement: 'auto-bottom',
         content: function (element) {
@@ -30,6 +36,7 @@ $(document).ready(function() {
     $('a.popover').webuiPopover();
 
     // Complete the batch delete form after confirmation.
+    // TODO Check if this is still needed.
     $('#confirm-delete-selected, #confirm-delete-all').on('submit', function(e) {
         var confirmForm = $(this);
         if ('confirm-delete-all' === this.id) {

@@ -7,10 +7,13 @@
 
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$hyperlink = $this->plugin('hyperlink');
+
+$this->headLink()->appendStylesheet($this->assetUrl('css/log.css', 'Log'));
 $job = $log->job();
 $owner = $log->owner();
 if ($owner):
-    $ownerText = $this->hyperlink($owner->email(), $this->url(
+    $ownerText = $hyperlink($owner->email(), $this->url(
         'admin/id',
         ['controller' => 'user', 'action' => 'show', 'id' => $owner->id()]
     ));
@@ -45,11 +48,11 @@ endif;
         echo $escape(sprintf($translate('Ended at %s'), $job->ended() ? $job->ended()->format('Y-m-d H:i:s') : '-'));
         ?></div>
         <div class="value"><?php
-        echo $this->hyperlink($translate('Parameters'), $this->url('admin/id', ['controller' => 'job', 'action' => 'show', 'id' => $job->id()]));
+        echo $hyperlink($translate('Parameters'), $this->url('admin/id', ['controller' => 'job', 'action' => 'show', 'id' => $job->id()]));
         ?></div>
         <?php if ($job->log()): ?>
         <div class="value"><?php
-        echo $this->hyperlink($translate('Log'), $this->url('admin/id', ['controller' => 'job', 'action' => 'log', 'id' => $job->id()]), ['target' => '_blank']);
+        echo $hyperlink($translate('Log'), $this->url('admin/id', ['controller' => 'job', 'action' => 'log', 'id' => $job->id()]), ['target' => '_blank']);
         ?></div>
         <?php endif; ?>
     <?php else: ?>
@@ -60,7 +63,7 @@ endif;
     <div class="meta-group">
         <h4><?php echo $translate('Message'); ?>
         <?php /*
-        <span class="actions"><?php echo $this->hyperlink('', '#', [
+        <span class="actions"><?php echo $hyperlink('', '#', [
             'class' => 'o-icon- fa fa-expand popover',
             'title' => $translate('Full log'),
         ]); ?>
