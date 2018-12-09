@@ -143,7 +143,7 @@ return [
     ],
     'form_elements' => [
         'factories' => [
-            Form\SearchForm::class => Service\Form\SearchFormFactory::class,
+            Form\QuickSearchForm::class => Service\Form\QuickSearchFormFactory::class,
         ],
     ],
     'controllers' => [

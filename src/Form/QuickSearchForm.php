@@ -7,7 +7,7 @@ use Zend\Form\Element;
 use Zend\Form\Form;
 use Zend\View\Helper\Url;
 
-class SearchForm extends Form
+class QuickSearchForm extends Form
 {
     /**
      * @var Url

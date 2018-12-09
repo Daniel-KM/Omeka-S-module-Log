@@ -1,7 +1,7 @@
 <?php
 namespace Log\Controller\Admin;
 
-use Log\Form\SearchForm;
+use Log\Form\QuickSearchForm;
 use Omeka\Form\ConfirmForm;
 use Omeka\Stdlib\Message;
 use Zend\Mvc\Controller\AbstractActionController;
@@ -15,7 +15,7 @@ class LogController extends AbstractActionController
         $response = $this->api()->search('logs', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
-        $formSearch = $this->getForm(SearchForm::class);
+        $formSearch = $this->getForm(QuickSearchForm::class);
         $formSearch->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'browse'], true));
         $formSearch->setAttribute('id', 'log-search');
         if ($this->getRequest()->isPost()) {

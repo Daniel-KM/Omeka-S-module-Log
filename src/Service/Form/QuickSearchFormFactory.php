@@ -2,14 +2,14 @@
 namespace Log\Service\Form;
 
 use Interop\Container\ContainerInterface;
-use Log\Form\SearchForm;
+use Log\Form\QuickSearchForm;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
-class SearchFormFactory implements FactoryInterface
+class QuickSearchFormFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $services, $requestedName, array $options = null)
     {
-        $form = new SearchForm(null, $options);
+        $form = new QuickSearchForm(null, $options);
         $urlHelper = $services->get('ViewHelperManager')->get('url');
         $form->setUrlHelper($urlHelper);
         return $form;
