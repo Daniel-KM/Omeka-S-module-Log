@@ -1,12 +1,31 @@
 @media screen {
+    header nav .logs::before,
+    .logs .subhead::before {
+        content:"";
+    }
     .log .no-resources:before,
     .logs .no-resources:before {
         content:"";
     }
-    .logs .sidebar.search .field {
-        background-color: #fff;
+
+    /* Log browse */
+    .logs .sidebar.search .advanced-search::before {
+        display: inline-block;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: normal;
+        line-height: 1;
+        vertical-align: -.125em;
+        font-family: "Font Awesome 5 Free";
+        content: "\f002";
+        padding: .25em;
+    }
+    .logs .sidebar.search .advanced-search {
+        font-size: 0.9em;
+        text-align: right;
         display: block;
-        position: inherit;
+        margin-top: -12px;
+        margin-bottom: 12px;
     }
     .logs .sidebar.search .field-meta {
         width: auto;
@@ -17,16 +36,18 @@
     .logs .sidebar.search .inputs {
         width: 100%;
         max-width: 100%;
-        position: inherit;
-    }
-    .logs .sidebar.search h3 {
-        position: initial;
-    }
-    .logs .sidebar.search label,
-    .logs .sidebar.search .label {
         margin: 0 0 0 6px;
         padding: 0;
-        position: initial;
+        position: inherit;
+    }
+    .logs .sidebar.search label::after,
+    .logs .sidebar.search .label::after {
+        position: inherit;
+    }
+    .logs .sidebar .resource-details .no-resources {
+        text-align: inherit;
+        position: inherit;
+        margin-top: inherit;
     }
 }
 .logs .webui-popover-current {
