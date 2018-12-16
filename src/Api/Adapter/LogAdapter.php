@@ -7,6 +7,7 @@ use Omeka\Api\Adapter\AbstractEntityAdapter;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
+use Zend\Log\Logger;
 
 class LogAdapter extends AbstractEntityAdapter
 {
@@ -63,15 +64,15 @@ class LogAdapter extends AbstractEntityAdapter
 
         // TODO Allow to search severity by standard name.
         if (isset($query['severity']) && strlen($query['severity'])) {
-            $this->buildQueryComparison($qb, $query, $query['severity'], 'severity');
+            $this->buildQuerySeverityComparison($qb, $query, $query['severity'], 'severity');
         }
 
         // TODO Remove severity_min and severity_max here and replace them by a javascript.
         if (isset($query['severity_min']) && strlen($query['severity_min'])) {
-            $this->buildQueryComparison($qb, $query, '<=' . $query['severity_min'], 'severity');
+            $this->buildQuerySeverityComparison($qb, $query, '<=' . $query['severity_min'], 'severity');
         }
         if (isset($query['severity_max']) && strlen($query['severity_max'])) {
-            $this->buildQueryComparison($qb, $query, '>=' . $query['severity_max'], 'severity');
+            $this->buildQuerySeverityComparison($qb, $query, '>=' . $query['severity_max'], 'severity');
         }
 
         if (isset($query['created']) && strlen($query['created'])) {
@@ -114,6 +115,77 @@ class LogAdapter extends AbstractEntityAdapter
 
     /**
      * Add a comparison condition to query from a value containing an operator.
+     *
+     * @param QueryBuilder $qb
+     * @param array $query
+     * @param string $value
+     * @param string $column
+     */
+    protected function buildQueryComparison(QueryBuilder $qb, array $query, $value, $column)
+    {
+        $matches = [];
+        preg_match('/^[^\d]+/', $value, $matches);
+        if (!empty($matches[0])) {
+            $operators = [
+                '>=' => Comparison::GTE,
+                '>' => Comparison::GT,
+                '<' => Comparison::LT,
+                '<=' => Comparison::LTE,
+                '<>' => Comparison::NEQ,
+                '=' => Comparison::EQ,
+                'gte' => Comparison::GTE,
+                'gt' => Comparison::GT,
+                'lt' => Comparison::LT,
+                'lte' => Comparison::LTE,
+                'neq' => Comparison::NEQ,
+                'eq' => Comparison::EQ,
+            ];
+            $operator = isset($operators[$matches[0]])
+                ? $operators[$matches[0]]
+                : Comparison::EQ;
+            $value = (int) substr($value, strlen($matches[0]));
+        } else {
+            $operator = Comparison::EQ;
+        }
+        $qb->andWhere(new Comparison(
+            $this->getEntityClass() . '.' . $column,
+            $operator,
+            $this->createNamedParameter($qb, $value)
+        ));
+    }
+
+    /**
+     * Add a comparison condition to query from a severity (string or numeric).
+     *
+     * @param QueryBuilder $qb
+     * @param array $query
+     * @param string $value
+     * @param string $column
+     */
+    protected function buildQuerySeverityComparison(QueryBuilder $qb, array $query, $value, $column)
+    {
+        $map = [
+            'emergency' => Logger::EMERG,
+            'emerg' => Logger::EMERG,
+            'alert' => Logger::ALERT,
+            'critical' => Logger::CRIT,
+            'crit' => Logger::CRIT,
+            'errror' => Logger::ERR,
+            'err' => Logger::ERR,
+            'warning' => Logger::WARN,
+            'warn' => Logger::WARN,
+            'notice' => Logger::NOTICE,
+            'informational' => Logger::INFO,
+            'information' => Logger::INFO,
+            'info' => Logger::INFO,
+            'debug' => Logger::DEBUG,
+        ];
+        $value = str_ireplace(array_keys($map), array_values($map), $value);
+        $this->buildQueryComparison($qb, $query, $value, $column);
+    }
+
+    /**
+     * Add a comparison condition to query from a date.
      *
      * @param QueryBuilder $qb
      * @param array $query
