@@ -12,6 +12,8 @@ trait PsrInterpolateTrait
      *
      * Keys that are not stringable are kept as class or type.
      *
+     * @see https://www.php-fig.org/psr/psr-3/
+     *
      * @param string $message Message with PSR-3 placeholders.
      * @param array $context Associative array with placeholders and strings.
      * @return string
