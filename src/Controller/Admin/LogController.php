@@ -72,7 +72,7 @@ class LogController extends AbstractActionController
         $view->setTemplate('common/delete-confirm-details');
         $view->setVariable('resource', $log);
         $view->setVariable('resourceLabel', 'log'); // @translate
-        $view->setVariable('partialPath', 'log/log/show-details');
+        $view->setVariable('partialPath', 'log/admin/log/show-details');
         $view->setVariable('linkTitle', $linkTitle);
         $view->setVariable('log', $log);
         return $view;
