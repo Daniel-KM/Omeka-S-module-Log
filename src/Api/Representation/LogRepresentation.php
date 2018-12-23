@@ -87,6 +87,67 @@ class LogRepresentation extends AbstractEntityRepresentation
         return $psrMessage;
     }
 
+    /**
+     * Return translated and escaped message with context (resource links).
+     *
+     * @return string
+     */
+    public function text()
+    {
+        $services = $this->getServiceLocator();
+        $translator = $services->get('MvcTranslator');
+        $escape = $this->getViewHelper('escapeHtml');
+        $escapeHtml = false;
+
+        $message = $this->resource->getMessage();
+        $context = $this->resource->getContext() ?: [];
+        if ($context) {
+            $hyperlink = $this->getViewHelper('hyperlink');
+            $url = $this->getViewHelper('url');
+            foreach ($context as $key => $value) {
+                switch ($key) {
+                    case 'item_id':
+                    case 'item_set_id':
+                    case 'media_id':
+                    case 'userId':
+                    case 'user_id':
+                    case 'owner_id':
+                        $resourceTypes = ['itemid' => 'item', 'itemsetid' => 'item-set', 'mediaid' => 'media', 'userid' => 'user',  'ownerid' => 'user'];
+                        $resourceType = $resourceTypes[preg_replace('~[^a-z]~', '', strtolower($key))];
+                        $context[$key] = $hyperlink($value, $url('admin/id', ['controller' => $resourceType, 'id' => $value]));
+                        $escapeHtml = true;
+                        break;
+                    case 'resource_id':
+                    case 'id':
+                        $resourceType = isset($context['resource'])
+                            ? $context['resource']
+                            : (isset($context['resource_type']) ? $context['resource_type'] : null);
+                        if ($resourceType) {
+                            $resourceTypes = ['item' => 'item', 'items' => 'item', 'itemset' => 'item-set', 'itemsets' => 'item-set', 'media' => 'media'];
+                            $resourceType = preg_replace('~[^a-z]~', '', strtolower($resourceType));
+                            if (isset($resourceTypes[$resourceType])) {
+                                $resourceType = $resourceTypes[$resourceType];
+                                $context[$key] = $hyperlink($value, $url('admin/id', ['controller' => $resourceType, 'id' => $value]));
+                                $escapeHtml = true;
+                            }
+                        }
+                        break;
+                }
+            }
+        }
+
+        if ($escapeHtml) {
+            $psrMessage = new PsrMessage($escape($message), $context);
+            $psrMessage->setTranslator($translator);
+            $psrMessage->setEscapeHtml(false);
+            return $psrMessage->translate();
+        }
+
+        $psrMessage = new PsrMessage($message, $context);
+        $psrMessage->setTranslator($translator);
+        return $escape($psrMessage->translate());
+    }
+
     public function created()
     {
         return $this->resource->getCreated();

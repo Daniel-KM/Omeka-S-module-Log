@@ -322,7 +322,7 @@ It can be added at the beginning of the process to avoid to set it for each log:
 ```php
 // PSR-3 logging with reference id (a random number if not set).
 $referenceIdProcessor = new \Zend\Log\Processor\ReferenceId();
-$referenceIdProcessor->setReferenceId('MyModule: my-process');
+$referenceIdProcessor->setReferenceId('bulk/import/27');
 $this->logger()->addProcessor($referenceIdProcessor);
 $this->logger()->info(
     'The {resource} #{id} has been updated by user #{userId}.', // @translate

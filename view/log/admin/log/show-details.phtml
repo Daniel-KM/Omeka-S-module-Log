@@ -69,7 +69,7 @@ endif;
         </span>
         */ ?>
         </h4>
-        <div class="value log-message webui-popover-content"><?php echo $escape($log->message()->translate()); ?></div>
+        <div class="value log-message webui-popover-content"><?php echo $log->text(); ?></div>
     </div>
     <?php $this->trigger('view.details', array('entity' => $log)); ?>
 </div>
