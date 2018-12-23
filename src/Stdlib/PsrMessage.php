@@ -26,6 +26,12 @@ use Zend\I18n\Translator\TranslatorAwareTrait;
  * $psrMessage->setTranslatorEnabled(false);
  * ```
  *
+ * Should not be an extension of \Omeka\Stdlib\Message currently, because
+ * another delegator cannot be set for the translator simply.
+ * So when the PsrMessage is used in uncommon places (not with messenger or
+ * logs), and as long as \Omeka\I18n\Translator doesn't manage PSR-3, the
+ * message is interpolated directly, with translation if possible.
+ *
  * @see \Omeka\Stdlib\Message
  */
 class PsrMessage implements \JsonSerializable, PsrInterpolateInterface
@@ -89,9 +95,10 @@ class PsrMessage implements \JsonSerializable, PsrInterpolateInterface
     }
 
     /**
-     * Get the message arguments for compatibility purpose.
+     * Get the message arguments for compatibility purpose only.
      *
      * @deprecated Use hasContext() instead.
+     * @return array Non-associative array in order to comply with sprintf.
      */
     public function getArgs()
     {
@@ -99,7 +106,7 @@ class PsrMessage implements \JsonSerializable, PsrInterpolateInterface
     }
 
     /**
-     * Does this message have arguments? For compatibility purpose.
+     * Does this message have arguments? For compatibility purpose only.
      *
      * @deprecated Use hasContext() instead.
      * @return bool
@@ -127,10 +134,19 @@ class PsrMessage implements \JsonSerializable, PsrInterpolateInterface
             : $this->interpolate($this->getMessage(), $this->getContext());
     }
 
-    public function translate()
+    /**
+     * Translate the message with the context.
+     *
+     * Same as TranslatorInterface::translate(), but the message is the current one.
+     *
+     * @param string $textDomain
+     * @param string $locale
+     * @return string
+     */
+    public function translate($textDomain = 'default', $locale = null)
     {
         return $this->hasTranslator()
-            ? $this->interpolate($this->translator->translate($this->getMessage()), $this->getContext())
+            ? $this->interpolate($this->translator->translate($this->getMessage(), $textDomain, $locale), $this->getContext())
             : $this->interpolate($this->getMessage(), $this->getContext());
     }
 

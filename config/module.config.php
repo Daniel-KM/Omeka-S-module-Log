@@ -139,6 +139,8 @@ return [
     'view_helpers' => [
         'invokables' => [
             'logSearchFilters' => View\Helper\LogSearchFilters::class,
+            // Required to manage PsrMessage.
+            'messages' => View\Helper\Messages::class,
         ],
     ],
     'form_elements' => [

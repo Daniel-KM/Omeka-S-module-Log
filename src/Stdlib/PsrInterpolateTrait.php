@@ -20,12 +20,12 @@ trait PsrInterpolateTrait
      */
     public function interpolate($message, array $context = null)
     {
-        $message = (string) $message;
-        if (strpos($message, '{') === false) {
+        if (empty($context)) {
             return $message;
         }
 
-        if (empty($context)) {
+        $message = (string) $message;
+        if (strpos($message, '{') === false) {
             return $message;
         }
 
