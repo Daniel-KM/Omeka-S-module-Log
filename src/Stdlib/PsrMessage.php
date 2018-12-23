@@ -7,7 +7,24 @@ use Zend\I18n\Translator\TranslatorAwareTrait;
 /**
  * Manage a message with a context
  *
- * This is a copy of Message, except the constructor, that requires an array.
+ * Copy of Omeka Message, except the constructor, that requires an array, and
+ * the possibility to translate automatically when the translator is enabled.
+ * Generally, the translator is not set, as it is generally managed internally.
+ *
+ * ```
+ * // To get a translator in a controller:
+ * $translator = $this->getEvent()->getApplication()->getServiceManager()->get('MvcTranslator');
+ * // or:
+ * $translator = $this->viewHelpers()->get('translate')->getTranslator();
+ *
+ * // To get translator in a view:
+ * $translator = $this->plugin('translate')->getTranslator();
+ *
+ * // To set the translator:
+ * $psrMessage->setTranslator($translator);
+ * // To disable the translation when the translator is set:
+ * $psrMessage->setTranslatorEnabled(false);
+ * ```
  *
  * @see \Omeka\Stdlib\Message
  */
@@ -95,6 +112,7 @@ class PsrMessage implements \JsonSerializable, PsrInterpolateInterface
     public function setEscapeHtml($escapeHtml)
     {
         $this->escapeHtml = (bool) $escapeHtml;
+        return $this;
     }
 
     public function escapeHtml()
