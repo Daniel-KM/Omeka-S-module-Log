@@ -25,7 +25,7 @@ return [
             'db' => true,
             // This is the default log file of Omeka (logs/application.log).
             'stream' => true,
-            // Log for Omeka jobs (useless with this module, but kept for testing purpose.
+            // Log for Omeka jobs (useless with this module, but kept for testing purpose).
             // This is a standard Zend writer, but there is no more parameters.
             'job' => true,
             // This is the default log for php. On a web server, it may be a log inside /var/log

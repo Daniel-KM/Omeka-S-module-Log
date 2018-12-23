@@ -11,6 +11,7 @@
 
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$url = $this->plugin('url');
 $this->htmlElement('body')->appendAttribute('class', 'jobs show');
 if ($job->started()) {
     $started = $this->i18n()->dateFormat($job->started(), 'long', 'long');
@@ -69,7 +70,7 @@ if ($owner = $job->owner()) {
     <div class="value">
     <?php if ($job->log()): ?>
     <?php echo $this->hyperlink($translate('view log'),
-        $this->url(null, ['action' => 'log'], true),
+        $url(null, ['action' => 'log'], true),
         ['target' => '_blank']); ?>
     <?php else: ?>
     <?php echo $translate('[no log]') ?>
@@ -83,7 +84,7 @@ if ($owner = $job->owner()) {
     <?php $totalLogs = $this->api()->search('logs', ['job_id' => $job->id()])->getTotalResults()?>
     <?php if ($totalLogs): ?>
     <?php echo $this->hyperlink(sprintf($translate('View log (%d results)'), $totalLogs),
-        $this->url('admin/log/default', [], ['query' => ['job_id' => $job->id()]])); ?>
+        $url('admin/log/default', [], ['query' => ['job_id' => $job->id()]])); ?>
     <?php else: ?>
     <?php echo $translate('[no log]'); ?>
     <?php endif; ?>
