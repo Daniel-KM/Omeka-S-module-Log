@@ -39,6 +39,11 @@ trait PsrInterpolateTrait
                 continue;
             }
 
+            if (is_array($val)) {
+                $replacements['{' . $key . '}'] = 'array' . @json_encode($val);
+                continue;
+            }
+
             if (is_object($val)) {
                 $replacements['{' . $key . '}'] = '[object ' . get_class($val) . ']';
                 continue;
