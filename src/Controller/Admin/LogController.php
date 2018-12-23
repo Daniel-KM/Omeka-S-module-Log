@@ -2,8 +2,8 @@
 namespace Log\Controller\Admin;
 
 use Log\Form\QuickSearchForm;
+use Log\Stdlib\PsrMessage;
 use Omeka\Form\ConfirmForm;
-use Omeka\Stdlib\Message;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -146,14 +146,12 @@ class LogController extends AbstractActionController
                 'resource' => 'logs',
                 'query' => $query,
             ]);
-            $message = new Message(
-                'Deleting logs in background (%sjob #%d%s). This may take a while', // @translate
-                sprintf(
-                    '<a href="%s">',
-                    htmlspecialchars($this->url()->fromRoute('admin/id', ['controller' => 'job', 'id' => $job->getId()]))
-                ),
-                $job->getId(),
-                '</a>'
+            $message = new PsrMessage(
+                'Deleting logs in background (<a href="{job_url}">job #{job_id}</a>). This may take a while.', // @translate
+                [
+                    'job_url' => htmlspecialchars($this->url()->fromRoute('admin/id', ['controller' => 'job', 'id' => $job->getId()])),
+                    'job_id' => $job->getId(),
+                ]
             );
             $message->setEscapeHtml(false);
             $this->messenger()->addSuccess($message);
