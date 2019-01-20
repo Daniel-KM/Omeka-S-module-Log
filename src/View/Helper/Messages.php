@@ -1,15 +1,18 @@
 <?php
 namespace Log\View\Helper;
 
-use Log\Stdlib\PsrMessage;
 use Omeka\Mvc\Controller\Plugin\Messenger;
 use Omeka\Stdlib\Message;
+use Zend\I18n\Translator\TranslatorAwareInterface;
 use Zend\View\Helper\AbstractHelper;
 
 /**
  * View helper for proxing the messenger controller plugin.
  *
  * Replace Omeka core Messages in order to manage PsrMessage too.
+ * @see \Omeka\View\Helper\Messages
+ *
+ * @todo Move PsrMessage to its own module or in core.
  */
 class Messages extends AbstractHelper
 {
@@ -54,7 +57,10 @@ class Messages extends AbstractHelper
             $class = isset($typeToClass[$type]) ? $typeToClass[$type] : 'notice';
             foreach ($messages as $message) {
                 $escapeHtml = true; // escape HTML by default
-                if ($message instanceof PsrMessage) {
+                // "instanceof PsrMessage" cannot be used, since it can be
+                // another object (PsrMessage from Log or GuestUser, etc.), as
+                // long as it's not in the core or in a specific module.
+                if ($message instanceof TranslatorAwareInterface) {
                     $escapeHtml = $message->escapeHtml();
                     $message = $message->setTranslator($translator)->translate();
                 } elseif ($message instanceof Message) {

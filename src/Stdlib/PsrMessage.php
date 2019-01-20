@@ -2,6 +2,7 @@
 
 namespace Log\Stdlib;
 
+use Zend\I18n\Translator\TranslatorAwareInterface;
 use Zend\I18n\Translator\TranslatorAwareTrait;
 
 /**
@@ -32,9 +33,11 @@ use Zend\I18n\Translator\TranslatorAwareTrait;
  * logs), and as long as \Omeka\I18n\Translator doesn't manage PSR-3, the
  * message is interpolated directly, with translation if possible.
  *
+ * @todo Move PsrMessage to its own module or in core.
+ *
  * @see \Omeka\Stdlib\Message
  */
-class PsrMessage implements \JsonSerializable, PsrInterpolateInterface
+class PsrMessage implements \JsonSerializable, PsrInterpolateInterface, TranslatorAwareInterface
 {
     use PsrInterpolateTrait;
     use TranslatorAwareTrait;
