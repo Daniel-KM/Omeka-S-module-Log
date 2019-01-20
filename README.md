@@ -201,7 +201,7 @@ In the file `application/config/application.config.php`, add the module
 `Facile\SentryModule` as the last module, plus the config file as new config_glob_paths
 of module_listener_options:
 
-```
+```php
 return [
     'modules' => [
         'Zend\Form',
