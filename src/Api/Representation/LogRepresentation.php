@@ -132,6 +132,13 @@ class LogRepresentation extends AbstractEntityRepresentation
                             }
                         }
                         break;
+                    case 'url':
+                        $context[$key] = $hyperlink($value, $value);
+                        $escapeHtml = true;
+                        break;
+                    case 'link':
+                        $escapeHtml = true;
+                        break;
                 }
             }
         }
