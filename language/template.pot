@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-01 00:00+0100\n"
+"POT-Creation-Date: 2019-02-18 00:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,28 +17,24 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: _temp/common/log-search-sidebar.phtml:3 view/log/log/browse.phtml:258
-msgid "Search logs"
+#: src/Stdlib/PsrMessage.php:149
+msgid "default"
 msgstr ""
 
-#: src/View/Helper/LogSearchFilters.php:50 view/log/log/browse.phtml:11
-msgid "Created"
-msgstr ""
-
-#: src/View/Helper/LogSearchFilters.php:56 view/log/log/browse.phtml:15
-#: view/log/log/browse.phtml:82 view/log/log/show-details.phtml:21
+#: src/View/Helper/LogSearchFilters.php:56 view/log/admin/log/browse.phtml:29
+#: view/log/admin/log/browse.phtml:92 view/log/admin/log/show-details.phtml:30
 msgid "Reference"
 msgstr ""
 
 #: src/View/Helper/LogSearchFilters.php:62
 #: src/View/Helper/LogSearchFilters.php:67
-#: src/View/Helper/LogSearchFilters.php:73 view/log/log/browse.phtml:19
-#: view/log/log/browse.phtml:81 view/log/log/show-details.phtml:17
+#: src/View/Helper/LogSearchFilters.php:73 view/log/admin/log/browse.phtml:33
+#: view/log/admin/log/browse.phtml:91 view/log/admin/log/show-details.phtml:26
 msgid "Severity"
 msgstr ""
 
-#: src/View/Helper/LogSearchFilters.php:90 view/log/log/browse.phtml:23
-#: view/log/log/browse.phtml:86 view/log/log/show-details.phtml:49
+#: src/View/Helper/LogSearchFilters.php:90 view/log/admin/log/browse.phtml:37
+#: view/log/admin/log/browse.phtml:96 view/log/admin/log/show-details.phtml:58
 msgid "Job"
 msgstr ""
 
@@ -46,86 +42,171 @@ msgstr ""
 msgid "Unknown job"
 msgstr ""
 
-#: view/log/log/browse.phtml:36
+#: view/log/admin/log/browse.phtml:47
 msgid "Logs"
 msgstr ""
 
-#: view/log/log/browse.phtml:49
-msgid "Omeka could not find any logs, or they are saved in another place."
-msgstr ""
-
-#: view/log/log/browse.phtml:78 view/log/log/show-details.phtml:54
+#: view/log/admin/log/browse.phtml:88 view/log/admin/log/show-details.phtml:63
 msgid "Message"
 msgstr ""
 
-#: view/log/log/browse.phtml:110
+#: view/log/admin/log/browse.phtml:121
 msgid "Full log"
 msgstr ""
 
-#: view/log/log/browse.phtml:155 view/log/log/show-details.phtml:41
+#: view/log/admin/log/browse.phtml:165 view/log/admin/log/show-details.phtml:50
 msgid "Parameters"
 msgstr ""
 
-#: view/log/log/browse.phtml:192 view/log/log/browse.phtml:210
+#: view/log/admin/log/browse.phtml:202 view/log/admin/log/browse.phtml:220
 msgid "Delete logs"
 msgstr ""
 
-#: view/log/log/browse.phtml:193
+#: view/log/admin/log/browse.phtml:203
 msgid "Are you sure you would like to delete the selected logs?"
 msgstr ""
 
-#: view/log/log/browse.phtml:195 view/log/log/browse.phtml:213
+#: view/log/admin/log/browse.phtml:205 view/log/admin/log/browse.phtml:223
 #, php-format
 msgid "%s: this action will permanently delete %s logs and cannot be undone."
 msgstr ""
 
-#: view/log/log/browse.phtml:211
+#: view/log/admin/log/browse.phtml:221
 msgid ""
 "Are you sure you would like to delete all logs on all logs of this result?"
 msgstr ""
 
-#: view/log/log/show-details.phtml:15
+#: view/log/admin/log/browse.phtml:238
+msgid "Omeka could not find any logs, or they are saved in another place."
+msgstr ""
+
+#: view/log/admin/log/browse.phtml:250
+msgid "Search logs"
+msgstr ""
+
+#: view/log/admin/log/show-details.phtml:24
 #, php-format
 msgid "Log #%d on %s"
 msgstr ""
 
-#: view/log/log/show-details.phtml:33
+#: view/log/admin/log/show-details.phtml:42
 #, php-format
 msgid "Job #%d"
 msgstr ""
 
-#: view/log/log/show-details.phtml:35
+#: view/log/admin/log/show-details.phtml:44
 #, php-format
 msgid "Started at %s"
 msgstr ""
 
-#: view/log/log/show-details.phtml:38
+#: view/log/admin/log/show-details.phtml:47
 #, php-format
 msgid "Ended at %s"
 msgstr ""
 
-#: src/Controller/LogController.php:79
+#: view/omeka/admin/job/browse.phtml:46
+msgid "Id / Params"
+msgstr ""
+
+#: view/omeka/admin/job/browse.phtml:49
+msgid "Status / Log"
+msgstr ""
+
+#: view/omeka/admin/job/browse.phtml:77
+#, php-format
+msgid "%d logs"
+msgstr ""
+
+#: view/omeka/admin/job/show.phtml:82
+msgid "Log (database)"
+msgstr ""
+
+#: view/omeka/admin/job/show.phtml:86
+#, php-format
+msgid "View log (%d results)"
+msgstr ""
+
+#: src/Form/QuickSearchForm.php:33
+msgid "Set a date with optional comparator…"
+msgstr ""
+
+#: src/Form/QuickSearchForm.php:38
+msgid "Emergency"
+msgstr ""
+
+#: src/Form/QuickSearchForm.php:39
+msgid "Alert"
+msgstr ""
+
+#: src/Form/QuickSearchForm.php:40
+msgid "Critical"
+msgstr ""
+
+#: src/Form/QuickSearchForm.php:43
+msgid "Notice"
+msgstr ""
+
+#: src/Form/QuickSearchForm.php:44
+msgid "Info"
+msgstr ""
+
+#: src/Form/QuickSearchForm.php:45
+msgid "Debug"
+msgstr ""
+
+#: src/Form/QuickSearchForm.php:51
+msgid "Minimum severity"
+msgstr ""
+
+#: src/Form/QuickSearchForm.php:57
+msgid "Select minimum severity…"
+msgstr ""
+
+#: src/Form/QuickSearchForm.php:64
+msgid "Maximum severity"
+msgstr ""
+
+#: src/Form/QuickSearchForm.php:70
+msgid "Select maximum severity…"
+msgstr ""
+
+#: src/Form/QuickSearchForm.php:81
+msgid "Set a reference…"
+msgstr ""
+
+#: src/Form/QuickSearchForm.php:92
+msgid "Set a job id…"
+msgstr ""
+
+#: src/Form/QuickSearchForm.php:113
+msgid "Select a user…"
+msgstr ""
+
+#: src/Controller/Admin/LogController.php:74
 msgid "log"
 msgstr ""
 
-#: src/Controller/LogController.php:94
+#: src/Controller/Admin/LogController.php:89
 msgid "Log successfully deleted"
 msgstr ""
 
-#: src/Controller/LogController.php:96 src/Controller/LogController.php:128
+#: src/Controller/Admin/LogController.php:91
+#: src/Controller/Admin/LogController.php:123
 msgid "An error occured during deletion of logs"
 msgstr ""
 
-#: src/Controller/LogController.php:117
+#: src/Controller/Admin/LogController.php:112
 msgid "You must select at least one log to batch delete."
 msgstr ""
 
-#: src/Controller/LogController.php:126
+#: src/Controller/Admin/LogController.php:121
 msgid "Logs successfully deleted"
 msgstr ""
 
-#: src/Controller/LogController.php:154
-msgid "Deleting logs. This may take a while."
+#: src/Controller/Admin/LogController.php:150
+msgid ""
+"Deleting logs in background (<a href=\"{job_url}\">job #{job_id}</a>). This "
+"may take a while."
 msgstr ""
 
 #: src/View/Helper/LogSearchFilters.php:34
@@ -163,63 +244,16 @@ msgstr ""
 msgid "debug"
 msgstr ""
 
-#: src/Form/SearchForm.php:26
-msgid "Set a date with optional comparator..."
+#: src/Service/LoggerDbFactory.php:29 src/Service/LoggerFactory.php:62
+msgid "[Omeka S] Database logging disabled: wrong config."
 msgstr ""
 
-#: src/Form/SearchForm.php:31
-msgid "Emergency"
+#: src/Service/LoggerFactory.php:48
+msgid "[Omeka S] File logging disabled: not writeable."
 msgstr ""
 
-#: src/Form/SearchForm.php:32
-msgid "Alert"
-msgstr ""
-
-#: src/Form/SearchForm.php:33
-msgid "Critical"
-msgstr ""
-
-#: src/Form/SearchForm.php:36
-msgid "Notice"
-msgstr ""
-
-#: src/Form/SearchForm.php:37
-msgid "Info"
-msgstr ""
-
-#: src/Form/SearchForm.php:38
-msgid "Debug"
-msgstr ""
-
-#: src/Form/SearchForm.php:44
-msgid "Minimum severity"
-msgstr ""
-
-#: src/Form/SearchForm.php:46 src/Form/SearchForm.php:49
-msgid "Select minimum severity below..."
-msgstr ""
-
-#: src/Form/SearchForm.php:56
-msgid "Maximum severity"
-msgstr ""
-
-#: src/Form/SearchForm.php:58 src/Form/SearchForm.php:61
-msgid "Select maximum severity below..."
-msgstr ""
-
-#: src/Form/SearchForm.php:72
-msgid "Set a reference..."
-msgstr ""
-
-#: src/Form/SearchForm.php:83
-msgid "Set a job id..."
-msgstr ""
-
-#: src/Form/SearchForm.php:94
-msgid "Set a user id..."
-msgstr ""
-
-#: test/LogTest/Job/LogTest.php:273
-#, php-format
-msgid "No argument files (%s)."
+#: src/Job/DispatchStrategy/Synchronous.php:23
+msgid ""
+"Fatal error: {message}\n"
+"in {file} on line {line}"
 msgstr ""
