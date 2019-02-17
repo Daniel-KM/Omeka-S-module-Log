@@ -17,6 +17,7 @@ class Synchronous extends \Omeka\Job\DispatchStrategy\Synchronous
         $lastError = error_get_last();
         $errors = [E_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR];
         if ($lastError && in_array($lastError['type'], $errors)) {
+            /** @var \Zend\Log\LoggerInterface $logger */
             $logger = $this->serviceLocator->get('Omeka\Logger');
             $logger->err(
                 "Fatal error: {message}\nin {file} on line {line}", // @translate

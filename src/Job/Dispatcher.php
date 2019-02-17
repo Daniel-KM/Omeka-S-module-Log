@@ -3,9 +3,9 @@ namespace Log\Job;
 
 use DateTime;
 use Doctrine\ORM\EntityManager;
+use Log\Log\Writer\Job as JobWriter;
 use Omeka\Job\DispatchStrategy\StrategyInterface;
 use Omeka\Entity\Job;
-use Omeka\Log\Writer\Job as JobWriter;
 
 class Dispatcher extends \Omeka\Job\Dispatcher
 {
