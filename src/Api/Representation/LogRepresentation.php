@@ -1,8 +1,8 @@
 <?php
 namespace Log\Api\Representation;
 
-use Omeka\Api\Representation\AbstractEntityRepresentation;
 use Log\Stdlib\PsrMessage;
+use Omeka\Api\Representation\AbstractEntityRepresentation;
 
 class LogRepresentation extends AbstractEntityRepresentation
 {
@@ -88,16 +88,15 @@ class LogRepresentation extends AbstractEntityRepresentation
     }
 
     /**
-     * Return translated and escaped message with context (resource links).
+     * Return translatable message with context (resource links).
      *
-     * @return string
+     * @return PsrMessage
      */
     public function text()
     {
         $services = $this->getServiceLocator();
         $translator = $services->get('MvcTranslator');
-        $escape = $this->getViewHelper('escapeHtml');
-        $escapeHtml = false;
+        $escapeHtml = true;
 
         $message = $this->resource->getMessage();
         $context = $this->resource->getContext() ?: [];
@@ -109,13 +108,21 @@ class LogRepresentation extends AbstractEntityRepresentation
                     case 'item_id':
                     case 'item_set_id':
                     case 'media_id':
-                    case 'userId':
                     case 'user_id':
                     case 'owner_id':
-                        $resourceTypes = ['itemid' => 'item', 'itemsetid' => 'item-set', 'mediaid' => 'media', 'userid' => 'user',  'ownerid' => 'user'];
+                    case 'job_id':
+                    case 'annotation_id':
+                    case 'itemId':
+                    case 'itemSetId':
+                    case 'mediaId':
+                    case 'userId':
+                    case 'ownerId':
+                    case 'jobId':
+                    case 'annotationId':
+                        $resourceTypes = ['itemid' => 'item', 'itemsetid' => 'item-set', 'mediaid' => 'media', 'userid' => 'user', 'ownerid' => 'user', 'jobid' => 'job', 'annotationid' => 'annotation'];
                         $resourceType = $resourceTypes[preg_replace('~[^a-z]~', '', strtolower($key))];
                         $context[$key] = $hyperlink($value, $url('admin/id', ['controller' => $resourceType, 'id' => $value]));
-                        $escapeHtml = true;
+                        $escapeHtml = false;
                         break;
                     case 'resource_id':
                     case 'id':
@@ -123,7 +130,7 @@ class LogRepresentation extends AbstractEntityRepresentation
                             ? $context['resource']
                             : (isset($context['resource_type']) ? $context['resource_type'] : null);
                         if ($resourceType) {
-                            $resourceTypes = ['item' => 'item', 'items' => 'item', 'itemset' => 'item-set', 'itemsets' => 'item-set', 'media' => 'media'];
+                            $resourceTypes = ['item' => 'item', 'items' => 'item', 'itemset' => 'item-set', 'itemsets' => 'item-set', 'media' => 'media', 'annotation' => 'annotation'];
                             $resourceType = preg_replace('~[^a-z]~', '', strtolower($resourceType));
                             if (isset($resourceTypes[$resourceType])) {
                                 $resourceType = $resourceTypes[$resourceType];
@@ -143,16 +150,10 @@ class LogRepresentation extends AbstractEntityRepresentation
             }
         }
 
-        if ($escapeHtml) {
-            $psrMessage = new PsrMessage($escape($message), $context);
-            $psrMessage->setTranslator($translator);
-            $psrMessage->setEscapeHtml(false);
-            return $psrMessage->translate();
-        }
-
         $psrMessage = new PsrMessage($message, $context);
         $psrMessage->setTranslator($translator);
-        return $escape($psrMessage->translate());
+        $psrMessage->setEscapeHtml($escapeHtml);
+        return $psrMessage;
     }
 
     public function created()

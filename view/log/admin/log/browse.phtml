@@ -105,12 +105,13 @@ $sortHeadings = [
                 <input type="checkbox" name="resource_ids[]" value="<?php echo $log->id(); ?>"<?php if (!$userIsAllowedDelete): ?> disabled="disabled"<?php endif; ?>>
                 <?php endif; ?>
                 <span class="log-message">
-                    <?php $text = $log->text(); ?>
+                    <?php $shouldEscape = $log->text()->escapeHtml(); ?>
+                    <?php $text = $log->text()->translate(); ?>
                     <?php $isLong = strlen($text) > 240; ?>
                     <?php if ($isLong): ?>
-                    <span class="log-message-truncated truncate"><?php echo nl2br(substr($text, 0, 240)) . '…'; ?></span>
+                    <span class="log-message-truncated truncate"><?php echo nl2br(substr($shouldEscape ? strip_tags($text) : $text, 0, 240)) . '…'; ?></span>
                     <?php else: ?>
-                    <?php echo nl2br($text); ?>
+                    <?php echo $shouldEscape ? $escape($text) : $text; ?>
                     <?php endif; ?>
                 </span>
                 <ul class="actions">
@@ -120,7 +121,7 @@ $sortHeadings = [
                             'class' => 'o-icon- fa fa-expand popover',
                             'title' => $translate('Full log'),
                         ]); ?>
-                        <div class="log-message-full webui-popover-content webui-popover-current"><?php echo nl2br($escape($text)); ?></div>
+                        <div class="log-message-full webui-popover-content webui-popover-current"><?php echo $shouldEscape ? nl2br($escape($text)) : nl2br($text); ?></div>
                     </li>
                     <?php endif; ?>
                     <?php if ($userIsAllowedDelete): ?>
