@@ -36,20 +36,15 @@ trait PsrInterpolateTrait
                 || (is_object($val) && method_exists($val, '__toString'))
             ) {
                 $replacements['{' . $key . '}'] = $val;
-                continue;
-            }
-
-            if (is_array($val)) {
+            } elseif (is_array($val)) {
                 $replacements['{' . $key . '}'] = 'array' . @json_encode($val);
-                continue;
-            }
-
-            if (is_object($val)) {
+            } elseif (is_object($val)) {
                 $replacements['{' . $key . '}'] = '[object ' . get_class($val) . ']';
-                continue;
+            } elseif (is_resource($val)) {
+                $replacements['{' . $key . '}'] = '[resource ' . get_resource_type($val) . ']';
+            } else {
+                $replacements['{' . $key . '}'] = '[' . gettype($val) . ']';
             }
-
-            $replacements['{' . $key . '}'] = '[' . gettype($val) . ']';
         }
 
         return strtr($message, $replacements);
