@@ -58,8 +58,8 @@ class Messages extends AbstractHelper
             foreach ($messages as $message) {
                 $escapeHtml = true; // escape HTML by default
                 // "instanceof PsrMessage" cannot be used, since it can be
-                // another object (PsrMessage from Log or GuestUser, etc.), as
-                // long as it's not in the core or in a specific module.
+                // another object (PsrMessage from Log or Guest, etc.), as long
+                // as it's not in the core or in a specific module.
                 if ($message instanceof TranslatorAwareInterface) {
                     $escapeHtml = $message->escapeHtml();
                     $message = $message->setTranslator($translator)->translate();
