@@ -104,47 +104,57 @@ class LogRepresentation extends AbstractEntityRepresentation
             $hyperlink = $this->getViewHelper('hyperlink');
             $url = $this->getViewHelper('url');
             foreach ($context as $key => $value) {
-                switch ($key) {
-                    case 'item_id':
-                    case 'item_set_id':
-                    case 'media_id':
-                    case 'user_id':
-                    case 'owner_id':
-                    case 'job_id':
-                    case 'annotation_id':
-                    case 'itemId':
-                    case 'itemSetId':
-                    case 'mediaId':
-                    case 'userId':
-                    case 'ownerId':
-                    case 'jobId':
-                    case 'annotationId':
-                        $resourceTypes = ['itemid' => 'item', 'itemsetid' => 'item-set', 'mediaid' => 'media', 'userid' => 'user', 'ownerid' => 'user', 'jobid' => 'job', 'annotationid' => 'annotation'];
-                        $resourceType = $resourceTypes[preg_replace('~[^a-z]~', '', strtolower($key))];
+                $cleanKey = preg_replace('~[^a-z]~', '', strtolower($key));
+                switch ($cleanKey) {
+                    case 'itemid':
+                    case 'itemsetid':
+                    case 'mediaid':
+                    case 'userid':
+                    case 'ownerid':
+                    case 'jobid':
+                    case 'annotationid':
+                        $resourceTypes = [
+                            'itemid' => 'item',
+                            'itemsetid' => 'item-set',
+                            'mediaid' => 'media',
+                            'userid' => 'user',
+                            'ownerid' => 'user',
+                            'jobid' => 'job',
+                            'annotationid' => 'annotation',
+                        ];
+                        $resourceType = $resourceTypes[$cleanKey];
                         $context[$key] = $hyperlink($value, $url('admin/id', ['controller' => $resourceType, 'id' => $value]));
                         $escapeHtml = false;
                         break;
-                    case 'resource_id':
+                    case 'resourceid':
                     case 'id':
                         $resourceType = isset($context['resource'])
                             ? $context['resource']
                             : (isset($context['resource_type']) ? $context['resource_type'] : null);
                         if ($resourceType) {
-                            $resourceTypes = ['item' => 'item', 'items' => 'item', 'itemset' => 'item-set', 'itemsets' => 'item-set', 'media' => 'media', 'annotation' => 'annotation'];
+                            $resourceTypes = [
+                                'item' => 'item',
+                                'items' => 'item',
+                                'itemset' => 'item-set',
+                                'itemsets' => 'item-set',
+                                'media' => 'media',
+                                'annotation' => 'annotation',
+                                'annotations' => 'annotation',
+                            ];
                             $resourceType = preg_replace('~[^a-z]~', '', strtolower($resourceType));
                             if (isset($resourceTypes[$resourceType])) {
                                 $resourceType = $resourceTypes[$resourceType];
                                 $context[$key] = $hyperlink($value, $url('admin/id', ['controller' => $resourceType, 'id' => $value]));
-                                $escapeHtml = true;
+                                $escapeHtml = false;
                             }
                         }
                         break;
                     case 'url':
                         $context[$key] = $hyperlink($value, $value);
-                        $escapeHtml = true;
+                        $escapeHtml = false;
                         break;
                     case 'link':
-                        $escapeHtml = true;
+                        $escapeHtml = false;
                         break;
                 }
             }
