@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-18 00:00+0100\n"
+"POT-Creation-Date: 2019-08-26 00:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,37 +50,37 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:121
+#: view/log/admin/log/browse.phtml:122
 msgid "Full log"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:165 view/log/admin/log/show-details.phtml:50
+#: view/log/admin/log/browse.phtml:166 view/log/admin/log/show-details.phtml:50
 msgid "Parameters"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:202 view/log/admin/log/browse.phtml:220
+#: view/log/admin/log/browse.phtml:203 view/log/admin/log/browse.phtml:221
 msgid "Delete logs"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:203
+#: view/log/admin/log/browse.phtml:204
 msgid "Are you sure you would like to delete the selected logs?"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:205 view/log/admin/log/browse.phtml:223
+#: view/log/admin/log/browse.phtml:206 view/log/admin/log/browse.phtml:224
 #, php-format
 msgid "%s: this action will permanently delete %s logs and cannot be undone."
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:221
+#: view/log/admin/log/browse.phtml:222
 msgid ""
 "Are you sure you would like to delete all logs on all logs of this result?"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:238
+#: view/log/admin/log/browse.phtml:239
 msgid "Omeka could not find any logs, or they are saved in another place."
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:250
+#: view/log/admin/log/browse.phtml:251
 msgid "Search logs"
 msgstr ""
 
