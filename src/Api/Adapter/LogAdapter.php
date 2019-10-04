@@ -41,7 +41,7 @@ class LogAdapter extends AbstractEntityAdapter
         // "on delete set null".
         if (isset($query['owner_id']) && strlen($query['owner_id'])) {
             $qb->andWhere($qb->expr()->eq(
-                $this->getEntityClass() . '.owner',
+                'omeka_root.owner',
                 $this->createNamedParameter($qb, $query['owner_id'])
             ));
         }
@@ -50,14 +50,14 @@ class LogAdapter extends AbstractEntityAdapter
         // "on delete cascade".
         if (isset($query['job_id']) && strlen($query['job_id'])) {
             $qb->andWhere($qb->expr()->eq(
-                $this->getEntityClass() . '.job',
+                'omeka_root.job',
                 $this->createNamedParameter($qb, $query['job_id'])
             ));
         }
 
         if (isset($query['reference']) && strlen($query['reference'])) {
             $qb->andWhere($qb->expr()->eq(
-                $this->getEntityClass() . '.reference',
+                'omeka_root.reference',
                 $this->createNamedParameter($qb, $query['reference'])
             ));
         }
@@ -148,7 +148,7 @@ class LogAdapter extends AbstractEntityAdapter
             $operator = Comparison::EQ;
         }
         $qb->andWhere(new Comparison(
-            $this->getEntityClass() . '.' . $column,
+            'omeka_root.' . $column,
             $operator,
             $this->createNamedParameter($qb, $value)
         ));
@@ -229,13 +229,13 @@ class LogAdapter extends AbstractEntityAdapter
         // See module Advanced Search Plus.
 
         // $qb->andWhere(new Comparison(
-        //     $this->getEntityClass() . '.' . $column,
+        //     'omeka_root.' . $column,
         //     $operator,
         //     $this->createNamedParameter($qb, $value)
         // ));
         // return;
 
-        $field = $this->getEntityClass() . '.' . $column;
+        $field = 'omeka_root.' . $column;
         switch ($operator) {
             case Comparison::GT:
                 if (strlen($value) < 19) {
