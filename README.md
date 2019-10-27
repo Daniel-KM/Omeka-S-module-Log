@@ -431,7 +431,7 @@ of the CeCILL license and that you accept its terms.
 Copyright
 ---------
 
-* Copyright Daniel Berthereau, 2017-2018 [Daniel-KM] on GitHub)
+* Copyright Daniel Berthereau, 2017-2019 [Daniel-KM] on GitHub)
 
 * Library [`webui-popover`]: Sandy Walker
 * Library [`facile/sentry`]: Copyright 2016 Thomas Mauro Vargiu
