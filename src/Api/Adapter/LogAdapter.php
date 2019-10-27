@@ -37,10 +37,12 @@ class LogAdapter extends AbstractEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query)
     {
+        $expr = $qb->expr();
+
         // User table is not joined to get only existing users: useless with
         // "on delete set null".
         if (isset($query['owner_id']) && strlen($query['owner_id'])) {
-            $qb->andWhere($qb->expr()->eq(
+            $qb->andWhere($expr->eq(
                 $this->getEntityClass() . '.owner',
                 $this->createNamedParameter($qb, $query['owner_id'])
             ));
@@ -49,14 +51,14 @@ class LogAdapter extends AbstractEntityAdapter
         // Job table is not joined to get only existing jobs: useless with
         // "on delete cascade".
         if (isset($query['job_id']) && strlen($query['job_id'])) {
-            $qb->andWhere($qb->expr()->eq(
+            $qb->andWhere($expr->eq(
                 $this->getEntityClass() . '.job',
                 $this->createNamedParameter($qb, $query['job_id'])
             ));
         }
 
         if (isset($query['reference']) && strlen($query['reference'])) {
-            $qb->andWhere($qb->expr()->eq(
+            $qb->andWhere($expr->eq(
                 $this->getEntityClass() . '.reference',
                 $this->createNamedParameter($qb, $query['reference'])
             ));
@@ -228,6 +230,8 @@ class LogAdapter extends AbstractEntityAdapter
         // clear for the user. And it doesn't allow partial date/time.
         // See module Advanced Search Plus.
 
+        $expr = $qb->expr();
+
         // $qb->andWhere(new Comparison(
         //     $this->getEntityClass() . '.' . $column,
         //     $operator,
@@ -242,14 +246,14 @@ class LogAdapter extends AbstractEntityAdapter
                     $value = substr_replace('9999-12-31 23:59:59', $value, 0, strlen($value) - 19);
                 }
                 $param = $this->createNamedParameter($qb, $value);
-                $predicateExpr = $qb->expr()->gt($field, $param);
+                $predicateExpr = $expr->gt($field, $param);
                 break;
             case Comparison::GTE:
                 if (strlen($value) < 19) {
                     $value = substr_replace('0000-01-01 00:00:00', $value, 0, strlen($value) - 19);
                 }
                 $param = $this->createNamedParameter($qb, $value);
-                $predicateExpr = $qb->expr()->gte($field, $param);
+                $predicateExpr = $expr->gte($field, $param);
                 break;
             case Comparison::EQ:
                 if (strlen($value) < 19) {
@@ -257,10 +261,10 @@ class LogAdapter extends AbstractEntityAdapter
                     $valueTo = substr_replace('9999-12-31 23:59:59', $value, 0, strlen($value) - 19);
                     $paramFrom = $this->createNamedParameter($qb, $valueFrom);
                     $paramTo = $this->createNamedParameter($qb, $valueTo);
-                    $predicateExpr = $qb->expr()->between($field, $paramFrom, $paramTo);
+                    $predicateExpr = $expr->between($field, $paramFrom, $paramTo);
                 } else {
                     $param = $this->createNamedParameter($qb, $value);
-                    $predicateExpr = $qb->expr()->eq($field, $param);
+                    $predicateExpr = $expr->eq($field, $param);
                 }
                 break;
             case Comparison::NEQ:
@@ -269,12 +273,12 @@ class LogAdapter extends AbstractEntityAdapter
                     $valueTo = substr_replace('9999-12-31 23:59:59', $value, 0, strlen($value) - 19);
                     $paramFrom = $this->createNamedParameter($qb, $valueFrom);
                     $paramTo = $this->createNamedParameter($qb, $valueTo);
-                    $predicateExpr = $qb->expr()->not(
-                        $qb->expr()->between($field, $paramFrom, $paramTo)
+                    $predicateExpr = $expr->not(
+                        $expr->between($field, $paramFrom, $paramTo)
                     );
                 } else {
                     $param = $this->createNamedParameter($qb, $value);
-                    $predicateExpr = $qb->expr()->neq($field, $param);
+                    $predicateExpr = $expr->neq($field, $param);
                 }
                 break;
             case Comparison::LTE:
@@ -282,20 +286,20 @@ class LogAdapter extends AbstractEntityAdapter
                     $value = substr_replace('9999-12-31 23:59:59', $value, 0, strlen($value) - 19);
                 }
                 $param = $this->createNamedParameter($qb, $value);
-                $predicateExpr = $qb->expr()->lte($field, $param);
+                $predicateExpr = $expr->lte($field, $param);
                 break;
             case Comparison::LT:
                 if (strlen($value) < 19) {
                     $value = substr_replace('0000-01-01 00:00:00', $value, 0, strlen($value) - 19);
                 }
                 $param = $this->createNamedParameter($qb, $value);
-                $predicateExpr = $qb->expr()->lt($field, $param);
+                $predicateExpr = $expr->lt($field, $param);
                 break;
             case 'IS NOT NULL':
-                $predicateExpr = $qb->expr()->isNotNull($field);
+                $predicateExpr = $expr->isNotNull($field);
                 break;
             case 'IS NULL':
-                $predicateExpr = $qb->expr()->isNull($field);
+                $predicateExpr = $expr->isNull($field);
                 break;
             default:
                 return;
