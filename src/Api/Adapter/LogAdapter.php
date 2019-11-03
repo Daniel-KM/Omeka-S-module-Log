@@ -37,13 +37,15 @@ class LogAdapter extends AbstractEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query)
     {
+        $isOldOmeka = \Omeka\Module::VERSION < 2;
+        $alias = $isOldOmeka ? $this->getEntityClass() : 'omeka_root';
         $expr = $qb->expr();
 
         // User table is not joined to get only existing users: useless with
         // "on delete set null".
         if (isset($query['owner_id']) && strlen($query['owner_id'])) {
             $qb->andWhere($expr->eq(
-                'omeka_root.owner',
+                $alias . '.owner',
                 $this->createNamedParameter($qb, $query['owner_id'])
             ));
         }
@@ -52,14 +54,14 @@ class LogAdapter extends AbstractEntityAdapter
         // "on delete cascade".
         if (isset($query['job_id']) && strlen($query['job_id'])) {
             $qb->andWhere($expr->eq(
-                'omeka_root.job',
+                $alias . '.job',
                 $this->createNamedParameter($qb, $query['job_id'])
             ));
         }
 
         if (isset($query['reference']) && strlen($query['reference'])) {
             $qb->andWhere($expr->eq(
-                'omeka_root.reference',
+                $alias . '.reference',
                 $this->createNamedParameter($qb, $query['reference'])
             ));
         }
@@ -125,6 +127,9 @@ class LogAdapter extends AbstractEntityAdapter
      */
     protected function buildQueryComparison(QueryBuilder $qb, array $query, $value, $column)
     {
+        $isOldOmeka = \Omeka\Module::VERSION < 2;
+        $alias = $isOldOmeka ? $this->getEntityClass() : 'omeka_root';
+
         $matches = [];
         preg_match('/^[^\d]+/', $value, $matches);
         if (!empty($matches[0])) {
@@ -150,7 +155,7 @@ class LogAdapter extends AbstractEntityAdapter
             $operator = Comparison::EQ;
         }
         $qb->andWhere(new Comparison(
-            'omeka_root.' . $column,
+            $alias . '.' . $column,
             $operator,
             $this->createNamedParameter($qb, $value)
         ));
@@ -196,6 +201,9 @@ class LogAdapter extends AbstractEntityAdapter
      */
     protected function buildQueryDateComparison(QueryBuilder $qb, array $query, $value, $column)
     {
+        $isOldOmeka = \Omeka\Module::VERSION < 2;
+        $alias = $isOldOmeka ? $this->getEntityClass() : 'omeka_root';
+
         // TODO Format the date into a standard mysql datetime.
         $matches = [];
         preg_match('/^[^\d]+/', $value, $matches);
@@ -233,13 +241,13 @@ class LogAdapter extends AbstractEntityAdapter
         $expr = $qb->expr();
 
         // $qb->andWhere(new Comparison(
-        //     'omeka_root.' . $column,
+        //     $alias . '.' . $column,
         //     $operator,
         //     $this->createNamedParameter($qb, $value)
         // ));
         // return;
 
-        $field = 'omeka_root.' . $column;
+        $field = $alias . '.' . $column;
         switch ($operator) {
             case Comparison::GT:
                 if (strlen($value) < 19) {
