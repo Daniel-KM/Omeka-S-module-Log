@@ -29,41 +29,24 @@
 
 namespace Log;
 
-use Omeka\Module\AbstractModule;
+if (!class_exists(\Generic\AbstractModule::class)) {
+    require file_exists(dirname(__DIR__) . '/Generic/AbstractModule.php')
+        ? dirname(__DIR__) . '/Generic/AbstractModule.php'
+        : __DIR__ . '/src/Generic/AbstractModule.php';
+}
+
+use Generic\AbstractModule;
 use Omeka\Permissions\Assertion\OwnsEntityAssertion;
 use Zend\Mvc\MvcEvent;
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 class Module extends AbstractModule
 {
-    public function getConfig()
-    {
-        return include __DIR__ . '/config/module.config.php';
-    }
+    const NAMESPACE = __NAMESPACE__;
 
     public function onBootstrap(MvcEvent $event)
     {
         parent::onBootstrap($event);
         $this->addAclRules();
-    }
-
-    public function install(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->setServiceLocator($serviceLocator);
-        $this->execSqlFromFile(__DIR__ . '/data/install/schema.sql');
-    }
-
-    public function uninstall(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->setServiceLocator($serviceLocator);
-        $this->execSqlFromFile(__DIR__ . '/data/install/uninstall.sql');
-    }
-
-    public function upgrade($oldVersion, $newVersion, ServiceLocatorInterface $serviceLocator)
-    {
-        $this->setServiceLocator($serviceLocator);
-        $filepath = __DIR__ . '/data/scripts/upgrade.php';
-        require_once $filepath;
     }
 
     /**
@@ -153,22 +136,5 @@ class Module extends AbstractModule
                 \Log\Controller\Admin\LogController::class,
             ]
         );
-    }
-
-    /**
-     * Execute a sql from a file.
-     *
-     * @param string $filepath
-     * @return mixed
-     */
-    protected function execSqlFromFile($filepath)
-    {
-        if (!file_exists($filepath) || !filesize($filepath) || !is_readable($filepath)) {
-            throw new \Omeka\Module\Exception\ModuleCannotInstallException(sprintf('The file "%s" is missing.', $filepath));
-        }
-        $services = $this->getServiceLocator();
-        $connection = $services->get('Omeka\Connection');
-        $sql = file_get_contents($filepath);
-        return $connection->exec($sql);
     }
 }
