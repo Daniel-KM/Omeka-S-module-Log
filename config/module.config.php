@@ -149,8 +149,8 @@ return [
         ],
     ],
     'controllers' => [
-        'invokables' => [
-            Controller\Admin\LogController::class => Controller\Admin\LogController::class,
+        'factories' => [
+            Controller\Admin\LogController::class => Service\Controller\Admin\LogControllerFactory::class,
         ],
     ],
     'controller_plugins' => [

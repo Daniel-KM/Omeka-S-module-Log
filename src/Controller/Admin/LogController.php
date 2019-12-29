@@ -9,6 +9,16 @@ use Zend\View\Model\ViewModel;
 
 class LogController extends AbstractActionController
 {
+    /**
+     * @var bool
+     */
+    protected $logDb;
+
+    public function __construct($logDb)
+    {
+        $this->logDb = $logDb;
+    }
+
     public function browseAction()
     {
         $this->setBrowseDefaults('created');
@@ -30,17 +40,23 @@ class LogController extends AbstractActionController
         $formDeleteSelected = $this->getForm(ConfirmForm::class);
         $formDeleteSelected
             ->setAttribute('action', $this->url()->fromRoute('admin/log/default', ['action' => 'batch-delete'], true))
-            ->setButtonLabel('Confirm delete') // @translate
             ->setAttribute('id', 'confirm-delete-selected');
+        $formDeleteSelected
+            ->setButtonLabel('Confirm delete'); // @translate
 
         $formDeleteAll = $this->getForm(ConfirmForm::class);
         $formDeleteAll
             ->setAttribute('action', $this->url()->fromRoute('admin/log/default', ['action' => 'batch-delete-all'], true))
-            ->setButtonLabel('Confirm delete') // @translate
             ->setAttribute('id', 'confirm-delete-all')
             ->get('submit')->setAttribute('disabled', true);
+        $formDeleteAll
+            ->setButtonLabel('Confirm delete'); // @translate
 
         $logs = $response->getContent();
+
+        if (!$this->logDb) {
+            $this->messenger()->addWarning('The logger is currently disabled for database. Check config/local.config.php.'); // @translate
+        }
 
         $view = new ViewModel;
         $view
