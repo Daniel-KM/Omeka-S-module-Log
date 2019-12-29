@@ -16,8 +16,9 @@ class LogController extends AbstractActionController
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
         $formSearch = $this->getForm(QuickSearchForm::class);
-        $formSearch->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'browse'], true));
-        $formSearch->setAttribute('id', 'log-search');
+        $formSearch
+            ->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'browse'], true))
+            ->setAttribute('id', 'log-search');
         if ($this->getRequest()->isPost()) {
             $data = $this->params()->fromPost();
             $formSearch->setData($data);
@@ -27,23 +28,27 @@ class LogController extends AbstractActionController
         }
 
         $formDeleteSelected = $this->getForm(ConfirmForm::class);
-        $formDeleteSelected->setAttribute('action', $this->url()->fromRoute('admin/log/default', ['action' => 'batch-delete'], true));
-        $formDeleteSelected->setButtonLabel('Confirm delete'); // @translate
-        $formDeleteSelected->setAttribute('id', 'confirm-delete-selected');
+        $formDeleteSelected
+            ->setAttribute('action', $this->url()->fromRoute('admin/log/default', ['action' => 'batch-delete'], true))
+            ->setButtonLabel('Confirm delete') // @translate
+            ->setAttribute('id', 'confirm-delete-selected');
 
         $formDeleteAll = $this->getForm(ConfirmForm::class);
-        $formDeleteAll->setAttribute('action', $this->url()->fromRoute('admin/log/default', ['action' => 'batch-delete-all'], true));
-        $formDeleteAll->setButtonLabel('Confirm delete'); // @translate
-        $formDeleteAll->setAttribute('id', 'confirm-delete-all');
-        $formDeleteAll->get('submit')->setAttribute('disabled', true);
+        $formDeleteAll
+            ->setAttribute('action', $this->url()->fromRoute('admin/log/default', ['action' => 'batch-delete-all'], true))
+            ->setButtonLabel('Confirm delete') // @translate
+            ->setAttribute('id', 'confirm-delete-all')
+            ->get('submit')->setAttribute('disabled', true);
+
+        $logs = $response->getContent();
 
         $view = new ViewModel;
-        $logs = $response->getContent();
-        $view->setVariable('logs', $logs);
-        $view->setVariable('resources', $logs);
-        $view->setVariable('formSearch', $formSearch);
-        $view->setVariable('formDeleteSelected', $formDeleteSelected);
-        $view->setVariable('formDeleteAll', $formDeleteAll);
+        $view
+            ->setVariable('logs', $logs)
+            ->setVariable('resources', $logs)
+            ->setVariable('formSearch', $formSearch)
+            ->setVariable('formDeleteSelected', $formDeleteSelected)
+            ->setVariable('formDeleteAll', $formDeleteAll);
         return $view;
     }
 
@@ -54,10 +59,11 @@ class LogController extends AbstractActionController
         $log = $response->getContent();
 
         $view = new ViewModel;
-        $view->setTerminal(true);
-        $view->setVariable('linkTitle', $linkTitle);
-        $view->setVariable('resource', $log);
-        $view->setVariable('log', $log);
+        $view
+            ->setTerminal(true)
+            ->setVariable('linkTitle', $linkTitle)
+            ->setVariable('resource', $log)
+            ->setVariable('log', $log);
         return $view;
     }
 
@@ -68,13 +74,14 @@ class LogController extends AbstractActionController
         $log = $response->getContent();
 
         $view = new ViewModel;
-        $view->setTerminal(true);
-        $view->setTemplate('common/delete-confirm-details');
-        $view->setVariable('resource', $log);
-        $view->setVariable('resourceLabel', 'log'); // @translate
-        $view->setVariable('partialPath', 'log/admin/log/show-details');
-        $view->setVariable('linkTitle', $linkTitle);
-        $view->setVariable('log', $log);
+        $view
+            ->setTerminal(true)
+            ->setTemplate('common/delete-confirm-details')
+            ->setVariable('resource', $log)
+            ->setVariable('resourceLabel', 'log') // @translate
+            ->setVariable('partialPath', 'log/admin/log/show-details')
+            ->setVariable('linkTitle', $linkTitle)
+            ->setVariable('log', $log);
         return $view;
     }
 
