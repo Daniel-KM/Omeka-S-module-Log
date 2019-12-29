@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-26 00:00+0200\n"
+"POT-Creation-Date: 2019-12-23 00:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,23 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: src/Generic/AbstractModule.php:518
+#, php-format
+msgid "This module requires the module \"%s\"."
+msgstr ""
+
+#: src/Generic/AbstractModule.php:538
+#, php-format
+msgid "This module requires modules \"%s\"."
+msgstr ""
+
+#: src/Generic/AbstractModule.php:606
+#, php-format
+msgid ""
+"The module \"%s\" was automatically deactivated because the dependencies are "
+"unavailable."
+msgstr ""
 
 #: src/Stdlib/PsrMessage.php:149
 msgid "default"
@@ -182,28 +199,33 @@ msgstr ""
 msgid "Select a user…"
 msgstr ""
 
-#: src/Controller/Admin/LogController.php:74
+#: src/Controller/Admin/LogController.php:58
+msgid ""
+"The logger is currently disabled for database. Check config/local.config.php."
+msgstr ""
+
+#: src/Controller/Admin/LogController.php:97
 msgid "log"
 msgstr ""
 
-#: src/Controller/Admin/LogController.php:89
+#: src/Controller/Admin/LogController.php:112
 msgid "Log successfully deleted"
 msgstr ""
 
-#: src/Controller/Admin/LogController.php:91
-#: src/Controller/Admin/LogController.php:123
+#: src/Controller/Admin/LogController.php:114
+#: src/Controller/Admin/LogController.php:146
 msgid "An error occured during deletion of logs"
 msgstr ""
 
-#: src/Controller/Admin/LogController.php:112
+#: src/Controller/Admin/LogController.php:135
 msgid "You must select at least one log to batch delete."
 msgstr ""
 
-#: src/Controller/Admin/LogController.php:121
+#: src/Controller/Admin/LogController.php:144
 msgid "Logs successfully deleted"
 msgstr ""
 
-#: src/Controller/Admin/LogController.php:150
+#: src/Controller/Admin/LogController.php:173
 msgid ""
 "Deleting logs in background (<a href=\"{job_url}\">job #{job_id}</a>). This "
 "may take a while."
