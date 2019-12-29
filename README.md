@@ -32,8 +32,7 @@ If the module was installed from the source, rename the name of the folder of
 the module to `Log`, go to the root module, and run:
 
 ```
-    npm install
-    gulp
+    composer install
 ```
 
 
