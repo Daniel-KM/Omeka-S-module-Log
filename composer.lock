@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f3de86c268ebe6c21b5929d4d8cbb010",
+    "content-hash": "c0968dd3a5de7c71fe4e0e84b3216508",
     "packages": [
         {
             "name": "grimmlink/webui-popover",
