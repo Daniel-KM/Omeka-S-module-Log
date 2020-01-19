@@ -84,57 +84,58 @@ class Module extends AbstractModule
 
         // TODO Check if not allowed to create log by api?
         // Everybody can create log.
-        $acl->allow(
-            null,
-            [
-                \Log\Api\Adapter\LogAdapter::class,
-                \Log\Entity\Log::class,
-            ],
-            ['create']
-        );
+        $acl
+            ->allow(
+                null,
+                [
+                    \Log\Api\Adapter\LogAdapter::class,
+                    \Log\Entity\Log::class,
+                ],
+                ['create']
+            )
 
-        // Everybody can see own logs, except guest user or visitors.
+            // Everybody can see own logs, except guest user or visitors.
+            ->allow(
+                $baseRoles,
+                [\Log\Entity\Log::class],
+                ['read'],
+                new OwnsEntityAssertion
+            )
+            ->allow(
+                $baseRoles,
+                [\Log\Api\Adapter\LogAdapter::class],
+                ['read', 'search']
+            )
+            ->allow(
+                $baseRoles,
+                [\Log\Controller\Admin\LogController::class],
+                ['browse', 'search', 'show-details']
+            )
 
-        $acl->allow(
-            $baseRoles,
-            [\Log\Entity\Log::class],
-            ['read'],
-            new OwnsEntityAssertion
-        );
-        $acl->allow(
-            $baseRoles,
-            [\Log\Api\Adapter\LogAdapter::class],
-            ['read', 'search']
-        );
-        $acl->allow(
-            $baseRoles,
-            [\Log\Controller\Admin\LogController::class],
-            ['browse', 'search', 'show-details']
-        );
+            ->allow(
+                $editorRoles,
+                [\Log\Entity\Log::class],
+                ['read', 'view-all']
+            )
+            ->allow(
+                $editorRoles,
+                [\Log\Api\Adapter\LogAdapter::class],
+                ['read', 'search']
+            )
+            ->allow(
+                $editorRoles,
+                [\Log\Controller\Admin\LogController::class],
+                ['browse', 'search', 'show-details']
+            )
 
-        $acl->allow(
-            $editorRoles,
-            [\Log\Entity\Log::class],
-            ['read', 'view-all']
-        );
-        $acl->allow(
-            $editorRoles,
-            [\Log\Api\Adapter\LogAdapter::class],
-            ['read', 'search']
-        );
-        $acl->allow(
-            $editorRoles,
-            [\Log\Controller\Admin\LogController::class],
-            ['browse', 'search', 'show-details']
-        );
-
-        $acl->allow(
-            $adminRoles,
-            [
-                \Log\Entity\Log::class,
-                \Log\Api\Adapter\LogAdapter::class,
-                \Log\Controller\Admin\LogController::class,
-            ]
-        );
+            ->allow(
+                $adminRoles,
+                [
+                    \Log\Entity\Log::class,
+                    \Log\Api\Adapter\LogAdapter::class,
+                    \Log\Controller\Admin\LogController::class,
+                ]
+            )
+        ;
     }
 }
