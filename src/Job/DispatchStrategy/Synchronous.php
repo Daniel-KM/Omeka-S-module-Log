@@ -42,7 +42,7 @@ class Synchronous extends \Omeka\Job\DispatchStrategy\Synchronous
                 }
 
                 $logger->err(
-                    'Fatal error: {message}\nin {file} on line {line}', // @translate
+                    "Fatal error: {message}\nin {file} on line {line}", // @translate
                     [
                         'message' => $lastError['message'],
                         'file' => $lastError['file'],
@@ -67,7 +67,7 @@ class Synchronous extends \Omeka\Job\DispatchStrategy\Synchronous
                     $logger->addProcessor($userJobIdProcessor, 0);
                 }
                 $logger->warn(
-                    'Warning: {message}\nin {file} on line {line}', // @translate
+                    "Warning: {message}\nin {file} on line {line}", // @translate
                     [
                         'message' => $lastError['message'],
                         'file' => $lastError['file'],
