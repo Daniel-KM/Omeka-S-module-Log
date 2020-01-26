@@ -37,70 +37,71 @@ if ($owner = $job->owner()) {
     $ownerText = $translate('[no owner]');
 }
 ?>
-<?php echo $this->pageTitle('#' . $escape($job->id()), 1, $translate('Jobs')); ?>
+
+<?= $this->pageTitle('#' . $escape($job->id()), 1, $translate('Jobs')) ?>
 <div id="page-actions">
     <?php if ('in_progress' == $job->status()): ?>
-        <?php echo $this->form($confirmForm); ?>
+        <?= $this->form($confirmForm) ?>
     <?php endif; ?>
 </div>
 
 <div class="meta-group">
-    <h4><?php echo $translate('Status'); ?></h4>
-    <div class="value"><?php echo $job->statusLabel(); ?></div>
+    <h4><?= $translate('Status') ?></h4>
+    <div class="value"><?= $job->statusLabel() ?></div>
 </div>
 <?php if ($hasProgress): ?>
 <div class="meta-group">
-    <h4><?php echo $translate('Progress'); ?></h4>
-    <div class="value"><?php echo $progress; ?></div>
+    <h4><?= $translate('Progress') ?></h4>
+    <div class="value"><?= $progress ?></div>
 </div>
 <?php endif; ?>
 <div class="meta-group">
-    <h4><?php echo $translate('Started'); ?></h4>
-    <div class="value"><?php echo $started; ?></div>
+    <h4><?= $translate('Started') ?></h4>
+    <div class="value"><?= $started ?></div>
 </div>
 <div class="meta-group">
-    <h4><?php echo $translate('Ended'); ?></h4>
-    <div class="value"><?php echo $ended; ?></div>
+    <h4><?= $translate('Ended') ?></h4>
+    <div class="value"><?= $ended ?></div>
 </div>
 <div class="meta-group">
-    <h4><?php echo $translate('Class'); ?></h4>
-    <div class="value"><?php echo $job->jobClass(); ?></div>
+    <h4><?= $translate('Class') ?></h4>
+    <div class="value"><?= $job->jobClass() ?></div>
 </div>
 <div class="meta-group">
-    <h4><?php echo $translate('Owner'); ?></h4>
-    <div class="value"><?php echo $ownerText; ?></div>
+    <h4><?= $translate('Owner') ?></h4>
+    <div class="value"><?= $ownerText ?></div>
 </div>
 <div class="meta-group">
-    <h4><?php echo $translate('Args'); ?></h4>
+    <h4><?= $translate('Args') ?></h4>
     <?php if ($job->args()): ?>
         <?php $args = json_encode($job->args(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_LINE_TERMINATORS); ?>
-        <div class="value"><pre><?php echo $escape($args); ?></pre></div>
+        <div class="value"><pre><?= $escape($args) ?></pre></div>
     <?php else: ?>
-    <div class="value"><?php echo $translate('[no args]') ?></div>
+    <div class="value"><?= $translate('[no args]') ?></div>
     <?php endif; ?>
 </div>
 <div class="meta-group">
-    <h4><?php echo $translate('Log'); ?></h4>
+    <h4><?= $translate('Log') ?></h4>
     <div class="value">
     <?php if ($job->log()): ?>
-    <?php echo $this->hyperlink($translate('view log'),
+    <?= $this->hyperlink($translate('view log'),
         $url(null, ['action' => 'log'], true),
-        ['target' => '_blank']); ?>
+        ['target' => '_blank']) ?>
     <?php else: ?>
-    <?php echo $translate('[no log]') ?>
+    <?= $translate('[no log]') ?>
     <?php endif; ?>
     </div>
 </div>
 <?php // Specific part for the module Log. ?>
 <div class="meta-group">
-    <h4><?php echo $translate('Log (database)'); ?></h4>
+    <h4><?= $translate('Log (database)') ?></h4>
     <div class="value">
-    <?php $totalLogs = $this->api()->search('logs', ['job_id' => $job->id()])->getTotalResults()?>
+    <?php $totalLogs = $this->api()->search('logs', ['job_id' => $job->id()])->getTotalResults(); ?>
     <?php if ($totalLogs): ?>
-    <?php echo $this->hyperlink(sprintf($translate('View log (%d results)'), $totalLogs),
-        $url('admin/log/default', [], ['query' => ['job_id' => $job->id()]])); ?>
+    <?= $this->hyperlink(sprintf($translate('View log (%d results)'), $totalLogs),
+        $url('admin/log/default', [], ['query' => ['job_id' => $job->id()]])) ?>
     <?php else: ?>
-    <?php echo $translate('[no log]'); ?>
+    <?= $translate('[no log]') ?>
     <?php endif; ?>
     </div>
 </div>

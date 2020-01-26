@@ -33,23 +33,23 @@ $sortHeadings = [
 ];
 ?>
 
-<?php echo $this->pageTitle($translate('Jobs')); ?>
+<?= $this->pageTitle($translate('Jobs')) ?>
 
 <?php if (count($jobs)): ?>
 
 <div class="browse-controls">
-    <?php echo $this->pagination(); ?>
-    <?php echo $this->sortSelector($sortHeadings); ?>
+    <?= $this->pagination() ?>
+    <?= $this->sortSelector($sortHeadings) ?>
 </div>
 <?php $this->trigger('view.browse.before'); ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?php echo $translate('Id / Params'); ?></th>
-            <th><?php echo $translate('Date'); ?></th>
-            <th><?php echo $translate('Class'); ?></th>
-            <th><?php echo $translate('Status / Log'); ?></th>
-            <th><?php echo $translate('Owner'); ?></th>
+            <th><?= $translate('Id / Params') ?></th>
+            <th><?= $translate('Date') ?></th>
+            <th><?= $translate('Class') ?></th>
+            <th><?= $translate('Status / Log') ?></th>
+            <th><?= $translate('Owner') ?></th>
         </tr>
     </thead>
     <tbody>
@@ -65,34 +65,34 @@ $sortHeadings = [
         }
         ?>
         <tr>
-            <td><?php echo $job->link($escape($job->id())); ?></td>
-            <td><?php echo $escape($this->i18n()->dateFormat($job->started(), null, \Omeka\View\Helper\i18n::DATE_FORMAT_SHORT)); ?></td>
-            <td><?php echo $escape($job->jobClass()); ?></td>
+            <td><?= $job->link($escape($job->id())) ?></td>
+            <td><?= $escape($this->i18n()->dateFormat($job->started(), null, \Omeka\View\Helper\i18n::DATE_FORMAT_SHORT)) ?></td>
+            <td><?= $escape($job->jobClass()) ?></td>
             <td>
             <?php $totalLogs = $this->api()->search('logs', ['job_id' => $job->id()])->getTotalResults()?>
             <?php if ($totalLogs): ?>
-            <?php echo $hyperlink($translate($job->statusLabel()), $url('admin/log/default', [], ['query' => ['job_id' => $job->id()]])); ?>
+            <?= $hyperlink($translate($job->statusLabel()), $url('admin/log/default', [], ['query' => ['job_id' => $job->id()]])) ?>
             <?php else: ?>
-            <?php echo $escape($translate($job->statusLabel())); ?>
+            <?= $escape($translate($job->statusLabel())) ?>
             <?php endif; ?>
             <?php if (method_exists($job, 'step') && $step = $job->step()): ?>
-            - <?php echo $step; ?> / <?php echo $job->totalSteps(); ?>
+            - <?= $step; ?> / <?= $job->totalSteps() ?>
             <?php endif; ?>
             </td>
-            <td><?php echo $ownerText; ?></td>
+            <td><?= $ownerText ?></td>
         </tr>
         <?php endforeach; ?>
     </tbody>
 </table>
 <?php $this->trigger('view.browse.after'); ?>
 <div class="browse-controls">
-    <?php echo $this->pagination(); ?>
+    <?= $this->pagination() ?>
 </div>
 
 <?php else: ?>
 
 <div class="no-resources">
-    <p><?php echo $translate('Omeka could not find any jobs.'); ?></p>
+    <p><?= $translate('Omeka could not find any jobs.') ?></p>
 </div>
 
 <?php endif; ?>
