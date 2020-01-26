@@ -52,6 +52,12 @@ class LogSearchFilters extends AbstractHelper
                     $filters[$filterLabel][] = $filterValue;
                     break;
 
+                case 'message':
+                    $filterLabel = $translate('Message contains'); // @translate
+                    $filterValue = $value;
+                    $filters[$filterLabel][] = $filterValue;
+                    break;
+
                 case 'reference':
                     $filterLabel = $translate('Reference'); // @translate
                     $filterValue = $value;

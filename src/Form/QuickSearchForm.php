@@ -116,6 +116,18 @@ class QuickSearchForm extends Form
         ]);
 
         $this->add([
+            'type' => Element\Text::class,
+            'name' => 'message',
+            'options' => [
+                // TODO Manage search in translated messages as they are displayed.
+                'label' => 'Untranslated message', // @translate
+            ],
+            'attributes' => [
+                'placeholder' => 'Set an untranslated string…', // @translate
+            ],
+        ]);
+
+        $this->add([
             'name' => 'submit',
             'type' => Element\Submit::class,
             'attributes' => [

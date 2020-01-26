@@ -82,6 +82,51 @@ class LogAdapter extends AbstractEntityAdapter
         if (isset($query['created']) && strlen($query['created'])) {
             $this->buildQueryDateComparison($qb, $query, $query['created'], 'created');
         }
+
+        // TODO Manage search in translated messages as they are displayed.
+        if (isset($query['message']) && strlen($query['message'])) {
+            if (!is_array($query['message'])) {
+                $query['message'] = ['text' => $query['message'], 'type' => 'in'];
+            }
+            foreach ($query['message'] as $message) {
+                if (!is_array($message)) {
+                    $message = ['text' => $message, 'type' => 'in'];
+                }
+                if (!isset($message['text']) || !strlen($message['text'])) {
+                    continue;
+                }
+                $text = $message['text'];
+                $queryType = isset($message['type']) ? $message['type'] : 'in';
+                switch ($queryType) {
+                    case 'neq':
+                        $qb->andWhere($expr->neq(
+                            $alias . '.message',
+                            $this->createNamedParameter($qb, $text)
+                        ));
+                        break;
+                    case 'eq':
+                        $qb->andWhere($expr->eq(
+                            $alias . '.message',
+                            $this->createNamedParameter($qb, $text)
+                        ));
+                        break;
+                    case 'nin':
+                        $qb->andWhere($expr->notLike(
+                            $alias . '.message',
+                            $this->createNamedParameter($qb,'%' . $text . '%')
+                        ));
+                        break;
+                    case 'in':
+                        $qb->andWhere($expr->like(
+                            $alias . '.message',
+                            $this->createNamedParameter($qb,'%' . $text . '%')
+                        ));
+                        break;
+                    default:
+                        continue 2;
+                }
+            }
+        }
     }
 
     public function hydrate(
