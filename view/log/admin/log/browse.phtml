@@ -14,12 +14,17 @@ $escapeAttr = $this->plugin('escapeHtmlAttr');
 $hyperlink = $this->plugin('hyperlink');
 $url = $this->plugin('url');
 $sortLink = $this->plugin('sortLink');
+$assetUrl = $this->plugin('assetUrl');
+
 $this->htmlElement('body')->appendAttribute('class', 'logs browse');
-$userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::class, 'batch_delete');
-$this->headLink()->appendStylesheet($this->assetUrl('vendor/webui-popover/jquery.webui-popover.min.css', 'Log'));
-$this->headLink()->appendStylesheet($this->assetUrl('css/log.css', 'Log'));
-$this->headScript()->appendFile($this->assetUrl('vendor/webui-popover/jquery.webui-popover.min.js', 'Log'));
-$this->headScript()->appendFile($this->assetUrl('js/log.js', 'Log'));
+
+$this->headLink()
+    ->appendStylesheet($assetUrl('vendor/webui-popover/jquery.webui-popover.min.css', 'Log'))
+    ->appendStylesheet($assetUrl('css/log.css', 'Log'));
+$this->headScript()
+    ->appendFile($assetUrl('vendor/webui-popover/jquery.webui-popover.min.js', 'Log'), 'text/javascript', ['defer' => 'defer'])
+    ->appendFile($this->assetUrl('js/log.js', 'Log'), 'text/javascript', ['defer' => 'defer']);
+
 $sortHeadings = [
     [
         'label' => $translate('Date'),
@@ -42,6 +47,8 @@ $sortHeadings = [
         'value' => 'owner',
     ],
 ];
+
+$userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::class, 'batch_delete');
 ?>
 
 <?php echo $this->pageTitle('', 1, $translate('Logs')); ?>
