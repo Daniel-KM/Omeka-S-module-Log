@@ -7,6 +7,7 @@
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 $hyperlink = $this->plugin('hyperlink');
+$i18n = $this->plugin('i18n');
 
 $this->headLink()->appendStylesheet($this->assetUrl('css/log.css', 'Log'));
 
@@ -20,7 +21,7 @@ endif;
  ?>
 
 <div class="resource-details">
-    <h3 class="o-title"><?= $escape(sprintf($translate('Log #%d on %s'), $log->id(), $log->created()->format('Y-m-d H:i:s'))) ?></h3>
+    <h3 class="o-title"><?= $escape(sprintf($translate('Log #%d on %s'), $log->id(), $i18n->dateFormat($log->created(), 'medium', 'medium'))) ?></h3>
     <div class="meta-group">
         <h4><?= $escape($translate('Severity')) ?></h4>
         <div class="value"><?= $escape($translate($log->severityLabel())) ?></div>
@@ -40,10 +41,10 @@ endif;
         <?php if ($job): ?>
         <h4><?= $escape(sprintf($translate('Job #%d'), $job->id())) ?></h4>
         <div class="value"><?php
-        echo $escape(sprintf($translate('Started at %s'), $job->started()->format('Y-m-d H:i:s')));
+        echo $escape(sprintf($translate('Started at %s'), $i18n->dateFormat($job->started(), 'medium', 'medium'))) ?>
         ?></div>
         <div class="value"><?php
-        echo $escape(sprintf($translate('Ended at %s'), $job->ended() ? $job->ended()->format('Y-m-d H:i:s') : '-'));
+        echo $escape(sprintf($translate('Ended at %s'), $job->ended() ? $i18n->dateFormat($job->ended(), 'medium', 'medium') : '-'));
         ?></div>
         <div class="value"><?php
         echo $hyperlink($translate('Parameters'), $this->url('admin/id', ['controller' => 'job', 'action' => 'show', 'id' => $job->id()]));
