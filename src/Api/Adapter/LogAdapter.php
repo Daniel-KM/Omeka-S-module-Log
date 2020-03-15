@@ -84,7 +84,7 @@ class LogAdapter extends AbstractEntityAdapter
         }
 
         // TODO Manage search in translated messages as they are displayed.
-        if (isset($query['message']) && strlen($query['message'])) {
+        if (isset($query['message']) && !empty($query['message'])) {
             if (!is_array($query['message'])) {
                 $query['message'] = ['text' => $query['message'], 'type' => 'in'];
             }
@@ -195,7 +195,7 @@ class LogAdapter extends AbstractEntityAdapter
             $operator = isset($operators[$matches[0]])
                 ? $operators[$matches[0]]
                 : Comparison::EQ;
-            $value = (int) substr($value, strlen($matches[0]));
+            $value = (int) mb_substr($value, mb_strlen($matches[0]));
         } else {
             $operator = Comparison::EQ;
         }
@@ -273,7 +273,7 @@ class LogAdapter extends AbstractEntityAdapter
             $operator = isset($operators[$operator])
                 ? $operators[$operator]
                 : Comparison::EQ;
-            $value = substr($value, strlen($matches[0]));
+            $value = mb_substr($value, mb_strlen($matches[0]));
         } else {
             $operator = Comparison::EQ;
         }
@@ -295,23 +295,24 @@ class LogAdapter extends AbstractEntityAdapter
         $field = $alias . '.' . $column;
         switch ($operator) {
             case Comparison::GT:
-                if (strlen($value) < 19) {
-                    $value = substr_replace('9999-12-31 23:59:59', $value, 0, strlen($value) - 19);
+                if (mb_strlen($value) < 19) {
+                    // TODO Manage mb for substr_replace.
+                    $value = substr_replace('9999-12-31 23:59:59', $value, 0, mb_strlen($value) - 19);
                 }
                 $param = $this->createNamedParameter($qb, $value);
                 $predicateExpr = $expr->gt($field, $param);
                 break;
             case Comparison::GTE:
-                if (strlen($value) < 19) {
-                    $value = substr_replace('0000-01-01 00:00:00', $value, 0, strlen($value) - 19);
+                if (mb_strlen($value) < 19) {
+                    $value = substr_replace('0000-01-01 00:00:00', $value, 0, mb_strlen($value) - 19);
                 }
                 $param = $this->createNamedParameter($qb, $value);
                 $predicateExpr = $expr->gte($field, $param);
                 break;
             case Comparison::EQ:
-                if (strlen($value) < 19) {
-                    $valueFrom = substr_replace('0000-01-01 00:00:00', $value, 0, strlen($value) - 19);
-                    $valueTo = substr_replace('9999-12-31 23:59:59', $value, 0, strlen($value) - 19);
+                if (mb_strlen($value) < 19) {
+                    $valueFrom = substr_replace('0000-01-01 00:00:00', $value, 0, mb_strlen($value) - 19);
+                    $valueTo = substr_replace('9999-12-31 23:59:59', $value, 0, mb_strlen($value) - 19);
                     $paramFrom = $this->createNamedParameter($qb, $valueFrom);
                     $paramTo = $this->createNamedParameter($qb, $valueTo);
                     $predicateExpr = $expr->between($field, $paramFrom, $paramTo);
@@ -321,9 +322,9 @@ class LogAdapter extends AbstractEntityAdapter
                 }
                 break;
             case Comparison::NEQ:
-                if (strlen($value) < 19) {
-                    $valueFrom = substr_replace('0000-01-01 00:00:00', $value, 0, strlen($value) - 19);
-                    $valueTo = substr_replace('9999-12-31 23:59:59', $value, 0, strlen($value) - 19);
+                if (mb_strlen($value) < 19) {
+                    $valueFrom = substr_replace('0000-01-01 00:00:00', $value, 0, mb_strlen($value) - 19);
+                    $valueTo = substr_replace('9999-12-31 23:59:59', $value, 0, mb_strlen($value) - 19);
                     $paramFrom = $this->createNamedParameter($qb, $valueFrom);
                     $paramTo = $this->createNamedParameter($qb, $valueTo);
                     $predicateExpr = $expr->not(
@@ -335,15 +336,15 @@ class LogAdapter extends AbstractEntityAdapter
                 }
                 break;
             case Comparison::LTE:
-                if (strlen($value) < 19) {
-                    $value = substr_replace('9999-12-31 23:59:59', $value, 0, strlen($value) - 19);
+                if (mb_strlen($value) < 19) {
+                    $value = substr_replace('9999-12-31 23:59:59', $value, 0, mb_strlen($value) - 19);
                 }
                 $param = $this->createNamedParameter($qb, $value);
                 $predicateExpr = $expr->lte($field, $param);
                 break;
             case Comparison::LT:
-                if (strlen($value) < 19) {
-                    $value = substr_replace('0000-01-01 00:00:00', $value, 0, strlen($value) - 19);
+                if (mb_strlen($value) < 19) {
+                    $value = substr_replace('0000-01-01 00:00:00', $value, 0, mb_strlen($value) - 19);
                 }
                 $param = $this->createNamedParameter($qb, $value);
                 $predicateExpr = $expr->lt($field, $param);
