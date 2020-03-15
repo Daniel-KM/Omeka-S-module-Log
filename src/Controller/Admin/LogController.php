@@ -21,21 +21,28 @@ class LogController extends AbstractActionController
 
     public function browseAction()
     {
-        $this->setBrowseDefaults('created');
-        $response = $this->api()->search('logs', $this->params()->fromQuery());
-        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
-
         $formSearch = $this->getForm(QuickSearchForm::class);
         $formSearch
             ->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'browse'], true))
             ->setAttribute('id', 'log-search');
-        if ($this->getRequest()->isPost()) {
-            $data = $this->params()->fromPost();
-            $formSearch->setData($data);
-        } elseif ($this->getRequest()->isGet()) {
-            $data = $this->params()->fromQuery();
+        $data = $this->params()->fromQuery();
+        if ($data) {
             $formSearch->setData($data);
         }
+
+        $this->setBrowseDefaults('created');
+        // TODO Manage multiple messages in/nin.
+        $params = $this->params()->fromQuery();
+        $params += ['message' => []];
+        if (!is_array($params['message'])) {
+            $params['message'] = [['text' => $params['message'], 'type' => 'in']];
+        }
+        if (!empty($params['message_not'])) {
+            $params['message'][] = ['text' => $params['message_not'], 'type' => 'nin'];
+            unset($params['message_not']);
+        }
+        $response = $this->api()->search('logs', $params);
+        $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
         $formDeleteSelected = $this->getForm(ConfirmForm::class);
         $formDeleteSelected
