@@ -23,16 +23,18 @@ class QuickSearchForm extends Form
 
         $urlHelper = $this->getUrlHelper();
 
-        $this->add([
-            'type' => Element\Text::class,
-            'name' => 'created',
-            'options' => [
-                'label' => 'Date', // @translate
-            ],
-            'attributes' => [
-                'placeholder' => 'Set a date with optional comparator…', // @translate
-            ],
-        ]);
+        $this
+            ->add([
+                'type' => Element\Text::class,
+                'name' => 'created',
+                'options' => [
+                    'label' => 'Date', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'created',
+                    'placeholder' => 'Set a date with optional comparator…', // @translate
+                ],
+            ]);
 
         $valueOptions = [
             '0' => 'Emergency',  // @translate
@@ -44,103 +46,112 @@ class QuickSearchForm extends Form
             '6' => 'Info', // @translate
             '7' => 'Debug', // @translate
         ];
-        $this->add([
-            'name' => 'severity_min',
-            'type' => Element\Select::class,
-            'options' => [
-                'label' => 'Minimum severity', // @translate
-                'value_options' => $valueOptions,
-                'empty_option' => '',
-            ],
-            'attributes' => [
-                'class' => 'chosen-select',
-                'data-placeholder' => 'Select minimum severity…', // @translate
-            ],
-        ]);
-        $this->add([
-            'name' => 'severity_max',
-            'type' => Element\Select::class,
-            'options' => [
-                'label' => 'Maximum severity', // @translate
-                'value_options' => $valueOptions,
-                'empty_option' => '',
-            ],
-            'attributes' => [
-                'class' => 'chosen-select',
-                'data-placeholder' => 'Select maximum severity…', // @translate
-            ],
-        ]);
 
-        $this->add([
-            'type' => Element\Text::class,
-            'name' => 'reference',
-            'options' => [
-                'label' => 'Reference', // @translate
-            ],
-            'attributes' => [
-                'placeholder' => 'Set a reference…', // @translate
-            ],
-        ]);
-
-        $this->add([
-            'type' => Element\Number::class,
-            'name' => 'job_id',
-            'options' => [
-                'label' => 'Job', // @translate
-            ],
-            'attributes' => [
-                'placeholder' => 'Set a job id…', // @translate
-            ],
-        ]);
-
-        $this->add([
-            'name' => 'owner_id',
-            'type' => ResourceSelect::class,
-            'options' => [
-                'label' => 'Owner', // @translate
-                'resource_value_options' => [
-                    'resource' => 'users',
-                    'query' => [],
-                    'option_text_callback' => function ($user) {
-                        return $user->name();
-                    },
+        $this
+            ->add([
+                'name' => 'severity_min',
+                'type' => Element\Select::class,
+                'options' => [
+                    'label' => 'Minimum severity', // @translate
+                    'value_options' => $valueOptions,
+                    'empty_option' => '',
                 ],
-                'empty_option' => '',
-            ],
-            'attributes' => [
-                'id' => 'owner_id',
-                'class' => 'chosen-select',
-                'data-placeholder' => 'Select a user…', // @translate
-                'data-api-base-url' => $urlHelper('api/default', ['resource' => 'users']),
-            ],
-        ]);
+                'attributes' => [
+                    'id' => 'severity_min',
+                    'class' => 'chosen-select',
+                    'data-placeholder' => 'Select minimum severity…', // @translate
+                ],
+            ])
+            ->add([
+                'name' => 'severity_max',
+                'type' => Element\Select::class,
+                'options' => [
+                    'label' => 'Maximum severity', // @translate
+                    'value_options' => $valueOptions,
+                    'empty_option' => '',
+                ],
+                'attributes' => [
+                    'id' => 'severity_max',
+                    'class' => 'chosen-select',
+                    'data-placeholder' => 'Select maximum severity…', // @translate
+                ],
+            ])
 
-        $this->add([
-            'type' => Element\Text::class,
-            'name' => 'message',
-            'options' => [
-                // TODO Manage search in translated messages as they are displayed.
-                'label' => 'Untranslated message', // @translate
-            ],
-            'attributes' => [
-                'placeholder' => 'Set an untranslated string…', // @translate
-            ],
-        ]);
+            ->add([
+                'type' => Element\Text::class,
+                'name' => 'reference',
+                'options' => [
+                    'label' => 'Reference', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'reference',
+                    'placeholder' => 'Set a reference…', // @translate
+                ],
+            ])
 
-        $this->add([
-            'name' => 'submit',
-            'type' => Element\Submit::class,
-            'attributes' => [
-                'value' => 'Search', // @translate
-                'type' => 'submit',
-            ],
-        ]);
+            ->add([
+                'type' => Element\Number::class,
+                'name' => 'job_id',
+                'options' => [
+                    'label' => 'Job', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'job_id',
+                    'placeholder' => 'Set a job id…', // @translate
+                ],
+            ])
+
+            ->add([
+                'name' => 'owner_id',
+                'type' => ResourceSelect::class,
+                'options' => [
+                    'label' => 'Owner', // @translate
+                    'resource_value_options' => [
+                        'resource' => 'users',
+                        'query' => [],
+                        'option_text_callback' => function ($user) {
+                            return $user->name();
+                        },
+                    ],
+                    'empty_option' => '',
+                ],
+                'attributes' => [
+                    'id' => 'owner_id',
+                    'class' => 'chosen-select',
+                    'data-placeholder' => 'Select a user…', // @translate
+                    'data-api-base-url' => $urlHelper('api/default', ['resource' => 'users']),
+                ],
+            ])
+
+            ->add([
+                'type' => Element\Text::class,
+                'name' => 'message',
+                'options' => [
+                    // TODO Manage search in translated messages as they are displayed.
+                    'label' => 'Untranslated message', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'message',
+                    'placeholder' => 'Set an untranslated string…', // @translate
+                ],
+            ])
+
+            ->add([
+                'name' => 'submit',
+                'type' => Element\Submit::class,
+                'attributes' => [
+                    'id' => 'submit',
+                    'value' => 'Search', // @translate
+                    'type' => 'submit',
+                ],
+            ]);
 
         $inputFilter = $this->getInputFilter();
-        $inputFilter->add([
-            'name' => 'severity',
-            'required' => false,
-        ]);
+        $inputFilter
+            ->add([
+                'name' => 'severity',
+                'required' => false,
+            ]);
     }
 
     /**
