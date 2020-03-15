@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-27 00:00+0100\n"
+"POT-Creation-Date: 2020-03-16 00:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,17 +17,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/Generic/AbstractModule.php:518
+#: src/Generic/AbstractModule.php:554
 #, php-format
 msgid "This module requires the module \"%s\"."
 msgstr ""
 
-#: src/Generic/AbstractModule.php:538
+#: src/Generic/AbstractModule.php:574
 #, php-format
 msgid "This module requires modules \"%s\"."
 msgstr ""
 
-#: src/Generic/AbstractModule.php:606
+#: src/Generic/AbstractModule.php:642
 #, php-format
 msgid ""
 "The module \"%s\" was automatically deactivated because the dependencies are "
@@ -154,97 +154,101 @@ msgstr ""
 msgid "View log (%d results)"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:33
+#: src/Form/QuickSearchForm.php:35
 msgid "Set a date with optional comparator…"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:38
+#: src/Form/QuickSearchForm.php:40
 msgid "Emergency"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:39
+#: src/Form/QuickSearchForm.php:41
 msgid "Alert"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:40
+#: src/Form/QuickSearchForm.php:42
 msgid "Critical"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:43
+#: src/Form/QuickSearchForm.php:45
 msgid "Notice"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:44
+#: src/Form/QuickSearchForm.php:46
 msgid "Info"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:45
+#: src/Form/QuickSearchForm.php:47
 msgid "Debug"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:51
+#: src/Form/QuickSearchForm.php:55
 msgid "Minimum severity"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:57
+#: src/Form/QuickSearchForm.php:62
 msgid "Select minimum severity…"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:64
+#: src/Form/QuickSearchForm.php:69
 msgid "Maximum severity"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:70
+#: src/Form/QuickSearchForm.php:76
 msgid "Select maximum severity…"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:81
+#: src/Form/QuickSearchForm.php:88
 msgid "Set a reference…"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:92
+#: src/Form/QuickSearchForm.php:100
 msgid "Set a job id…"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:113
+#: src/Form/QuickSearchForm.php:121
 msgid "Select a user…"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:123
+#: src/Form/QuickSearchForm.php:131
 msgid "Untranslated message"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:126
+#: src/Form/QuickSearchForm.php:135 src/Form/QuickSearchForm.php:147
 msgid "Set an untranslated string…"
 msgstr ""
 
-#: src/Controller/Admin/LogController.php:58
+#: src/Form/QuickSearchForm.php:143
+msgid "Not in untranslated message"
+msgstr ""
+
+#: src/Controller/Admin/LogController.php:64
 msgid ""
 "The logger is currently disabled for database. Check config/local.config.php."
 msgstr ""
 
-#: src/Controller/Admin/LogController.php:97
+#: src/Controller/Admin/LogController.php:103
 msgid "log"
 msgstr ""
 
-#: src/Controller/Admin/LogController.php:112
+#: src/Controller/Admin/LogController.php:118
 msgid "Log successfully deleted"
 msgstr ""
 
-#: src/Controller/Admin/LogController.php:114
-#: src/Controller/Admin/LogController.php:146
+#: src/Controller/Admin/LogController.php:120
+#: src/Controller/Admin/LogController.php:152
 msgid "An error occured during deletion of logs"
 msgstr ""
 
-#: src/Controller/Admin/LogController.php:135
+#: src/Controller/Admin/LogController.php:141
 msgid "You must select at least one log to batch delete."
 msgstr ""
 
-#: src/Controller/Admin/LogController.php:144
+#: src/Controller/Admin/LogController.php:150
 msgid "Logs successfully deleted"
 msgstr ""
 
-#: src/Controller/Admin/LogController.php:173
+#: src/Controller/Admin/LogController.php:179
 msgid ""
 "Deleting logs in background (<a href=\"{job_url}\">job #{job_id}</a>). This "
 "may take a while."

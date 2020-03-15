@@ -6,35 +6,35 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-27 00:00+0100\n"
-"PO-Revision-Date: 2020-01-27 00:00+0100\n"
-"Last-Translator: Daniel Berthereau <Daniel.github@Berthereau.net>\n"
+"POT-Creation-Date: 2020-03-16 00:00+0100\n"
+"PO-Revision-Date: 2020-03-16 00:00+0100\n"
+"Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 19.12.0\n"
+"X-Generator: Poedit 2.3\n"
 
-#: src/Generic/AbstractModule.php:518
+#: src/Generic/AbstractModule.php:554
 #, php-format
 msgid "This module requires the module \"%s\"."
 msgstr "Ce module requiert le module \"%s\"."
 
-#: src/Generic/AbstractModule.php:538
+#: src/Generic/AbstractModule.php:574
 #, php-format
 msgid "This module requires modules \"%s\"."
 msgstr "Ce module requiert les modules \"%s\"."
 
-#: src/Generic/AbstractModule.php:606
+#: src/Generic/AbstractModule.php:642
 #, php-format
 msgid ""
 "The module \"%s\" was automatically deactivated because the dependencies are "
 "unavailable."
 msgstr ""
-"Le module %s\" a été automatiquement désactivé car ses dépendances ne sont"
-" plus disponibles."
+"Le module %s\" a été automatiquement désactivé car ses dépendances ne sont "
+"plus disponibles."
 
 #: src/Stdlib/PsrMessage.php:149
 msgid "default"
@@ -97,8 +97,8 @@ msgstr "Êtes-vous sûr de vouloir supprimer les journaux sélectionnés ?"
 #, php-format
 msgid "%s: this action will permanently delete %s logs and cannot be undone."
 msgstr ""
-"%s : cette action supprimera les %s journaux de manière définitive et ne"
-" pourra pas être annulée."
+"%s : cette action supprimera les %s journaux de manière définitive et ne "
+"pourra pas être annulée."
 
 #: view/log/admin/log/browse.phtml:225
 msgid ""
@@ -158,105 +158,109 @@ msgstr "Journal (base de données)"
 msgid "View log (%d results)"
 msgstr "Voir les journaux (%d resultats)"
 
-#: src/Form/QuickSearchForm.php:33
+#: src/Form/QuickSearchForm.php:35
 msgid "Set a date with optional comparator…"
 msgstr "Indiquer une date avec un signe éventuel de comparaison…"
 
-#: src/Form/QuickSearchForm.php:38
+#: src/Form/QuickSearchForm.php:40
 msgid "Emergency"
 msgstr "Urgence"
 
-#: src/Form/QuickSearchForm.php:39
+#: src/Form/QuickSearchForm.php:41
 msgid "Alert"
 msgstr "Alerte"
 
-#: src/Form/QuickSearchForm.php:40
+#: src/Form/QuickSearchForm.php:42
 msgid "Critical"
 msgstr "Critique"
 
-#: src/Form/QuickSearchForm.php:43
+#: src/Form/QuickSearchForm.php:45
 msgid "Notice"
 msgstr "Avis"
 
-#: src/Form/QuickSearchForm.php:44
+#: src/Form/QuickSearchForm.php:46
 msgid "Info"
 msgstr "Info"
 
-#: src/Form/QuickSearchForm.php:45
+#: src/Form/QuickSearchForm.php:47
 msgid "Debug"
 msgstr "Débogage"
 
-#: src/Form/QuickSearchForm.php:51
+#: src/Form/QuickSearchForm.php:55
 msgid "Minimum severity"
 msgstr "Sévérité minimale"
 
-#: src/Form/QuickSearchForm.php:57
+#: src/Form/QuickSearchForm.php:62
 msgid "Select minimum severity…"
 msgstr "Choisir la sévérité minimale…"
 
-#: src/Form/QuickSearchForm.php:64
+#: src/Form/QuickSearchForm.php:69
 msgid "Maximum severity"
 msgstr "Sévérité maximale"
 
-#: src/Form/QuickSearchForm.php:70
+#: src/Form/QuickSearchForm.php:76
 msgid "Select maximum severity…"
 msgstr "Choisir la sévérité maximale…"
 
-#: src/Form/QuickSearchForm.php:81
+#: src/Form/QuickSearchForm.php:88
 msgid "Set a reference…"
 msgstr "Indiquer une référence…"
 
-#: src/Form/QuickSearchForm.php:92
+#: src/Form/QuickSearchForm.php:100
 msgid "Set a job id…"
 msgstr "Indiquer un id de tâche…"
 
-#: src/Form/QuickSearchForm.php:113
+#: src/Form/QuickSearchForm.php:121
 msgid "Select a user…"
 msgstr "Choisir un utilisateur…"
 
-#: src/Form/QuickSearchForm.php:123
+#: src/Form/QuickSearchForm.php:131
 msgid "Untranslated message"
 msgstr "Message non traduit"
 
-#: src/Form/QuickSearchForm.php:126
+#: src/Form/QuickSearchForm.php:135 src/Form/QuickSearchForm.php:147
 msgid "Set an untranslated string…"
 msgstr "Indiquer une chaîne non traduite…"
 
-#: src/Controller/Admin/LogController.php:58
+#: src/Form/QuickSearchForm.php:143
+msgid "Not in untranslated message"
+msgstr "Absent du message non traduit"
+
+#: src/Controller/Admin/LogController.php:64
 msgid ""
 "The logger is currently disabled for database. Check config/local.config.php."
 msgstr ""
-"Le journal en base de données est actuellement désactivé. Vérifier"
-" config/local.config.php."
+"Le journal en base de données est actuellement désactivé. Vérifier config/"
+"local.config.php."
 
-#: src/Controller/Admin/LogController.php:97
+#: src/Controller/Admin/LogController.php:103
 msgid "log"
 msgstr "journal"
 
-#: src/Controller/Admin/LogController.php:112
+#: src/Controller/Admin/LogController.php:118
 msgid "Log successfully deleted"
 msgstr "Journal supprimé avec succès"
 
-#: src/Controller/Admin/LogController.php:114
-#: src/Controller/Admin/LogController.php:146
+#: src/Controller/Admin/LogController.php:120
+#: src/Controller/Admin/LogController.php:152
 msgid "An error occured during deletion of logs"
 msgstr "Une erreur est survenue lors de la suppression des journaux"
 
-#: src/Controller/Admin/LogController.php:135
+#: src/Controller/Admin/LogController.php:141
 msgid "You must select at least one log to batch delete."
 msgstr "Vous devez choisir au moins un journal à supprimer."
 
-#: src/Controller/Admin/LogController.php:144
+#: src/Controller/Admin/LogController.php:150
 msgid "Logs successfully deleted"
 msgstr "Journaux supprimés avec succès"
 
-#: src/Controller/Admin/LogController.php:173
+#: src/Controller/Admin/LogController.php:179
 msgid ""
 "Deleting logs in background (<a href=\"{job_url}\">job #{job_id}</a>). This "
 "may take a while."
 msgstr ""
-"Suppression des journaux en arrière-plan (<a href=\"{job_url}\">tâche"
-" #{job_id}</a>). Cela peut prendre un moment."
+"Suppression des journaux en arrière-plan (<a href=\"{job_url}\">tâche "
+"#{job_id}</a>). Cela peut prendre un moment."
 
 #: src/View/Helper/LogSearchFilters.php:34
 #: src/Api/Representation/LogRepresentation.php:62
@@ -296,14 +300,14 @@ msgstr "débogage"
 #: src/Service/LoggerDbFactory.php:29 src/Service/LoggerFactory.php:62
 msgid "[Omeka S] Database logging disabled: wrong config."
 msgstr ""
-"[Omeka S] Enregistrement des journaux en base de données désactivée : erreur"
-" de configuration"
+"[Omeka S] Enregistrement des journaux en base de données désactivée : erreur "
+"de configuration."
 
 #: src/Service/LoggerFactory.php:48
 msgid "[Omeka S] File logging disabled: not writeable."
 msgstr ""
-"[Omeka S] Enregistrement des journaux dans le fichier désactivée : permission"
-" refusée pour écrire dans le fichier"
+"[Omeka S] Enregistrement des journaux dans le fichier désactivée : "
+"permission refusée pour écrire dans le fichier."
 
 #: src/Job/DispatchStrategy/Synchronous.php:45
 msgid ""
