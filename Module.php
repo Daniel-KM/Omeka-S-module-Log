@@ -49,6 +49,14 @@ class Module extends AbstractModule
         $this->addAclRules();
     }
 
+    protected function postInstall()
+    {
+        $services = $this->getServiceLocator();
+        $t = $services->get('MvcTranslator');
+        $messenger = new \Omeka\Mvc\Controller\Plugin\Messenger;
+        $messenger->addWarning($t->translate('You may need to update config/local.config.php to update your log settings.')); // @translate
+    }
+
     /**
      * Add ACL role and rules for this module.
      *

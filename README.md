@@ -37,7 +37,7 @@ the module to `Log`, go to the root module, and run:
 
 * Upgrade from Omeka 1.4 to Omeka 2.0
 
-If an issue appears after upgrade of Omeka, don‘t forget to update the packages
+If an issue appears after upgrade of Omeka, don’t forget to update the packages
 of Omeka: `rm -rf vendor && composer install --no-dev`.
 
 
