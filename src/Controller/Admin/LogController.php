@@ -28,6 +28,7 @@ class LogController extends AbstractActionController
         $data = $this->params()->fromQuery();
         if ($data) {
             $formSearch->setData($data);
+            // TODO Don't check validity?
         }
 
         $this->setBrowseDefaults('created');
@@ -37,7 +38,7 @@ class LogController extends AbstractActionController
         if (!is_array($params['message'])) {
             $params['message'] = [['text' => $params['message'], 'type' => 'in']];
         }
-        if (!empty($params['message_not'])) {
+        if (isset($params['message_not']) && strlen($params['message_not'])) {
             $params['message'][] = ['text' => $params['message_not'], 'type' => 'nin'];
             unset($params['message_not']);
         }
@@ -172,6 +173,16 @@ class LogController extends AbstractActionController
         $form = $this->getForm(ConfirmForm::class);
         $form->setData($this->getRequest()->getPost());
         if ($form->isValid()) {
+            // TODO Manage multiple messages in/nin.
+            $query += ['message' => []];
+            if (!is_array($query['message'])) {
+                $query['message'] = [['text' => $query['message'], 'type' => 'in']];
+            }
+            if (isset($query['message_not']) && strlen($query['message_not'])) {
+                $query['message'][] = ['text' => $query['message_not'], 'type' => 'nin'];
+                unset($query['message_not']);
+            }
+
             $job = $this->jobDispatcher()->dispatch('Omeka\Job\BatchDelete', [
                 'resource' => 'logs',
                 'query' => $query,
