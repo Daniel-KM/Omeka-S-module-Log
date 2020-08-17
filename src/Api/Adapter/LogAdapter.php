@@ -113,13 +113,13 @@ class LogAdapter extends AbstractEntityAdapter
                     case 'nin':
                         $qb->andWhere($expr->notLike(
                             $alias . '.message',
-                            $this->createNamedParameter($qb,'%' . $text . '%')
+                            $this->createNamedParameter($qb, '%' . $text . '%')
                         ));
                         break;
                     case 'in':
                         $qb->andWhere($expr->like(
                             $alias . '.message',
-                            $this->createNamedParameter($qb,'%' . $text . '%')
+                            $this->createNamedParameter($qb, '%' . $text . '%')
                         ));
                         break;
                     default:

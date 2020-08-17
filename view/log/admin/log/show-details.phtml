@@ -41,7 +41,7 @@ endif;
         <?php if ($job): ?>
         <h4><?= $escape(sprintf($translate('Job #%d'), $job->id())) ?></h4>
         <div class="value"><?php
-        echo $escape(sprintf($translate('Started at %s'), $i18n->dateFormat($job->started(), 'medium', 'medium'))) ?>
+        echo $escape(sprintf($translate('Started at %s'), $i18n->dateFormat($job->started(), 'medium', 'medium')));
         ?></div>
         <div class="value"><?php
         echo $escape(sprintf($translate('Ended at %s'), $job->ended() ? $i18n->dateFormat($job->ended(), 'medium', 'medium') : '-'));
