@@ -1,6 +1,9 @@
 Log (module for Omeka S)
 ========================
 
+> __New versions of this module and support for Omeka S version 3.0 and above
+> are available on [GitLab], which seems to respect users and privacy better.__
+
 [Log] is a module for [Omeka S] that allows to monitor all logging messages and
 background jobs directly in the admin board, in syslog, or in cloud services via
 third parties and make them easily checkable.
@@ -464,4 +467,5 @@ Copyright
 [FSF]: https://www.fsf.org
 [OSI]: http://opensource.org
 [MIT]: https://github.com/sandywalker/webui-popover/blob/master/LICENSE.txt
+[GitLab]: https://gitlab.com/Daniel-KM
 [Daniel-KM]: https://github.com/Daniel-KM "Daniel Berthereau"
