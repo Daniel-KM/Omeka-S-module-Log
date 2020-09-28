@@ -16,14 +16,14 @@ this standard (see below). They can be translated too.
 Installation
 ------------
 
-The module uses an external library, [`webui-popover`], so use the release zip
+The module uses an external library, [webui-popover], so use the release zip
 to install it, or use and init the source.
 
 See general end user documentation for [installing a module].
 
 * From the zip
 
-Download the last release [`Log.zip`] from the list of releases (the master does
+Download the last release [Log.zip] from the list of releases (the master does
 not contain the dependency), and uncompress it in the `modules` directory.
 
 * From the source and for development
@@ -31,8 +31,8 @@ not contain the dependency), and uncompress it in the `modules` directory.
 If the module was installed from the source, rename the name of the folder of
 the module to `Log`, go to the root module, and run:
 
-```
-    composer install
+```sh
+composer install --no-dev
 ```
 
 * Upgrade from Omeka 1.4 to Omeka 2.0
@@ -384,6 +384,12 @@ By construction, the plural is not managed: only one message is saved in the
 log. So, if any, the plural message should be prepared before the logging.
 
 
+TODO
+----
+
+- [ ] Use the second entity manager in all cases.
+
+
 Warning
 -------
 
@@ -428,30 +434,30 @@ conditions as regards security.
 The fact that you are presently reading this means that you have had knowledge
 of the CeCILL license and that you accept its terms.
 
-* The library [`webui-popover`] is published under the license [MIT].
-* The library [`facile/sentry`] is published under the license [MIT].
+* The library [webui-popover] is published under the license [MIT].
+* The library [facile/sentry] is published under the license [MIT].
 
 
 Copyright
 ---------
 
-* Copyright Daniel Berthereau, 2017-2019 [Daniel-KM] on GitHub)
+* Copyright Daniel Berthereau, 2017-2020 [Daniel-KM] on GitHub)
 
-* Library [`webui-popover`]: Sandy Walker
-* Library [`facile/sentry`]: Copyright 2016 Thomas Mauro Vargiu
+* Library [webui-popover]: Sandy Walker
+* Library [facile/sentry]: Copyright 2016 Thomas Mauro Vargiu
 
 
 [Log]: https://github.com/Daniel-KM/Omeka-S-module-Log
 [Omeka S]: https://omeka.org/s
 [PSR-3]: http://www.php-fig.org/psr/psr-3
 [PHP-FIG]: http://www.php-fig.org
-[`webui-popover`]: https://github.com/sandywalker/webui-popover
+[webui-popover]: https://github.com/sandywalker/webui-popover
 [installing a module]: http://dev.omeka.org/docs/s/user-manual/modules/#installing-modules
-[`Log.zip`]: https://github.com/Daniel-KM/Omeka-S-module-Log/releases
+[Log.zip]: https://github.com/Daniel-KM/Omeka-S-module-Log/releases
 [Zend Framework Log]: https://docs.zendframework.com/zend-log
 [config of the module]: https://github.com/Daniel-KM/Omeka-S-module-Log/blob/master/config/module.config.php#L5-L115
 [Sentry]: https://sentry.io
-[`facile/sentry`]: https://github.com/facile-it/sentry-module
+[facile/sentry]: https://github.com/facile-it/sentry-module
 [module issues]: https://github.com/Daniel-KM/Omeka-S-module-Log/issues
 [CeCILL v2.1]: https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html
