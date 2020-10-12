@@ -168,10 +168,12 @@ class QuickSearchForm extends Form
 
     /**
      * @param Url $urlHelper
+     * @return self
      */
-    public function setUrlHelper(Url $urlHelper): void
+    public function setUrlHelper(Url $urlHelper): self
     {
         $this->urlHelper = $urlHelper;
+        return $this;
     }
 
     /**
