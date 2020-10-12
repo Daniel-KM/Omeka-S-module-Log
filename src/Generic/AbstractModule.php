@@ -200,17 +200,17 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
         return true;
     }
 
-    public function handleMainSettings(Event $event): void
+    public function handleMainSettings(Event $event)
     {
-        $this->handleAnySettings($event, 'settings');
+        return $this->handleAnySettings($event, 'settings');
     }
 
-    public function handleSiteSettings(Event $event): void
+    public function handleSiteSettings(Event $event)
     {
-        $this->handleAnySettings($event, 'site_settings');
+        return $this->handleAnySettings($event, 'site_settings');
     }
 
-    public function handleUserSettings(Event $event): void
+    public function handleUserSettings(Event $event)
     {
         $services = $this->getServiceLocator();
         /** @var \Omeka\Mvc\Status $status */
@@ -221,14 +221,15 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
             if (!in_array($routeMatch->getParam('controller'), ['Omeka\Controller\Admin\User', 'user'])) {
                 return;
             }
-            $this->handleAnySettings($event, 'user_settings');
+            return $this->handleAnySettings($event, 'user_settings');
         }
+        return null;
     }
 
     /**
      * @return string
      */
-    protected function modulePath()
+    protected function modulePath(): string
     {
         return OMEKA_PATH . '/modules/' . static::NAMESPACE;
     }
@@ -578,7 +579,6 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
             $val = $settings->get($name, is_array($value) ? [] : null);
             $data[$name] = $val;
         }
-
         return $data;
     }
 
@@ -699,6 +699,7 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
     /**
      * Get each line of a string separately.
      *
+     * @deprecated Since 3.3.22. Use \Omeka\Form\Element\ArrayTextarea.
      * @param string $string
      * @return array
      */
@@ -712,6 +713,7 @@ abstract class AbstractModule extends \Omeka\Module\AbstractModule
      *
      * This method fixes Windows and Apple copy/paste from a textarea input.
      *
+     * @deprecated Since 3.3.22. Use \Omeka\Form\Element\ArrayTextarea.
      * @param string $string
      * @return string
      */
