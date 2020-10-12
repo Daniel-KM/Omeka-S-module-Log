@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Log\View\Helper;
 
 use Laminas\I18n\Translator\TranslatorAwareInterface;
@@ -54,7 +54,7 @@ class Messages extends AbstractHelper
         ];
         // Most of the time, the messages are a unique and simple string.
         foreach ($allMessages as $type => $messages) {
-            $class = isset($typeToClass[$type]) ? $typeToClass[$type] : 'notice';
+            $class = $typeToClass[$type] ?? 'notice';
             foreach ($messages as $message) {
                 $escapeHtml = true; // escape HTML by default
                 // "instanceof PsrMessage" cannot be used, since it can be

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Log\Service\Processor;
 
 use Interop\Container\ContainerInterface;

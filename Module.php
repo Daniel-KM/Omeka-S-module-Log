@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * Copyright Daniel Berthereau, 2017-2018
@@ -41,15 +41,15 @@ use Omeka\Permissions\Assertion\OwnsEntityAssertion;
 
 class Module extends AbstractModule
 {
-    const NAMESPACE = __NAMESPACE__;
+    public const NAMESPACE = __NAMESPACE__;
 
-    public function onBootstrap(MvcEvent $event)
+    public function onBootstrap(MvcEvent $event): void
     {
         parent::onBootstrap($event);
         $this->addAclRules();
     }
 
-    protected function postInstall()
+    protected function postInstall(): void
     {
         $services = $this->getServiceLocator();
         $t = $services->get('MvcTranslator');
@@ -62,7 +62,7 @@ class Module extends AbstractModule
      *
      * @todo Keep rights for Annotation only (body and  target are internal classes).
      */
-    protected function addAclRules()
+    protected function addAclRules(): void
     {
         /** @var \Omeka\Permissions\Acl $acl */
         $services = $this->getServiceLocator();

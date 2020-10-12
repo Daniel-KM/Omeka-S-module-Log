@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Log\Db\Filter;
 
 use Doctrine\DBAL\Types\Type;
@@ -54,7 +54,7 @@ class LogVisibilityFilter extends SQLFilter
         return $constraint;
     }
 
-    public function setAcl(Acl $acl)
+    public function setAcl(Acl $acl): void
     {
         $this->acl = $acl;
     }

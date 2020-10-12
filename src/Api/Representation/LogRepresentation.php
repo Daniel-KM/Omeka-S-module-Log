@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Log\Api\Representation;
 
 use Log\Stdlib\PsrMessage;
@@ -69,9 +69,7 @@ class LogRepresentation extends AbstractEntityRepresentation
             \Laminas\Log\Logger::DEBUG => 'debug', // @translate
         ];
         $severity = $this->severity();
-        return isset($severities[$severity])
-            ? $severities[$severity]
-            : $severity;
+        return $severities[$severity] ?? $severity;
     }
 
     /**
@@ -128,9 +126,7 @@ class LogRepresentation extends AbstractEntityRepresentation
                         break;
                     case 'resourceid':
                     case 'id':
-                        $resourceType = isset($context['resource'])
-                            ? $context['resource']
-                            : (isset($context['resource_type']) ? $context['resource_type'] : null);
+                        $resourceType = $context['resource'] ?? $context['resource_type'] ?? null;
                         if ($resourceType) {
                             $resourceTypes = [
                                 'item' => 'item',

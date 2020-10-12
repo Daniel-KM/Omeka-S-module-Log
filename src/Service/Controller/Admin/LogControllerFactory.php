@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Log\Service\Controller\Admin;
 
 use Interop\Container\ContainerInterface;

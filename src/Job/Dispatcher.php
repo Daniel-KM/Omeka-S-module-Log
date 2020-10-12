@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Log\Job;
 
 use DateTime;
@@ -14,7 +14,7 @@ class Dispatcher extends \Omeka\Job\Dispatcher
      */
     protected $useJobWriter;
 
-    public function send(Job $job, StrategyInterface $strategy)
+    public function send(Job $job, StrategyInterface $strategy): void
     {
         // Keep the default writer if wanted.
         if ($this->useJobWriter) {
@@ -71,7 +71,7 @@ class Dispatcher extends \Omeka\Job\Dispatcher
         );
     }
 
-    public function useJobWriter($useJobWriter)
+    public function useJobWriter($useJobWriter): void
     {
         $this->useJobWriter = $useJobWriter;
     }

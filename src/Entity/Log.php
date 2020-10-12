@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Log\Entity;
 
 use DateTime;
@@ -92,7 +92,7 @@ class Log extends AbstractEntity
         return $this->id;
     }
 
-    public function setOwner(User $owner = null)
+    public function setOwner(User $owner = null): void
     {
         $this->owner = $owner;
     }
@@ -102,7 +102,7 @@ class Log extends AbstractEntity
         return $this->owner;
     }
 
-    public function setJob(Job $job = null)
+    public function setJob(Job $job = null): void
     {
         $this->job = $job;
     }
@@ -112,7 +112,7 @@ class Log extends AbstractEntity
         return $this->job;
     }
 
-    public function setReference($reference)
+    public function setReference($reference): void
     {
         $this->reference = $reference;
     }
@@ -122,7 +122,7 @@ class Log extends AbstractEntity
         return $this->reference;
     }
 
-    public function setSeverity($severity)
+    public function setSeverity($severity): void
     {
         $this->severity = $severity;
     }
@@ -132,7 +132,7 @@ class Log extends AbstractEntity
         return $this->severity;
     }
 
-    public function setMessage($message)
+    public function setMessage($message): void
     {
         $this->message = $message;
     }
@@ -142,7 +142,7 @@ class Log extends AbstractEntity
         return $this->message;
     }
 
-    public function setContext(array $context)
+    public function setContext(array $context): void
     {
         $this->context = $context;
     }
@@ -152,7 +152,7 @@ class Log extends AbstractEntity
         return $this->context;
     }
 
-    public function setCreated(DateTime $created)
+    public function setCreated(DateTime $created): void
     {
         $this->created = $created;
     }
@@ -165,7 +165,7 @@ class Log extends AbstractEntity
     /**
      * @PrePersist
      */
-    public function prePersist(LifecycleEventArgs $eventContext)
+    public function prePersist(LifecycleEventArgs $eventContext): void
     {
         $this->created = new DateTime('now');
     }

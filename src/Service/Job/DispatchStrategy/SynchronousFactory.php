@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Log\Service\Job\DispatchStrategy;
 
 use Interop\Container\ContainerInterface;

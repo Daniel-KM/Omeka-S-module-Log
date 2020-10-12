@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Log\View\Helper;
 
 use Laminas\View\Helper\AbstractHelper;
@@ -12,7 +12,7 @@ class LogSearchFilters extends AbstractHelper
     /**
      * The default partial view script.
      */
-    const PARTIAL_NAME = 'common/search-filters';
+    public const PARTIAL_NAME = 'common/search-filters';
 
     /**
      * Render filters from search query.
@@ -66,19 +66,19 @@ class LogSearchFilters extends AbstractHelper
 
                 case 'severity':
                     $filterLabel = $translate('Severity'); // @translate
-                    $filterValue = isset($severities[$value]) ? $severities[$value] : $value;
+                    $filterValue = $severities[$value] ?? $value;
                     $filters[$filterLabel][] = $filterValue;
                     break;
                 case 'severity_min':
                     $filterLabel = $translate('Severity'); // @translate
                     $filterValue = '>=';
-                    $filterValue .= isset($severities[$value]) ? $severities[$value] : $value;
+                    $filterValue .= $severities[$value] ?? $value;
                     $filters[$filterLabel][] = $filterValue;
                     break;
                 case 'severity_max':
                     $filterLabel = $translate('Severity'); // @translate
                     $filterValue = '<=';
-                    $filterValue .= isset($severities[$value]) ? $severities[$value] : $value;
+                    $filterValue .= $severities[$value] ?? $value;
                     $filters[$filterLabel][] = $filterValue;
                     break;
 

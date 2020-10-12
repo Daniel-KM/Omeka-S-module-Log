@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Log\Log\Writer;
 
 use Laminas\Log\Writer\AbstractWriter;
@@ -26,7 +26,7 @@ class Job extends AbstractWriter
      *
      * @param array $event
      */
-    protected function doWrite(array $event)
+    protected function doWrite(array $event): void
     {
         $this->job->addLog($this->formatter->format($event));
     }

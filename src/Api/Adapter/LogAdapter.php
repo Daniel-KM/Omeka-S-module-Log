@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 namespace Log\Api\Adapter;
 
 use Doctrine\ORM\Query\Expr\Comparison;
@@ -35,7 +35,7 @@ class LogAdapter extends AbstractEntityAdapter
         return \Log\Entity\Log::class;
     }
 
-    public function buildQuery(QueryBuilder $qb, array $query)
+    public function buildQuery(QueryBuilder $qb, array $query): void
     {
         $isOldOmeka = \Omeka\Module::VERSION < 2;
         $alias = $isOldOmeka ? $this->getEntityClass() : 'omeka_root';
@@ -96,7 +96,7 @@ class LogAdapter extends AbstractEntityAdapter
                     continue;
                 }
                 $text = $message['text'];
-                $queryType = isset($message['type']) ? $message['type'] : 'in';
+                $queryType = $message['type'] ?? 'in';
                 switch ($queryType) {
                     case 'neq':
                         $qb->andWhere($expr->neq(
@@ -133,7 +133,7 @@ class LogAdapter extends AbstractEntityAdapter
         Request $request,
         EntityInterface $entity,
         ErrorStore $errorStore
-    ) {
+    ): void {
         switch ($request->getOperation()) {
             case Request::CREATE:
                 $data = $request->getContent();
@@ -170,7 +170,7 @@ class LogAdapter extends AbstractEntityAdapter
      * @param string $value
      * @param string $column
      */
-    protected function buildQueryComparison(QueryBuilder $qb, array $query, $value, $column)
+    protected function buildQueryComparison(QueryBuilder $qb, array $query, $value, $column): void
     {
         $isOldOmeka = \Omeka\Module::VERSION < 2;
         $alias = $isOldOmeka ? $this->getEntityClass() : 'omeka_root';
@@ -192,9 +192,7 @@ class LogAdapter extends AbstractEntityAdapter
                 'neq' => Comparison::NEQ,
                 'eq' => Comparison::EQ,
             ];
-            $operator = isset($operators[$matches[0]])
-                ? $operators[$matches[0]]
-                : Comparison::EQ;
+            $operator = $operators[$matches[0]] ?? Comparison::EQ;
             $value = (int) mb_substr($value, mb_strlen($matches[0]));
         } else {
             $operator = Comparison::EQ;
@@ -214,7 +212,7 @@ class LogAdapter extends AbstractEntityAdapter
      * @param string $value
      * @param string $column
      */
-    protected function buildQuerySeverityComparison(QueryBuilder $qb, array $query, $value, $column)
+    protected function buildQuerySeverityComparison(QueryBuilder $qb, array $query, $value, $column): void
     {
         $map = [
             'emergency' => Logger::EMERG,
@@ -244,7 +242,7 @@ class LogAdapter extends AbstractEntityAdapter
      * @param string $value
      * @param string $column
      */
-    protected function buildQueryDateComparison(QueryBuilder $qb, array $query, $value, $column)
+    protected function buildQueryDateComparison(QueryBuilder $qb, array $query, $value, $column): void
     {
         $isOldOmeka = \Omeka\Module::VERSION < 2;
         $alias = $isOldOmeka ? $this->getEntityClass() : 'omeka_root';
@@ -270,9 +268,7 @@ class LogAdapter extends AbstractEntityAdapter
                 'nex' => 'IS NULL',
             ];
             $operator = trim($matches[0]);
-            $operator = isset($operators[$operator])
-                ? $operators[$operator]
-                : Comparison::EQ;
+            $operator = $operators[$operator] ?? Comparison::EQ;
             $value = mb_substr($value, mb_strlen($matches[0]));
         } else {
             $operator = Comparison::EQ;

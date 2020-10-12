@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Log\Formatter;
 
@@ -61,7 +61,7 @@ class PsrLogDb extends Base
     protected function normalizeLogDateTimeFormat($event)
     {
         $format = $this->getDateTimeFormat();
-        array_walk_recursive($event, function (&$value) use ($format) {
+        array_walk_recursive($event, function (&$value) use ($format): void {
             if ($value instanceof DateTime) {
                 $value = $value->format($format);
             }
