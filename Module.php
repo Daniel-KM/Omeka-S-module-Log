@@ -36,8 +36,8 @@ if (!class_exists(\Generic\AbstractModule::class)) {
 }
 
 use Generic\AbstractModule;
+use Laminas\Mvc\MvcEvent;
 use Omeka\Permissions\Assertion\OwnsEntityAssertion;
-use Zend\Mvc\MvcEvent;
 
 class Module extends AbstractModule
 {

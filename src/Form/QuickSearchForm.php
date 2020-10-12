@@ -2,10 +2,10 @@
 
 namespace Log\Form;
 
+use Laminas\Form\Element;
+use Laminas\Form\Form;
+use Laminas\View\Helper\Url;
 use Omeka\Form\Element\ResourceSelect;
-use Zend\Form\Element;
-use Zend\Form\Form;
-use Zend\View\Helper\Url;
 
 class QuickSearchForm extends Form
 {
@@ -175,7 +175,7 @@ class QuickSearchForm extends Form
     }
 
     /**
-     * @return \Zend\View\Helper\Url
+     * @return \Laminas\View\Helper\Url
      */
     public function getUrlHelper()
     {

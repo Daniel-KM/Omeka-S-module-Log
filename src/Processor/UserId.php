@@ -2,8 +2,8 @@
 
 namespace Log\Processor;
 
+use Laminas\Log\Processor\ProcessorInterface;
 use Omeka\Entity\User;
-use Zend\Log\Processor\ProcessorInterface;
 
 class UserId implements ProcessorInterface
 {

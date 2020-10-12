@@ -2,9 +2,9 @@
 
 namespace Log\Formatter;
 
-use Zend\Log\Formatter\Simple;
-use Log\Stdlib\PsrInterpolateTrait;
+use Laminas\Log\Formatter\Simple;
 use Log\Stdlib\PsrInterpolateInterface;
+use Log\Stdlib\PsrInterpolateTrait;
 
 class PsrLogSimple extends Simple implements PsrInterpolateInterface
 {
@@ -56,7 +56,7 @@ class PsrLogSimple extends Simple implements PsrInterpolateInterface
     /**
      * Recursively format the context.
      *
-     * @see \Zend\Log\Formatter\Base::format().
+     * @see \Laminas\Log\Formatter\Base::format().
      * @param array $event
      * @return array
      */

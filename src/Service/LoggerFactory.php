@@ -2,11 +2,11 @@
 namespace Log\Service;
 
 use Interop\Container\ContainerInterface;
+use Laminas\Log\Logger;
+use Laminas\Log\Writer\Noop;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Log\Processor\UserId;
 use Log\Service\Processor\UserIdFactory;
-use Zend\Log\Logger;
-use Zend\Log\Writer\Noop;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
  * Logger factory.
@@ -97,13 +97,13 @@ class LoggerFactory implements FactoryInterface
      * @todo Use a second entity manager to manage the database and save logs in real time.
      *
      * @param ContainerInterface $services
-     * @return  \Zend\Db\Adapter\AdapterInterface
+     * @return  \Laminas\Db\Adapter\AdapterInterface
      */
     protected function getDbAdapter(ContainerInterface $services)
     {
         $iniConfigPath = OMEKA_PATH . '/config/database-log.ini';
         if (file_exists($iniConfigPath) && is_readable($iniConfigPath)) {
-            $reader = new \Zend\Config\Reader\Ini;
+            $reader = new \Laminas\Config\Reader\Ini;
             $iniConfig = $reader->fromFile($iniConfigPath);
             $iniConfig = array_filter($iniConfig);
         }
@@ -120,7 +120,7 @@ class LoggerFactory implements FactoryInterface
             $iniConfig['driver'] = 'pdo_mysql';
         }
 
-        return new \Zend\Db\Adapter\Adapter($iniConfig);
+        return new \Laminas\Db\Adapter\Adapter($iniConfig);
     }
 
     /**

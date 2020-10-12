@@ -3,7 +3,7 @@
 namespace Log\Formatter;
 
 use DateTime;
-use Zend\Log\Formatter\Base;
+use Laminas\Log\Formatter\Base;
 
 class PsrLogDb extends Base
 {
@@ -53,7 +53,7 @@ class PsrLogDb extends Base
     /**
      * Formats the date time for mysql.
      *
-     * @see \Zend\Log\Formatter\Db::format()
+     * @see \Laminas\Log\Formatter\Db::format()
      *
      * @param array $event
      * @return array

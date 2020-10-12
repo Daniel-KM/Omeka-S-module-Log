@@ -2,8 +2,8 @@
 namespace Log\Service\Job;
 
 use Interop\Container\ContainerInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Log\Job\Dispatcher;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
 class DispatcherFactory implements FactoryInterface
 {

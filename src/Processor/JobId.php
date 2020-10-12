@@ -2,8 +2,8 @@
 
 namespace Log\Processor;
 
+use Laminas\Log\Processor\ProcessorInterface;
 use Omeka\Entity\Job;
-use Zend\Log\Processor\ProcessorInterface;
 
 class JobId implements ProcessorInterface
 {

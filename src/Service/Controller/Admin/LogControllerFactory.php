@@ -2,8 +2,8 @@
 namespace Log\Service\Controller\Admin;
 
 use Interop\Container\ContainerInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Log\Controller\Admin\LogController;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
 class LogControllerFactory implements FactoryInterface
 {

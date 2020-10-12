@@ -2,8 +2,8 @@
 namespace Log\Service\ControllerPlugin;
 
 use Interop\Container\ContainerInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Omeka\Mvc\Controller\Plugin\Logger;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
 class LoggerDbFactory implements FactoryInterface
 {

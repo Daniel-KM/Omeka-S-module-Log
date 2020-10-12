@@ -2,8 +2,8 @@
 namespace Log\Service;
 
 use Interop\Container\ContainerInterface;
-use Zend\Log\Logger;
-use Zend\Log\Writer\Noop;
+use Laminas\Log\Logger;
+use Laminas\Log\Writer\Noop;
 
 /**
  * Logger Db factory.

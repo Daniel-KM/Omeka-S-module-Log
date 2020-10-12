@@ -2,8 +2,8 @@
 namespace Log\Service\Form;
 
 use Interop\Container\ContainerInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Log\Form\QuickSearchForm;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
 class QuickSearchFormFactory implements FactoryInterface
 {

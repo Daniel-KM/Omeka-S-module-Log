@@ -43,10 +43,10 @@ return [
                 'db' => [
                     'name' => 'db',
                     'options' => [
-                        'filters' => \Zend\Log\Logger::INFO,
+                        'filters' => \Laminas\Log\Logger::INFO,
                         'formatter' => Formatter\PsrLogDb::class,
                         'db' => null,
-                        // 'db' => new \Zend\Db\Adapter\Adapter([
+                        // 'db' => new \Laminas\Db\Adapter\Adapter([
                         //     'driver' => 'mysqli',
                         //     'database' =>null,
                         //     'username' => null,
@@ -74,7 +74,7 @@ return [
                     'name' => 'stream',
                     'options' => [
                         // This is the default level in the standard config.
-                        'filters' => \Zend\Log\Logger::NOTICE,
+                        'filters' => \Laminas\Log\Logger::NOTICE,
                         'formatter' => Formatter\PsrLogSimple::class,
                         'stream' => OMEKA_PATH . '/logs/application.log',
                     ],
@@ -82,7 +82,7 @@ return [
                 'syslog' => [
                     'name' => 'syslog',
                     'options' => [
-                        'filters' => \Zend\Log\Logger::ERR,
+                        'filters' => \Laminas\Log\Logger::ERR,
                         'formatter' => Formatter\PsrLogSimple::class,
                         'application' => 'omeka-s',
                         'facility' => LOG_USER,
@@ -96,7 +96,7 @@ return [
                             [
                                 'name' => 'priority',
                                 'options' => [
-                                    'priority' => \Zend\Log\Logger::INFO,
+                                    'priority' => \Laminas\Log\Logger::INFO,
                                 ],
                             ],
                         ],
@@ -183,7 +183,7 @@ return [
             'admin' => [
                 'child_routes' => [
                     'log' => [
-                        'type' => \Zend\Router\Http\Literal::class,
+                        'type' => \Laminas\Router\Http\Literal::class,
                         'options' => [
                             'route' => '/log',
                             'defaults' => [
@@ -195,7 +195,7 @@ return [
                         'may_terminate' => true,
                         'child_routes' => [
                             'default' => [
-                                'type' => \Zend\Router\Http\Segment::class,
+                                'type' => \Laminas\Router\Http\Segment::class,
                                 'options' => [
                                     'route' => '/:action',
                                     'constraints' => [
@@ -207,7 +207,7 @@ return [
                                 ],
                             ],
                             'id' => [
-                                'type' => \Zend\Router\Http\Segment::class,
+                                'type' => \Laminas\Router\Http\Segment::class,
                                 'options' => [
                                     'route' => '/:id[/:action]',
                                     'constraints' => [

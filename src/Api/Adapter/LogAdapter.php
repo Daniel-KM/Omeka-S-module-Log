@@ -1,13 +1,13 @@
 <?php
 namespace Log\Api\Adapter;
 
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query\Expr\Comparison;
+use Doctrine\ORM\QueryBuilder;
+use Laminas\Log\Logger;
 use Omeka\Api\Adapter\AbstractEntityAdapter;
 use Omeka\Api\Request;
 use Omeka\Entity\EntityInterface;
 use Omeka\Stdlib\ErrorStore;
-use Zend\Log\Logger;
 
 class LogAdapter extends AbstractEntityAdapter
 {

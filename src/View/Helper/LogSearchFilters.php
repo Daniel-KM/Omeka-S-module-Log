@@ -1,8 +1,8 @@
 <?php
 namespace Log\View\Helper;
 
+use Laminas\View\Helper\AbstractHelper;
 use Omeka\Api\Exception\NotFoundException;
-use Zend\View\Helper\AbstractHelper;
 
 /**
  * View helper for rendering search filters.
@@ -31,14 +31,14 @@ class LogSearchFilters extends AbstractHelper
         $query = $view->params()->fromQuery();
 
         $severities = [
-            \Zend\Log\Logger::EMERG => 'emergency', // @translate
-            \Zend\Log\Logger::ALERT => 'alert', // @translate
-            \Zend\Log\Logger::CRIT => 'critical', // @translate
-            \Zend\Log\Logger::ERR => 'error', // @translate
-            \Zend\Log\Logger::WARN => 'warning', // @translate
-            \Zend\Log\Logger::NOTICE => 'notice', // @translate
-            \Zend\Log\Logger::INFO => 'info', // @translate
-            \Zend\Log\Logger::DEBUG => 'debug', // @translate
+            \Laminas\Log\Logger::EMERG => 'emergency', // @translate
+            \Laminas\Log\Logger::ALERT => 'alert', // @translate
+            \Laminas\Log\Logger::CRIT => 'critical', // @translate
+            \Laminas\Log\Logger::ERR => 'error', // @translate
+            \Laminas\Log\Logger::WARN => 'warning', // @translate
+            \Laminas\Log\Logger::NOTICE => 'notice', // @translate
+            \Laminas\Log\Logger::INFO => 'info', // @translate
+            \Laminas\Log\Logger::DEBUG => 'debug', // @translate
         ];
 
         foreach ($query as $key => $value) {

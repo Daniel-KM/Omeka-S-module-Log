@@ -2,9 +2,9 @@
 namespace Log\Job\DispatchStrategy;
 
 use Doctrine\ORM\EntityManager;
+use Laminas\Log\Logger;
 use Log\Log\Writer\Job as JobWriter;
 use Omeka\Entity\Job;
-use Zend\Log\Logger;
 
 class Synchronous extends \Omeka\Job\DispatchStrategy\Synchronous
 {

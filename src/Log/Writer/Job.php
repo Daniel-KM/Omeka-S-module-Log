@@ -1,9 +1,9 @@
 <?php
 namespace Log\Log\Writer;
 
+use Laminas\Log\Writer\AbstractWriter;
 use Log\Formatter\PsrLogSimple as PsrLogSimpleFormatter;
 use Omeka\Entity\Job as JobEntity;
-use Zend\Log\Writer\AbstractWriter;
 
 class Job extends AbstractWriter
 {

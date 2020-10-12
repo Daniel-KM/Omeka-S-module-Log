@@ -97,17 +97,17 @@ logging (this example shows the default levels):
             'writers' => [
                 'db' => [
                     'options' => [
-                        'filters' => \Zend\Log\Logger::INFO,
+                        'filters' => \Laminas\Log\Logger::INFO,
                     ],
                 ],
                 'stream' => [
                     'options' => [
-                        'filters' => \Zend\Log\Logger::NOTICE,
+                        'filters' => \Laminas\Log\Logger::NOTICE,
                     ],
                 ],
                 'syslog' => [
                     'options' => [
-                        'filters' => \Zend\Log\Logger::ERR,
+                        'filters' => \Laminas\Log\Logger::ERR,
                     ],
                 ],
             ],
@@ -211,12 +211,12 @@ of module_listener_options:
 ```php
 return [
     'modules' => [
-        'Zend\Form',
-        'Zend\I18n',
-        'Zend\Mvc\I18n',
-        'Zend\Mvc\Plugin\Identity',
-        'Zend\Navigation',
-        'Zend\Router',
+        'Laminas\Form',
+        'Laminas\I18n',
+        'Laminas\Mvc\I18n',
+        'Laminas\Mvc\Plugin\Identity',
+        'Laminas\Navigation',
+        'Laminas\Router',
         'Omeka',
         'Facile\SentryModule',
     ],
@@ -328,7 +328,7 @@ It can be added at the beginning of the process to avoid to set it for each log:
 
 ```php
 // PSR-3 logging with reference id (a random number if not set).
-$referenceIdProcessor = new \Zend\Log\Processor\ReferenceId();
+$referenceIdProcessor = new \Laminas\Log\Processor\ReferenceId();
 $referenceIdProcessor->setReferenceId('bulk/import/27');
 $this->logger()->addProcessor($referenceIdProcessor);
 $this->logger()->info(

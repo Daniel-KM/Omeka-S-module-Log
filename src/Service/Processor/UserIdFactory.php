@@ -2,8 +2,8 @@
 namespace Log\Service\Processor;
 
 use Interop\Container\ContainerInterface;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 use Log\Processor\UserId;
-use Zend\ServiceManager\Factory\FactoryInterface;
 
 class UserIdFactory implements FactoryInterface
 {

@@ -1,11 +1,11 @@
 <?php
 namespace Log\Controller\Admin;
 
+use Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\View\Model\ViewModel;
 use Log\Form\QuickSearchForm;
 use Log\Stdlib\PsrMessage;
 use Omeka\Form\ConfirmForm;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
 
 class LogController extends AbstractActionController
 {
