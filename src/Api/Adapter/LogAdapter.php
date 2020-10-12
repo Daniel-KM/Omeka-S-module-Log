@@ -41,7 +41,7 @@ class LogAdapter extends AbstractEntityAdapter
 
         // User table is not joined to get only existing users: useless with
         // "on delete set null".
-        if (isset($query['owner_id']) && strlen($query['owner_id'])) {
+        if (isset($query['owner_id']) && strlen((string) $query['owner_id'])) {
             $qb->andWhere($expr->eq(
                 'omeka_root.owner',
                 $this->createNamedParameter($qb, $query['owner_id'])
@@ -50,14 +50,14 @@ class LogAdapter extends AbstractEntityAdapter
 
         // Job table is not joined to get only existing jobs: useless with
         // "on delete cascade".
-        if (isset($query['job_id']) && strlen($query['job_id'])) {
+        if (isset($query['job_id']) && strlen((string) $query['job_id'])) {
             $qb->andWhere($expr->eq(
                 'omeka_root.job',
                 $this->createNamedParameter($qb, $query['job_id'])
             ));
         }
 
-        if (isset($query['reference']) && strlen($query['reference'])) {
+        if (isset($query['reference']) && $query['reference'] ) {
             $qb->andWhere($expr->eq(
                 'omeka_root.reference',
                 $this->createNamedParameter($qb, $query['reference'])
@@ -65,15 +65,15 @@ class LogAdapter extends AbstractEntityAdapter
         }
 
         // TODO Allow to search severity by standard name.
-        if (isset($query['severity']) && strlen($query['severity'])) {
+        if (isset($query['severity']) && strlen((string) $query['severity'])) {
             $this->buildQuerySeverityComparison($qb, $query, $query['severity'], 'severity');
         }
 
         // TODO Remove severity_min and severity_max here and replace them by a javascript.
-        if (isset($query['severity_min']) && strlen($query['severity_min'])) {
+        if (isset($query['severity_min']) && strlen((string) $query['severity_min'])) {
             $this->buildQuerySeverityComparison($qb, $query, '<=' . $query['severity_min'], 'severity');
         }
-        if (isset($query['severity_max']) && strlen($query['severity_max'])) {
+        if (isset($query['severity_max']) && strlen((string) $query['severity_max'])) {
             $this->buildQuerySeverityComparison($qb, $query, '>=' . $query['severity_max'], 'severity');
         }
 
