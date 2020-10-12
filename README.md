@@ -405,7 +405,7 @@ your archives regularly so you can roll back if needed.
 Troubleshooting
 ---------------
 
-See online issues on the [module issues] page on GitHub.
+See online issues on the [module issues] page on GitLab.
 
 
 License
@@ -444,28 +444,28 @@ of the CeCILL license and that you accept its terms.
 Copyright
 ---------
 
-* Copyright Daniel Berthereau, 2017-2020 [Daniel-KM] on GitHub)
+* Copyright Daniel Berthereau, 2017-2020 [Daniel-KM] on GitLab)
 
 * Library [webui-popover]: Sandy Walker
 * Library [facile/sentry]: Copyright 2016 Thomas Mauro Vargiu
 
 
-[Log]: https://github.com/Daniel-KM/Omeka-S-module-Log
+[Log]: https://gitlab.com/Daniel-KM/Omeka-S-module-Log
 [Omeka S]: https://omeka.org/s
 [PSR-3]: http://www.php-fig.org/psr/psr-3
 [PHP-FIG]: http://www.php-fig.org
 [webui-popover]: https://github.com/sandywalker/webui-popover
 [installing a module]: http://dev.omeka.org/docs/s/user-manual/modules/#installing-modules
-[Log.zip]: https://github.com/Daniel-KM/Omeka-S-module-Log/releases
+[Log.zip]: https://gitlab.com/Daniel-KM/Omeka-S-module-Log/-/releases
 [Zend Framework Log]: https://docs.zendframework.com/zend-log
-[config of the module]: https://github.com/Daniel-KM/Omeka-S-module-Log/blob/master/config/module.config.php#L5-L115
+[config of the module]: https://gitlab.com/Daniel-KM/Omeka-S-module-Log/-/blob/master/config/module.config.php#L5-117
 [Sentry]: https://sentry.io
 [facile/sentry]: https://github.com/facile-it/sentry-module
-[module issues]: https://github.com/Daniel-KM/Omeka-S-module-Log/issues
+[module issues]: https://gitlab.com/Daniel-KM/Omeka-S-module-Log/-/issues
 [CeCILL v2.1]: https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html
 [FSF]: https://www.fsf.org
 [OSI]: http://opensource.org
 [MIT]: https://github.com/sandywalker/webui-popover/blob/master/LICENSE.txt
 [GitLab]: https://gitlab.com/Daniel-KM
-[Daniel-KM]: https://github.com/Daniel-KM "Daniel Berthereau"
+[Daniel-KM]: https://gitlab.com/Daniel-KM "Daniel Berthereau"

@@ -88,7 +88,7 @@ return [
                         'facility' => LOG_USER,
                     ],
                 ],
-                // See https://github.com/facile-it/sentry-module#log-writer
+                // See https://gitlab.com/facile-it/sentry-module#log-writer
                 'sentry' => [
                     'name' => \Facile\SentryModule\Log\Writer\Sentry::class,
                     'options' => [
