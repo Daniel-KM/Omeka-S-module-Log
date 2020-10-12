@@ -47,7 +47,7 @@ class Dispatcher extends \Omeka\Job\Dispatcher
             $jobEntity->setLog($job->getLog());
             $jobEntity->setStatus(Job::STATUS_ERROR);
             $jobEntity->setEnded(new DateTime('now'));
-            $em->flush();
+            $em->flush($jobEntity);
         }
     }
 

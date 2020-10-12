@@ -49,7 +49,7 @@ class Synchronous extends \Omeka\Job\DispatchStrategy\Synchronous
                         'line' => $lastError['line'],
                     ]
                 );
-                $entityManager->flush();
+                $entityManager->flush($job);
             }
             // Log other errors according to the config for severity.
             else {
