@@ -37,15 +37,13 @@ class LogAdapter extends AbstractEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query): void
     {
-        $isOldOmeka = \Omeka\Module::VERSION < 2;
-        $alias = $isOldOmeka ? $this->getEntityClass() : 'omeka_root';
         $expr = $qb->expr();
 
         // User table is not joined to get only existing users: useless with
         // "on delete set null".
         if (isset($query['owner_id']) && strlen($query['owner_id'])) {
             $qb->andWhere($expr->eq(
-                $alias . '.owner',
+                'omeka_root.owner',
                 $this->createNamedParameter($qb, $query['owner_id'])
             ));
         }
@@ -54,14 +52,14 @@ class LogAdapter extends AbstractEntityAdapter
         // "on delete cascade".
         if (isset($query['job_id']) && strlen($query['job_id'])) {
             $qb->andWhere($expr->eq(
-                $alias . '.job',
+                'omeka_root.job',
                 $this->createNamedParameter($qb, $query['job_id'])
             ));
         }
 
         if (isset($query['reference']) && strlen($query['reference'])) {
             $qb->andWhere($expr->eq(
-                $alias . '.reference',
+                'omeka_root.reference',
                 $this->createNamedParameter($qb, $query['reference'])
             ));
         }
@@ -100,25 +98,25 @@ class LogAdapter extends AbstractEntityAdapter
                 switch ($queryType) {
                     case 'neq':
                         $qb->andWhere($expr->neq(
-                            $alias . '.message',
+                            'omeka_root.message',
                             $this->createNamedParameter($qb, $text)
                         ));
                         break;
                     case 'eq':
                         $qb->andWhere($expr->eq(
-                            $alias . '.message',
+                            'omeka_root.message',
                             $this->createNamedParameter($qb, $text)
                         ));
                         break;
                     case 'nin':
                         $qb->andWhere($expr->notLike(
-                            $alias . '.message',
+                            'omeka_root.message',
                             $this->createNamedParameter($qb, '%' . $text . '%')
                         ));
                         break;
                     case 'in':
                         $qb->andWhere($expr->like(
-                            $alias . '.message',
+                            'omeka_root.message',
                             $this->createNamedParameter($qb, '%' . $text . '%')
                         ));
                         break;
@@ -172,9 +170,6 @@ class LogAdapter extends AbstractEntityAdapter
      */
     protected function buildQueryComparison(QueryBuilder $qb, array $query, $value, $column): void
     {
-        $isOldOmeka = \Omeka\Module::VERSION < 2;
-        $alias = $isOldOmeka ? $this->getEntityClass() : 'omeka_root';
-
         $matches = [];
         preg_match('/^[^\d]+/', $value, $matches);
         if (!empty($matches[0])) {
@@ -198,7 +193,7 @@ class LogAdapter extends AbstractEntityAdapter
             $operator = Comparison::EQ;
         }
         $qb->andWhere(new Comparison(
-            $alias . '.' . $column,
+            'omeka_root.' . $column,
             $operator,
             $this->createNamedParameter($qb, $value)
         ));
@@ -244,9 +239,6 @@ class LogAdapter extends AbstractEntityAdapter
      */
     protected function buildQueryDateComparison(QueryBuilder $qb, array $query, $value, $column): void
     {
-        $isOldOmeka = \Omeka\Module::VERSION < 2;
-        $alias = $isOldOmeka ? $this->getEntityClass() : 'omeka_root';
-
         // TODO Format the date into a standard mysql datetime.
         $matches = [];
         preg_match('/^[^\d]+/', $value, $matches);
@@ -288,7 +280,7 @@ class LogAdapter extends AbstractEntityAdapter
         // ));
         // return;
 
-        $field = $alias . '.' . $column;
+        $field = 'omeka_root.' . $column;
         switch ($operator) {
             case Comparison::GT:
                 if (mb_strlen($value) < 19) {
