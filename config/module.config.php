@@ -31,7 +31,7 @@ return [
             // This is the default log for php. On a web server, it may be a log inside /var/log
             // like /var/log/nginx/ssl-vhost1.error.log, /var/log/apache2/error.log, /var/log/lastlog, or
             // /tmp/systemd-private-xxx-apache2.service-xxx/tmp/php_errors.log, etc.
-            'syslog' => true,
+            'syslog' => false,
             // Config for sentry, an error tracking service (https://sentry.io).
             // See readme to enable it.
             'sentry' => false,
