@@ -4,8 +4,7 @@
  * @var \Omeka\Api\Representation\JobRepresentation[] $jobs
  */
 
-// Copy of Omeka application/view/omeka/admin/job/browse.phtml, with a link.
-// This process is currently simpler because the controller changed in the config in Omeka 1.2.1.
+// Copy of Omeka application/view/omeka/admin/job/browse.phtml, with added links.
 
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
@@ -35,13 +34,13 @@ $sortHeadings = [
 
 <?= $this->pageTitle($translate('Jobs')) ?>
 
-<?php if (count($jobs)): ?>
-
 <div class="browse-controls">
     <?= $this->pagination() ?>
     <?= $this->sortSelector($sortHeadings) ?>
 </div>
 <?php $this->trigger('view.browse.before'); ?>
+
+<?php if (count($jobs)): ?>
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
@@ -69,7 +68,7 @@ $sortHeadings = [
             <td><?= $escape($this->i18n()->dateFormat($job->started(), null, \Omeka\View\Helper\i18n::DATE_FORMAT_SHORT)) ?></td>
             <td><?= $escape($job->jobClass()) ?></td>
             <td>
-            <?php $totalLogs = $this->api()->search('logs', ['job_id' => $job->id()])->getTotalResults()?>
+            <?php $totalLogs = $this->api()->search('logs', ['job_id' => $job->id()])->getTotalResults(); ?>
             <?php if ($totalLogs): ?>
             <?= $hyperlink($translate($job->statusLabel()), $url('admin/log/default', [], ['query' => ['job_id' => $job->id()]])) ?>
             <?php else: ?>
