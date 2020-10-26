@@ -38,8 +38,6 @@ the module to `Log`, go to the root module, and run:
 composer install --no-dev
 ```
 
-* Upgrade from Omeka 1.4 to Omeka 2.0
-
 If an issue appears after upgrade of Omeka, don’t forget to update the packages
 of Omeka: `rm -rf vendor && composer install --no-dev`.
 
@@ -185,10 +183,7 @@ documentation for the format of the config.
 way, following these steps, from the root of Omeka S:
 
 - Sentry requires the library `php-curl`, that should be enabled on the server.
-- Sentry should be installed via composer in the root of Omeka, with platform
-  php = 7.0 instead of platform php = 5.6, so update it in `composer.json`. If
-  not, an old version of Sentry will be used, that doesn't work with other
-  dependencies.
+- Sentry should be installed via composer in the root of Omeka.
 - Include the library:
 
 ```bash
@@ -199,7 +194,7 @@ composer require facile-it/sentry-module
 - Copy the default config file (see // https://github.com/facile-it/sentry-module#client),
   and set your Sentry dsn:
 
-```bash
+```sh
 cp modules/Log/config/sentry.config.local.php.dist config/sentry.config.local.php
 sed -i -r "s|'dsn' => '',|'dsn' => 'https://abcdefabcdefabcdefabcdefabcdefab@sentry.io/1234567',|" config/sentry.config.local.php
 ```
