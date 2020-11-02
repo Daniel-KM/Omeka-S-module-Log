@@ -134,6 +134,8 @@ class LogRepresentation extends AbstractEntityRepresentation
                                 'itemset' => 'item-set',
                                 'itemsets' => 'item-set',
                                 'media' => 'media',
+                                'user' => 'user',
+                                'users' => 'user',
                                 'annotation' => 'annotation',
                                 'annotations' => 'annotation',
                             ];
@@ -142,6 +144,12 @@ class LogRepresentation extends AbstractEntityRepresentation
                                 $resourceType = $resourceTypes[$resourceType];
                                 $context[$key] = $hyperlink($value, $url('admin/id', ['controller' => $resourceType, 'id' => $value]));
                                 $escapeHtml = false;
+                                if (isset($context['resource'])) {
+                                    $context['resource'] = $translator->translate($context['resource']);
+                                }
+                                if (isset($context['resource_type'])) {
+                                    $context['resource_type'] = $translator->translate($context['resource_type']);
+                                }
                             }
                         }
                         break;
