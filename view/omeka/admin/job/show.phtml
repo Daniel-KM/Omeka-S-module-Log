@@ -95,7 +95,7 @@ if ($owner = $job->owner()) {
 <div class="meta-group">
     <h4><?= $translate('Log (database)') ?></h4>
     <div class="value">
-    <?php $totalLogs = $this->api()->search('logs', ['job_id' => $job->id()])->getTotalResults(); ?>
+    <?php $totalLogs = $this->api()->search('logs', ['job_id' => $job->id(), 'limit' => 0])->getTotalResults(); ?>
     <?php if ($totalLogs): ?>
     <?= $this->hyperlink(sprintf($translate('View log (%d results)'), $totalLogs),
         $url('admin/log/default', [], ['query' => ['job_id' => $job->id()]])) ?>

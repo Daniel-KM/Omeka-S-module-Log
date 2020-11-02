@@ -92,9 +92,6 @@ class Log extends AbstractEntity
         return $this->id;
     }
 
-    /**
-     * @param User $owner
-     */
     public function setOwner(User $owner = null): AbstractEntity
     {
         $this->owner = $owner;
