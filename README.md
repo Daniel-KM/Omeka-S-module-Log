@@ -52,9 +52,12 @@ To enable or disable an option or a writer, it is recommended to copy the wanted
 keys inside your own `config/local.config.php`, so the maintenance will be
 simpler.
 
-The default config allows to keep existing log mechanisms: the file `logs/application.log`
-and the background logs in the table `job` inside the Omeka database. They can
-be disabled if wanted.
+The default config keeps the existing log mechanism inside the file `logs/application.log`,
+but removes the logs of the jobs in the table `job` inside the Omeka database.
+This second logs are useless with this module. Furthermore, the default log of
+jobs is a big text field (4GB), so it may prevent to restore a database if there
+is a row is bigger than the param "max_allowed_packet" in the config of
+mariadb/mysql.
 
 The logger allows to define one or more of writers (a file, a database, a cloud
 service, syslog, etc.). All the writers are listed in `config['logger']['writers']`.
@@ -386,6 +389,7 @@ TODO
 ----
 
 - [ ] Use the second entity manager in all cases.
+- [ ] Add an option to copy logs inside jobs when the module is uninstalled.
 
 
 Warning

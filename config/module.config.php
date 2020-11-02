@@ -25,9 +25,12 @@ return [
             'db' => true,
             // This is the default log file of Omeka (logs/application.log).
             'stream' => true,
-            // Log for Omeka jobs (useless with this module, but kept for testing purpose).
+            // Log for Omeka jobs (useless with this module).
             // This is a standard Zend writer, but there is no more parameters.
-            'job' => true,
+            // Note: the default log of job is a big text field (4GB), so it may
+            // prevent to restore a database if they a row is too big (bigger than
+            // the param "max_allowed_packet" in the config of mariadb/mysql).
+            'job' => false,
             // This is the default log for php. On a web server, it may be a log inside /var/log
             // like /var/log/nginx/ssl-vhost1.error.log, /var/log/apache2/error.log, /var/log/lastlog, or
             // /tmp/systemd-private-xxx-apache2.service-xxx/tmp/php_errors.log, etc.

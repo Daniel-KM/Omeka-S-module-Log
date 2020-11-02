@@ -70,7 +70,7 @@ class Module extends AbstractModule
 
         // The resources are added automatically by Omeka (@see \Omeka\Service\AclFactory::addResources).
 
-        // Nevertheless, acl should be specified, because log is not resource.
+        // Nevertheless, acl should be specified, because log is not a resource.
         $entityManagerFilters = $services->get('Omeka\EntityManager')->getFilters();
         $entityManagerFilters->enable('log_visibility');
         $entityManagerFilters->getFilter('log_visibility')->setAcl($acl);
