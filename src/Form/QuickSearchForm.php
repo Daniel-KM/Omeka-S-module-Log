@@ -101,6 +101,7 @@ class QuickSearchForm extends Form
                 ],
             ])
 
+            /*
             ->add([
                 'name' => 'owner_id',
                 'type' => ResourceSelect::class,
@@ -120,6 +121,18 @@ class QuickSearchForm extends Form
                     'class' => 'chosen-select',
                     'data-placeholder' => 'Select a user…', // @translate
                     'data-api-base-url' => $urlHelper('api/default', ['resource' => 'users']),
+                ],
+            ])
+            */
+            // TODO Fix issue when the number of users is too big to allow to keep the selector.
+            ->add([
+                'name' => 'owner_id',
+                'type' => Element\Number::class,
+                'options' => [
+                    'label' => 'Owner', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'owner_id',
                 ],
             ])
 
