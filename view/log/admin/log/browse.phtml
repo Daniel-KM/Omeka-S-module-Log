@@ -149,7 +149,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::cl
                 </ul>
             </td>
             <td><?= $i18n->dateFormat($log->created(), 'medium', 'medium') ?></td>
-            <td><?= $hyperlink($translate($log->severityLabel()), $url(null, [], ['query' => ['severity' => $log->severity()]], true)) ?></td>
+            <td><?= $hyperlink($translate($log->severityLabel()), $url(null, [], ['query' => ['page' => null, 'severity' => $log->severity()] + $this->params()->fromQuery()], true)) ?></td>
             <td><?= $hyperlink($translate($log->reference()), $url(null, [], ['query' => ['reference' => $log->reference()]], true)) ?></td>
             <?php /*
             if ($owner = $log->owner()) {
