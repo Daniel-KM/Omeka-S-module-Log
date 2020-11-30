@@ -71,5 +71,5 @@ endif;
         </h4>
         <div class="value log-message webui-popover-content"><?= $log->text() ?></div>
     </div>
-    <?php $this->trigger('view.details', array('entity' => $log)); ?>
+    <?php $this->trigger('view.details', ['entity' => $log]); ?>
 </div>

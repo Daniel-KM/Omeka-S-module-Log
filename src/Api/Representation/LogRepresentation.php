@@ -102,7 +102,7 @@ class LogRepresentation extends AbstractEntityRepresentation
             $hyperlink = $this->getViewHelper('hyperlink');
             $url = $this->getViewHelper('url');
             foreach ($context as $key => $value) {
-                $cleanKey = preg_replace('~[^a-z]~', '', strtolower($key));
+                $cleanKey = preg_replace('~[^a-z]~', '', strtolower((string) $key));
                 switch ($cleanKey) {
                     case 'itemid':
                     case 'itemsetid':
