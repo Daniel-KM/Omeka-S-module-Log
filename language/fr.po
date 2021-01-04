@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-16 00:00+0100\n"
-"PO-Revision-Date: 2020-03-16 00:00+0100\n"
+"POT-Creation-Date: 2021-01-04 00:00+0000\n"
+"PO-Revision-Date: 2021-01-04 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr\n"
@@ -15,19 +15,30 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.4.2\n"
 
-#: src/Generic/AbstractModule.php:554
+#: Module.php:57
+msgid ""
+"You may need to update config/local.config.php to update your log settings."
+msgstr ""
+"Il peut être nécessaire de mettre à jour le fichier config/local.config.php "
+"pour les paramètres des journaux."
+
+#: src/Generic/AbstractModule.php:66
 #, php-format
 msgid "This module requires the module \"%s\"."
 msgstr "Ce module requiert le module \"%s\"."
 
-#: src/Generic/AbstractModule.php:574
+#: src/Generic/AbstractModule.php:73
 #, php-format
 msgid "This module requires modules \"%s\"."
 msgstr "Ce module requiert les modules \"%s\"."
 
-#: src/Generic/AbstractModule.php:642
+#: src/Generic/AbstractModule.php:80
+msgid "This module has resources that connot be installed."
+msgstr "Ce module a des ressources qui ne peuvent pas être installées."
+
+#: src/Generic/AbstractModule.php:707
 #, php-format
 msgid ""
 "The module \"%s\" was automatically deactivated because the dependencies are "
@@ -44,20 +55,20 @@ msgstr "défaut"
 msgid "Message contains"
 msgstr "Contenu du message"
 
-#: src/View/Helper/LogSearchFilters.php:62 view/log/admin/log/browse.phtml:34
-#: view/log/admin/log/browse.phtml:99 view/log/admin/log/show-details.phtml:29
+#: src/View/Helper/LogSearchFilters.php:62 view/log/admin/log/browse.phtml:36
+#: view/log/admin/log/browse.phtml:101 view/log/admin/log/show-details.phtml:30
 msgid "Reference"
 msgstr "Référence"
 
 #: src/View/Helper/LogSearchFilters.php:68
 #: src/View/Helper/LogSearchFilters.php:73
-#: src/View/Helper/LogSearchFilters.php:79 view/log/admin/log/browse.phtml:38
-#: view/log/admin/log/browse.phtml:98 view/log/admin/log/show-details.phtml:25
+#: src/View/Helper/LogSearchFilters.php:79 view/log/admin/log/browse.phtml:40
+#: view/log/admin/log/browse.phtml:100 view/log/admin/log/show-details.phtml:26
 msgid "Severity"
-msgstr "Sévérité"
+msgstr "Gravité"
 
-#: src/View/Helper/LogSearchFilters.php:96 view/log/admin/log/browse.phtml:42
-#: view/log/admin/log/browse.phtml:103 view/log/admin/log/show-details.phtml:57
+#: src/View/Helper/LogSearchFilters.php:96 view/log/admin/log/browse.phtml:44
+#: view/log/admin/log/browse.phtml:105 view/log/admin/log/show-details.phtml:58
 msgid "Job"
 msgstr "Tâche"
 
@@ -65,95 +76,95 @@ msgstr "Tâche"
 msgid "Unknown job"
 msgstr "Tâche inconnue"
 
-#: view/log/admin/log/browse.phtml:54
+#: view/log/admin/log/browse.phtml:56
 msgid "Logs"
 msgstr "Journaux"
 
-#: view/log/admin/log/browse.phtml:60
+#: view/log/admin/log/browse.phtml:62
 msgid "Quick search / Filter"
 msgstr "Recherche rapide / filtre"
 
-#: view/log/admin/log/browse.phtml:95 view/log/admin/log/show-details.phtml:62
+#: view/log/admin/log/browse.phtml:97 view/log/admin/log/show-details.phtml:63
 msgid "Message"
 msgstr "Message"
 
-#: view/log/admin/log/browse.phtml:128
+#: view/log/admin/log/browse.phtml:130
 msgid "Full log"
 msgstr "Message complet"
 
-#: view/log/admin/log/browse.phtml:169 view/log/admin/log/show-details.phtml:49
+#: view/log/admin/log/browse.phtml:171 view/log/admin/log/show-details.phtml:50
 msgid "Parameters"
 msgstr "Paramètres"
 
-#: view/log/admin/log/browse.phtml:206 view/log/admin/log/browse.phtml:224
+#: view/log/admin/log/browse.phtml:208 view/log/admin/log/browse.phtml:226
 msgid "Delete logs"
 msgstr "Supprimer les journaux"
 
-#: view/log/admin/log/browse.phtml:207
+#: view/log/admin/log/browse.phtml:209
 msgid "Are you sure you would like to delete the selected logs?"
 msgstr "Êtes-vous sûr de vouloir supprimer les journaux sélectionnés ?"
 
-#: view/log/admin/log/browse.phtml:209 view/log/admin/log/browse.phtml:227
+#: view/log/admin/log/browse.phtml:211 view/log/admin/log/browse.phtml:229
 #, php-format
 msgid "%s: this action will permanently delete %s logs and cannot be undone."
 msgstr ""
 "%s : cette action supprimera les %s journaux de manière définitive et ne "
 "pourra pas être annulée."
 
-#: view/log/admin/log/browse.phtml:225
+#: view/log/admin/log/browse.phtml:227
 msgid ""
 "Are you sure you would like to delete all logs on all logs of this result?"
 msgstr "Êtes-vous sûr de vouloir supprimer tous les journaux du résultat ?"
 
-#: view/log/admin/log/browse.phtml:242
+#: view/log/admin/log/browse.phtml:244
 msgid "Omeka could not find any logs, or they are saved in another place."
 msgstr "Omeka ne trouve pas de journal, ou ils sont enregistrés ailleurs."
 
-#: view/log/admin/log/browse.phtml:254
+#: view/log/admin/log/browse.phtml:256
 msgid "Search logs"
 msgstr "Rechercher les journaux"
 
-#: view/log/admin/log/show-details.phtml:23
+#: view/log/admin/log/show-details.phtml:24
 #, php-format
 msgid "Log #%d on %s"
 msgstr "Journal #%d sur %s"
 
-#: view/log/admin/log/show-details.phtml:41
+#: view/log/admin/log/show-details.phtml:42
 #, php-format
 msgid "Job #%d"
 msgstr "Tâche #%d"
 
-#: view/log/admin/log/show-details.phtml:43
+#: view/log/admin/log/show-details.phtml:44
 #, php-format
 msgid "Started at %s"
 msgstr "Commencé à %s"
 
-#: view/log/admin/log/show-details.phtml:46
+#: view/log/admin/log/show-details.phtml:47
 #, php-format
 msgid "Ended at %s"
 msgstr "Terminé à %s"
 
-#: view/omeka/admin/job/browse.phtml:48
+#: view/omeka/admin/job/browse.phtml:47
 msgid "Id / Params"
 msgstr "Id / Paramètres"
 
-#: view/omeka/admin/job/browse.phtml:51
+#: view/omeka/admin/job/browse.phtml:50
 msgid "Status / Log"
 msgstr "Statut / Journal"
 
-#: view/omeka/admin/job/show.phtml:23
+#: view/omeka/admin/job/show.phtml:22
 msgid "[undefined]"
 msgstr "[indéfini]"
 
-#: view/omeka/admin/job/show.phtml:54
+#: view/omeka/admin/job/show.phtml:53
 msgid "Progress"
 msgstr "En cours"
 
-#: view/omeka/admin/job/show.phtml:97
+#: view/omeka/admin/job/show.phtml:96
 msgid "Log (database)"
 msgstr "Journal (base de données)"
 
-#: view/omeka/admin/job/show.phtml:101
+#: view/omeka/admin/job/show.phtml:100
 #, php-format
 msgid "View log (%d results)"
 msgstr "Voir les journaux (%d resultats)"
@@ -178,29 +189,25 @@ msgstr "Critique"
 msgid "Notice"
 msgstr "Avis"
 
-#: src/Form/QuickSearchForm.php:46
-msgid "Info"
-msgstr "Info"
-
 #: src/Form/QuickSearchForm.php:47
 msgid "Debug"
 msgstr "Débogage"
 
 #: src/Form/QuickSearchForm.php:55
 msgid "Minimum severity"
-msgstr "Sévérité minimale"
+msgstr "Gravité minimale"
 
 #: src/Form/QuickSearchForm.php:62
 msgid "Select minimum severity…"
-msgstr "Choisir la sévérité minimale…"
+msgstr "Choisir la gravité minimale…"
 
 #: src/Form/QuickSearchForm.php:69
 msgid "Maximum severity"
-msgstr "Sévérité maximale"
+msgstr "Gravité maximale"
 
 #: src/Form/QuickSearchForm.php:76
 msgid "Select maximum severity…"
-msgstr "Choisir la sévérité maximale…"
+msgstr "Choisir la gravité maximale…"
 
 #: src/Form/QuickSearchForm.php:88
 msgid "Set a reference…"
@@ -210,51 +217,47 @@ msgstr "Indiquer une référence…"
 msgid "Set a job id…"
 msgstr "Indiquer un id de tâche…"
 
-#: src/Form/QuickSearchForm.php:121
-msgid "Select a user…"
-msgstr "Choisir un utilisateur…"
-
-#: src/Form/QuickSearchForm.php:131
+#: src/Form/QuickSearchForm.php:144
 msgid "Untranslated message"
 msgstr "Message non traduit"
 
-#: src/Form/QuickSearchForm.php:135 src/Form/QuickSearchForm.php:147
+#: src/Form/QuickSearchForm.php:148 src/Form/QuickSearchForm.php:160
 msgid "Set an untranslated string…"
 msgstr "Indiquer une chaîne non traduite…"
 
-#: src/Form/QuickSearchForm.php:143
+#: src/Form/QuickSearchForm.php:156
 msgid "Not in untranslated message"
 msgstr "Absent du message non traduit"
 
-#: src/Controller/Admin/LogController.php:64
+#: src/Controller/Admin/LogController.php:66
 msgid ""
 "The logger is currently disabled for database. Check config/local.config.php."
 msgstr ""
 "Le journal en base de données est actuellement désactivé. Vérifier config/"
 "local.config.php."
 
-#: src/Controller/Admin/LogController.php:103
+#: src/Controller/Admin/LogController.php:105
 msgid "log"
 msgstr "journal"
 
-#: src/Controller/Admin/LogController.php:118
+#: src/Controller/Admin/LogController.php:120
 msgid "Log successfully deleted"
 msgstr "Journal supprimé avec succès"
 
-#: src/Controller/Admin/LogController.php:120
-#: src/Controller/Admin/LogController.php:152
+#: src/Controller/Admin/LogController.php:122
+#: src/Controller/Admin/LogController.php:154
 msgid "An error occured during deletion of logs"
 msgstr "Une erreur est survenue lors de la suppression des journaux"
 
-#: src/Controller/Admin/LogController.php:141
+#: src/Controller/Admin/LogController.php:143
 msgid "You must select at least one log to batch delete."
 msgstr "Vous devez choisir au moins un journal à supprimer."
 
-#: src/Controller/Admin/LogController.php:150
+#: src/Controller/Admin/LogController.php:152
 msgid "Logs successfully deleted"
 msgstr "Journaux supprimés avec succès"
 
-#: src/Controller/Admin/LogController.php:179
+#: src/Controller/Admin/LogController.php:191
 msgid ""
 "Deleting logs in background (<a href=\"{job_url}\">job #{job_id}</a>). This "
 "may take a while."
@@ -324,3 +327,9 @@ msgid ""
 msgstr ""
 "Attention : {message}\n"
 "dans {file} ligne {line}"
+
+#~ msgid "Info"
+#~ msgstr "Info"
+
+#~ msgid "Select a user…"
+#~ msgstr "Choisir un utilisateur…"
