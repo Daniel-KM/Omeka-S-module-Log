@@ -37,7 +37,7 @@ class QuickSearchForm extends Form
             ]);
 
         $valueOptions = [
-            '0' => 'Emergency',  // @translate
+            '0' => 'Emergency', // @translate
             '1' => 'Alert', // @translate
             '2' => 'Critical', // @translate
             '3' => 'Error', // @translate

@@ -108,6 +108,8 @@ class LoggerFactory implements FactoryInterface
             $iniConfig = array_filter($iniConfig);
         }
 
+        // TODO Check 'hostname'.
+
         if (empty($iniConfig)) {
             $iniConfig = $services->get('Omeka\Connection')->getParams();
             $iniConfig['database'] = $iniConfig['dbname'];
@@ -117,7 +119,7 @@ class LoggerFactory implements FactoryInterface
         }
         // Avoid an issue on common config.
         elseif (empty($iniConfig['driver'])) {
-            $iniConfig['driver'] = 'pdo_mysql';
+            $iniConfig['driver'] = 'Pdo_Mysql';
         }
 
         return new \Laminas\Db\Adapter\Adapter($iniConfig);
