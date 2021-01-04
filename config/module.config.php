@@ -46,7 +46,7 @@ return [
                 'db' => [
                     'name' => 'db',
                     'options' => [
-                        'filters' => \Laminas\Log\Logger::INFO,
+                        'filters' => \Laminas\Log\Logger::DEBUG,
                         'formatter' => Formatter\PsrLogDb::class,
                         'db' => null,
                         // 'db' => new \Laminas\Db\Adapter\Adapter([

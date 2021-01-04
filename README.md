@@ -2,7 +2,8 @@ Log (module for Omeka S)
 ========================
 
 > __New versions of this module and support for Omeka S version 3.0 and above
-> are available on [GitLab], which seems to respect users and privacy better.__
+> are available on [GitLab], which seems to respect users and privacy better
+> than the previous repository.__
 
 [Log] is a module for [Omeka S] that allows to monitor all logging messages and
 background jobs directly in the admin board, in syslog, or in cloud services via
@@ -443,7 +444,7 @@ of the CeCILL license and that you accept its terms.
 Copyright
 ---------
 
-* Copyright Daniel Berthereau, 2017-2020 [Daniel-KM] on GitLab)
+* Copyright Daniel Berthereau, 2017-2021 [Daniel-KM] on GitLab)
 
 * Library [webui-popover]: Sandy Walker
 * Library [facile/sentry]: Copyright 2016 Thomas Mauro Vargiu
