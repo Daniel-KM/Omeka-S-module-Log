@@ -77,7 +77,7 @@ class Log extends AbstractEntity
 
     /**
      * @var array
-     * @Column(type="json_array")
+     * @Column(type="json")
      */
     protected $context;
 

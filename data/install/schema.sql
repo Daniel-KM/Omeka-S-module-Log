@@ -5,7 +5,7 @@ CREATE TABLE log (
     reference VARCHAR(190) DEFAULT '' NOT NULL,
     severity INT DEFAULT 0 NOT NULL,
     message LONGTEXT NOT NULL,
-    context LONGTEXT NOT NULL COMMENT '(DC2Type:json_array)',
+    context LONGTEXT NOT NULL COMMENT '(DC2Type:json)',
     created DATETIME NOT NULL,
     INDEX owner_idx (owner_id),
     INDEX job_idx (job_id),

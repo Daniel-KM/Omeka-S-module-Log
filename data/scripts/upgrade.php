@@ -22,3 +22,12 @@ CREATE INDEX owner_idx ON log (owner_id);
 SQL;
     $connection->exec($sql);
 }
+
+if (version_compare($oldVersion, '3.3.12.6', '<')) {
+    // @link https://www.doctrine-project.org/projects/doctrine-dbal/en/2.6/reference/types.html#array-types
+    $sql = <<<'SQL'
+ALTER TABLE `log`
+CHANGE `context` `context` LONGTEXT NOT NULL COMMENT '(DC2Type:json)';
+SQL;
+    $connection->exec($sql);
+}
