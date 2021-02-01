@@ -126,7 +126,7 @@ class LogRepresentation extends AbstractEntityRepresentation
                         break;
                     case 'resourceid':
                     case 'id':
-                        $resourceType = $context['resource'] ?? $context['resource_type'] ?? null;
+                        $resourceType = $context['resource'] ?? $context['resource_type'] ?? $context['resource_name'] ?? null;
                         if ($resourceType) {
                             $resourceTypes = [
                                 'item' => 'item',
@@ -149,6 +149,9 @@ class LogRepresentation extends AbstractEntityRepresentation
                                 }
                                 if (isset($context['resource_type'])) {
                                     $context['resource_type'] = $translator->translate($context['resource_type']);
+                                }
+                                if (isset($context['resource_name'])) {
+                                    $context['resource_name'] = $translator->translate($context['resource_name']);
                                 }
                             }
                         }
