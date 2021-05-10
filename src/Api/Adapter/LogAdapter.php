@@ -50,11 +50,22 @@ class LogAdapter extends AbstractEntityAdapter
 
         // Job table is not joined to get only existing jobs: useless with
         // "on delete cascade".
-        if (isset($query['job_id']) && strlen((string) $query['job_id'])) {
-            $qb->andWhere($expr->eq(
-                'omeka_root.job',
-                $this->createNamedParameter($qb, $query['job_id'])
-            ));
+        if (isset($query['job_id'])) {
+            $ids = $query['job_id'];
+            if (!is_array($ids)) {
+                $ids = [$ids];
+            }
+            $ids = array_filter(array_map('intval', $ids));
+            if ($ids) {
+                $qb->andWhere($qb->expr()->in(
+                    'omeka_root.job',
+                    $this->createNamedParameter($qb, $ids)
+                ));
+            } else {
+                // Avoid an issue with a job_id is set in query but empty.
+                // TODO Manage job is null?
+                $qb->andWhere($qb->eq('omeka_root.job', -1));
+            }
         }
 
         if (isset($query['reference']) && $query['reference'] ) {
