@@ -64,7 +64,7 @@ class LogAdapter extends AbstractEntityAdapter
             } else {
                 // Avoid an issue with a job_id is set in query but empty.
                 // TODO Manage job is null?
-                $qb->andWhere($qb->eq('omeka_root.job', -1));
+                $qb->andWhere($expr->eq('omeka_root.job', -1));
             }
         }
 
