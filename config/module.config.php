@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Log;
 
 return [
@@ -111,7 +112,7 @@ return [
                     'name' => Processor\UserId::class,
                 ],
             ],
-            // Special options for exceptions, errors and fatal errors, disabled by Zend by default.
+            // Special options for exceptions, errors and fatal errors, disabled by Laminas by default.
             // Note that it may disable the default error logging of php and debug tools.
             // 'exceptionhandler' => true,
             // 'errorhandler' => true,

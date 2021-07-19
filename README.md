@@ -46,7 +46,7 @@ of Omeka: `rm -rf vendor && composer install --no-dev`.
 Config
 ------
 
-The config is a pure Zend log config: see the [Zend Framework Log] documentation
+The config is a pure Laminas log config: see the [Laminas Framework Log] documentation
 for the format. Only common settings are explained here.
 
 To enable or disable an option or a writer, it is recommended to copy the wanted
@@ -159,7 +159,7 @@ Furthermore, they are managed automatically for background jobs.
 The logs can be saved in an external database. To config it, add a file
 `database-log.ini` beside the main `database.ini` of Omeka S, with its params,
 and the params of the table inside `config['logger']['options']['writers']['db']['options']`.
-Warning: for technical reasons, Omeka use `dbname` and `user`, but Zend uses
+Warning: for technical reasons, Omeka use `dbname` and `user`, but Laminas uses
 `database` and `username`:
 
 ```ini
@@ -178,7 +178,7 @@ used.
 ### Additionnal logging
 
 Other logging can be added. Just add their config in your `['logger']['options']`
-and enable them under the key `['logger']['writers']`. See the [Zend Framework Log]
+and enable them under the key `['logger']['writers']`. See the [Laminas Framework Log]
 documentation for the format of the config.
 
 ### Sentry
@@ -304,9 +304,9 @@ $this->logger()->info(
 // output in database: The item #43 has been updated by user #1.
 ```
 
-In this implementation, like the default Zend stream logger, extra data that are
-not mappable are json encoded and appended to the end of the message via the key
-`{extra}`. So this key should not be used in the context when there are
+In this implementation, like the default Laminas stream logger, extra data that
+are not mappable are json encoded and appended to the end of the message via the
+key `{extra}`. So this key should not be used in the context when there are
 non-mapped keys.
 
 ```php
@@ -457,7 +457,7 @@ Copyright
 [webui-popover]: https://github.com/sandywalker/webui-popover
 [installing a module]: http://dev.omeka.org/docs/s/user-manual/modules/#installing-modules
 [Log.zip]: https://gitlab.com/Daniel-KM/Omeka-S-module-Log/-/releases
-[Zend Framework Log]: https://docs.zendframework.com/zend-log
+[Laminas Framework Log]: https://docs.laminas.dev/laminas-log
 [config of the module]: https://gitlab.com/Daniel-KM/Omeka-S-module-Log/-/blob/master/config/module.config.php#L5-117
 [Sentry]: https://sentry.io
 [facile/sentry]: https://github.com/facile-it/sentry-module
