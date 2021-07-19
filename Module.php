@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * Copyright Daniel Berthereau, 2017-2020
+ * Copyright Daniel Berthereau, 2017-2021
  *
  * This software is governed by the CeCILL license under French law and abiding
  * by the rules of distribution of free software.  You can use, modify and/ or
@@ -54,7 +54,17 @@ class Module extends AbstractModule
         $services = $this->getServiceLocator();
         $t = $services->get('MvcTranslator');
         $messenger = new \Omeka\Mvc\Controller\Plugin\Messenger;
+        $config = $services->get('Config');
+        if (empty($config['logger']['log'])) {
+            $messenger->addError($t->translate("Logging is not active. You should enable it in the file config/local.config.php: `'log' => true`.")); // @translate
+        }
         $messenger->addWarning($t->translate('You may need to update config/local.config.php to update your log settings.')); // @translate
+        $message = new \Omeka\Stdlib\Message(
+            $t->translate('See examples of config in the %sreadme%s.'), // @translate
+            '<a href="https://gitlab.com/Daniel-KM/Omeka-S-module-Log/#config" target="_blank">', '</a>'
+        );
+        $message->setEscapeHtml(false);
+        $messenger->addNotice($message);
     }
 
     /**
