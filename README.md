@@ -191,7 +191,8 @@ way, following these steps, from the root of Omeka S:
 - Include the library:
 
 ```bash
-composer require facile-it/sentry-module
+# Note: Omeka uses composer version 1, so you may have to download it.
+composer require facile-it/sentry-module php-http/curl-client laminas/laminas-diactoros
 ```
 
 - The psr formatter `facile-it/sentry-psr-log` may be added too (need config).
