@@ -116,10 +116,13 @@ class LoggerFactory implements FactoryInterface
             $iniConfig['username'] = $iniConfig['user'];
             unset($iniConfig['dbname']);
             unset($iniConfig['user']);
+            $iniConfig['driver'] = 'Pdo_Mysql';
+            $iniConfig['platform'] = 'Mysql';
         }
         // Avoid an issue on common config.
         elseif (empty($iniConfig['driver'])) {
             $iniConfig['driver'] = 'Pdo_Mysql';
+            $iniConfig['platform'] = 'Mysql';
         }
 
         return new \Laminas\Db\Adapter\Adapter($iniConfig);

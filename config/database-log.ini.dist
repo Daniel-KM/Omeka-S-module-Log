@@ -10,9 +10,9 @@
 ; To disable the logging in database, set `['logger']['writers']['db'] => false`
 ; in "config/local.config.php".
 
-; Currently, this is a config for Zend ("\Laminas\Db\Adapter\Adapter"), not for
-; Doctrine ("\Doctrine\DBAL\DriverManager"), so "database" and "username" are
-; used instead of "dbname" and "user".
+; Currently, this is a config for Laminas ("\Laminas\Db\Adapter\Adapter"), not
+; for Doctrine ("\Doctrine\DBAL\DriverManager"), so "database" and "username"
+; are used instead of "dbname" and "user".
 
 username =
 password =
