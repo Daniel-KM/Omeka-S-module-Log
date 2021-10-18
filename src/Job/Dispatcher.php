@@ -43,7 +43,11 @@ class Dispatcher extends \Omeka\Job\Dispatcher
             // Reload job that may have been updated during process, but keep
             // the logs since the job object itself is up-to-date.
             $em->clear();
-            $jobEntity = $em->find(Job::class, $job->getId());
+            try {
+                $jobEntity = $em->find(Job::class, $job->getId());
+            } catch (Exception $e) {
+                return;
+            }
             $jobEntity->setLog($job->getLog());
             $jobEntity->setStatus(Job::STATUS_ERROR);
             $jobEntity->setEnded(new DateTime('now'));
