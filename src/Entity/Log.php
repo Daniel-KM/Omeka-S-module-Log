@@ -87,7 +87,7 @@ class Log extends AbstractEntity
      */
     protected $created;
 
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
