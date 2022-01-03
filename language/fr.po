@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-25 00:00+0000\n"
-"PO-Revision-Date: 2021-01-25 00:00+0000\n"
+"POT-Creation-Date: 2022-01-03 00:00+0000\n"
+"PO-Revision-Date: 2022-01-03 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr\n"
@@ -15,14 +15,27 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.0.1\n"
 
-#: Module.php:57
+#: Module.php:59
+msgid ""
+"Logging is not active. You should enable it in the file config/local.config."
+"php: `'log' => true`."
+msgstr ""
+"Les journaux ne sont pas activés. Vous devez les activer dans le fichier "
+"config/local.config.php : `'log' => true`."
+
+#: Module.php:61
 msgid ""
 "You may need to update config/local.config.php to update your log settings."
 msgstr ""
 "Il peut être nécessaire de mettre à jour le fichier config/local.config.php "
 "pour les paramètres des journaux."
+
+#: Module.php:63
+#, php-format
+msgid "See examples of config in the %sreadme%s."
+msgstr "Cf. les exemples de configuration dans le %slisez-moi%s."
 
 #: src/Generic/AbstractModule.php:66
 #, php-format
@@ -35,10 +48,10 @@ msgid "This module requires modules \"%s\"."
 msgstr "Ce module requiert les modules \"%s\"."
 
 #: src/Generic/AbstractModule.php:80
-msgid "This module has resources that connot be installed."
+msgid "This module has resources that cannot be installed."
 msgstr "Ce module a des ressources qui ne peuvent pas être installées."
 
-#: src/Generic/AbstractModule.php:707
+#: src/Generic/AbstractModule.php:725
 #, php-format
 msgid ""
 "The module \"%s\" was automatically deactivated because the dependencies are "
@@ -46,10 +59,6 @@ msgid ""
 msgstr ""
 "Le module \"%s\" a été automatiquement désactivé car ses dépendances ne sont "
 "plus disponibles."
-
-#: src/Stdlib/PsrMessage.php:149
-msgid "default"
-msgstr "défaut"
 
 #: src/View/Helper/LogSearchFilters.php:56
 msgid "Message contains"
@@ -320,13 +329,16 @@ msgstr ""
 "Erreur fatale : {message}\n"
 "dans {file} ligne {line}"
 
-#: src/Job/DispatchStrategy/Synchronous.php:70
+#: src/Job/DispatchStrategy/Synchronous.php:71
 msgid ""
 "Warning: {message}\n"
 "in {file} on line {line}"
 msgstr ""
 "Attention : {message}\n"
 "dans {file} ligne {line}"
+
+#~ msgid "default"
+#~ msgstr "défaut"
 
 #~ msgid "Info"
 #~ msgstr "Info"

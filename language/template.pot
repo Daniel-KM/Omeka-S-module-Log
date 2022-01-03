@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-25 00:00+0000\n"
+"POT-Creation-Date: 2022-01-03 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,9 +17,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Module.php:57
+#: Module.php:59
+msgid ""
+"Logging is not active. You should enable it in the file config/local.config."
+"php: `'log' => true`."
+msgstr ""
+
+#: Module.php:61
 msgid ""
 "You may need to update config/local.config.php to update your log settings."
+msgstr ""
+
+#: Module.php:63
+#, php-format
+msgid "See examples of config in the %sreadme%s."
 msgstr ""
 
 #: src/Generic/AbstractModule.php:66
@@ -33,18 +44,14 @@ msgid "This module requires modules \"%s\"."
 msgstr ""
 
 #: src/Generic/AbstractModule.php:80
-msgid "This module has resources that connot be installed."
+msgid "This module has resources that cannot be installed."
 msgstr ""
 
-#: src/Generic/AbstractModule.php:707
+#: src/Generic/AbstractModule.php:725
 #, php-format
 msgid ""
 "The module \"%s\" was automatically deactivated because the dependencies are "
 "unavailable."
-msgstr ""
-
-#: src/Stdlib/PsrMessage.php:149
-msgid "default"
 msgstr ""
 
 #: src/View/Helper/LogSearchFilters.php:56
@@ -304,7 +311,7 @@ msgid ""
 "in {file} on line {line}"
 msgstr ""
 
-#: src/Job/DispatchStrategy/Synchronous.php:70
+#: src/Job/DispatchStrategy/Synchronous.php:71
 msgid ""
 "Warning: {message}\n"
 "in {file} on line {line}"
