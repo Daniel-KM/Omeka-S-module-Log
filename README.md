@@ -446,7 +446,7 @@ of the CeCILL license and that you accept its terms.
 Copyright
 ---------
 
-* Copyright Daniel Berthereau, 2017-2021 [Daniel-KM] on GitLab)
+* Copyright Daniel Berthereau, 2017-2022 [Daniel-KM] on GitLab)
 
 * Library [webui-popover]: Sandy Walker
 * Library [facile/sentry]: Copyright 2016 Thomas Mauro Vargiu
