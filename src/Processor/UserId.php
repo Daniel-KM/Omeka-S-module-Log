@@ -15,11 +15,11 @@ class UserId implements ProcessorInterface
     /**
      * @param int|null $userId
      */
-    public function __construct(User $user = null)
+    public function __construct(?User $user = null)
     {
-        if ($user) {
-            $this->userId = $user->getId();
-        }
+        $this->userId = $user
+            ? $user->getId()
+            : null;
     }
 
     /**

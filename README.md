@@ -392,6 +392,7 @@ TODO
 
 - [ ] Use the second entity manager in all cases.
 - [ ] Add an option to copy logs inside jobs when the module is uninstalled.
+- [ ] Fix incompatibility between authentication modules (Ldap, Cas, Shibboleth). The user id is currently disabled in such a case.
 
 
 Warning
