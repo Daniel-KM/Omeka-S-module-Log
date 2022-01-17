@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Log\View\Helper;
 
 use Laminas\I18n\Translator\TranslatorAwareInterface;
@@ -9,10 +10,10 @@ use Omeka\Stdlib\Message;
 /**
  * View helper for proxing the messenger controller plugin.
  *
- * Replace Omeka core Messages in order to manage PsrMessage too.
+ * Replace Omeka core Messages in order to manage PsrMessage and translations.
  * @see \Omeka\View\Helper\Messages
  *
- * @todo Move PsrMessage to its own module or in core.
+ * @todo Move PsrMessage to its own module or in core (pr #1372).
  */
 class Messages extends AbstractHelper
 {

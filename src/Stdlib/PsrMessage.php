@@ -6,11 +6,11 @@ use Laminas\I18n\Translator\TranslatorAwareInterface;
 use Laminas\I18n\Translator\TranslatorAwareTrait;
 
 /**
- * Manage a message with a context
+ * Manage a message with a context list of placeholders formatted as psr-3.
  *
  * Copy of Omeka Message, except the constructor, that requires an array, and
  * the possibility to translate automatically when the translator is enabled.
- * Generally, the translator is not set, as it is generally managed internally.
+ * Generally, the translator is not set, as it is usually managed internally.
  *
  * ```
  * // To get a translator in a controller:
@@ -98,7 +98,7 @@ class PsrMessage implements \JsonSerializable, PsrInterpolateInterface, Translat
      */
     public function getArgs()
     {
-        return $this->getContext();
+        return array_values($this->getContext());
     }
 
     /**
