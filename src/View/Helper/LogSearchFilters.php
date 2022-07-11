@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Log\View\Helper;
 
 use Laminas\View\Helper\AbstractHelper;
@@ -16,10 +17,8 @@ class LogSearchFilters extends AbstractHelper
 
     /**
      * Render filters from search query.
-     *
-     * @return array
      */
-    public function __invoke($partialName = null)
+    public function __invoke($partialName = null): string
     {
         $partialName = $partialName ?: self::PARTIAL_NAME;
 
@@ -100,6 +99,9 @@ class LogSearchFilters extends AbstractHelper
                         $filterValue = $translate('Unknown job'); // @translate
                     }
                     $filters[$filterLabel][] = $filterValue;
+                    break;
+
+                default:
                     break;
             }
         }

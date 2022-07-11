@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Log\Controller\Admin;
 
 use Laminas\Mvc\Controller\AbstractActionController;
@@ -21,19 +22,19 @@ class LogController extends AbstractActionController
 
     public function browseAction()
     {
+        $params = $this->params()->fromQuery();
+
         $formSearch = $this->getForm(QuickSearchForm::class);
         $formSearch
             ->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'browse'], true))
             ->setAttribute('id', 'log-search');
-        $data = $this->params()->fromQuery();
-        if ($data) {
-            $formSearch->setData($data);
+        if ($params) {
+            $formSearch->setData($params);
             // TODO Don't check validity?
         }
 
         $this->setBrowseDefaults('created');
         // TODO Manage multiple messages in/nin.
-        $params = $this->params()->fromQuery();
         $params += ['message' => []];
         if (!is_array($params['message'])) {
             $params['message'] = [['text' => $params['message'], 'type' => 'in']];
@@ -45,20 +46,21 @@ class LogController extends AbstractActionController
         $response = $this->api()->search('logs', $params);
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
+        /** @var \Omeka\Form\ConfirmForm $formDeleteSelected */
         $formDeleteSelected = $this->getForm(ConfirmForm::class);
         $formDeleteSelected
+            ->setAttribute('id', 'confirm-delete-selected')
             ->setAttribute('action', $this->url()->fromRoute('admin/log/default', ['action' => 'batch-delete'], true))
-            ->setAttribute('id', 'confirm-delete-selected');
-        $formDeleteSelected
             ->setButtonLabel('Confirm delete'); // @translate
 
+        /** @var \Omeka\Form\ConfirmForm $formDeleteAll */
         $formDeleteAll = $this->getForm(ConfirmForm::class);
         $formDeleteAll
-            ->setAttribute('action', $this->url()->fromRoute('admin/log/default', ['action' => 'batch-delete-all'], true))
             ->setAttribute('id', 'confirm-delete-all')
-            ->get('submit')->setAttribute('disabled', true);
-        $formDeleteAll
+            ->setAttribute('action', $this->url()->fromRoute('admin/log/default', ['action' => 'batch-delete-all'], true))
             ->setButtonLabel('Confirm delete'); // @translate
+        $formDeleteAll
+            ->get('submit')->setAttribute('disabled', true);
 
         $logs = $response->getContent();
 
@@ -66,14 +68,13 @@ class LogController extends AbstractActionController
             $this->messenger()->addWarning('The logger is currently disabled for database. Check config/local.config.php.'); // @translate
         }
 
-        $view = new ViewModel;
-        $view
-            ->setVariable('logs', $logs)
-            ->setVariable('resources', $logs)
-            ->setVariable('formSearch', $formSearch)
-            ->setVariable('formDeleteSelected', $formDeleteSelected)
-            ->setVariable('formDeleteAll', $formDeleteAll);
-        return $view;
+        return new ViewModel([
+            'logs' => $logs,
+            'resources' => $logs,
+            'formSearch' => $formSearch,
+            'formDeleteSelected' => $formDeleteSelected,
+            'formDeleteAll' => $formDeleteAll,
+        ]);
     }
 
     public function showDetailsAction()

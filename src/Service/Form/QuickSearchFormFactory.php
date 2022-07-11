@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Log\Service\Form;
 
 use Interop\Container\ContainerInterface;
@@ -11,7 +12,7 @@ class QuickSearchFormFactory implements FactoryInterface
     {
         $form = new QuickSearchForm(null, $options);
         $urlHelper = $services->get('ViewHelperManager')->get('url');
-        $form->setUrlHelper($urlHelper);
-        return $form;
+        return $form
+            ->setUrlHelper($urlHelper);
     }
 }

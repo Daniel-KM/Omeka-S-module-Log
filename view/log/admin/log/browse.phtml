@@ -3,20 +3,20 @@
  * @var \Laminas\View\Renderer\PhpRenderer $this
  * @var \Log\Api\Representation\LogRepresentation[] $logs
  * @var \Log\Api\Representation\LogRepresentation[] $resources
+ * @var \Log\Form\QuickSearchForm $formSearch
  * @var \Omeka\Form\ConfirmForm $formDeleteSelected
  * @var \Omeka\Form\ConfirmForm $formDeleteAll
- * @var \Log\Form\QuickSearchForm $formSearch
  */
 
 $plugins = $this->getHelperPluginManager();
-$translate = $plugins->get('translate');
-$escape = $plugins->get('escapeHtml');
-$escapeAttr = $plugins->get('escapeHtmlAttr');
-$hyperlink = $plugins->get('hyperlink');
 $url = $plugins->get('url');
+$i18n = $plugins->get('i18n');
+$escape = $plugins->get('escapeHtml');
 $sortLink = $plugins->get('sortLink');
 $assetUrl = $plugins->get('assetUrl');
-$i18n = $plugins->get('i18n');
+$translate = $plugins->get('translate');
+$hyperlink = $plugins->get('hyperlink');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
 
 $this->htmlElement('body')->appendAttribute('class', 'logs browse');
 
@@ -53,7 +53,7 @@ $sortHeadings = [
 $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::class, 'batch_delete');
 ?>
 
-<?= $this->pageTitle('', 1, $translate('Logs')) ?>
+<?= $this->pageTitle($translate('Logs')) ?>
 
 <?= $this->logSearchFilters() ?>
 
@@ -163,19 +163,19 @@ $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::cl
             <td>
             <?php $job = $log->job(); ?>
             <?php if ($job): ?>
-                <span class="log-job-status">
-                <?= $hyperlink($translate($job->statusLabel()), $url(null, [], ['query' => ['job_id' => $job->id()]], true)); ?>
-                </span>
-                -
-                <span class="log-job-param">
-                <?= $hyperlink($translate('Parameters'), $url('admin/id', ['controller' => 'job', 'action' => 'show', 'id' => $job->id()])) ?>
-                </span>
-                <?php if ($job->log()): ?>
-                /
-                <span class="log-job-log">
-                <?= $hyperlink($translate('Log'), $url('admin/id', ['controller' => 'job', 'action' => 'log', 'id' => $job->id()]), ['target' => '_blank']) ?>
-                </span>
-                <?php endif; ?>
+                <div>
+                    <span class="log-job-status">
+                    <?= $hyperlink($translate($job->statusLabel()), $url(null, [], ['query' => ['job_id' => $job->id()]], true)); ?>
+                    </span>
+                    <span class="log-job-param">
+                    <?= $hyperlink($translate('Parameters'), $url('admin/id', ['controller' => 'job', 'action' => 'show', 'id' => $job->id()])) ?>
+                    </span>
+                    <?php if ($job->log()): ?>
+                    <span class="log-job-log">
+                    <?= $hyperlink($translate('Log'), $url('admin/id', ['controller' => 'job', 'action' => 'log', 'id' => $job->id()]), ['target' => '_blank']) ?>
+                    </span>
+                    <?php endif; ?>
+                </div>
             <?php endif; ?>
             </td>
         </tr>
@@ -198,6 +198,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::cl
 </div>
 
 <?php if ($userIsAllowedBatchDelete): ?>
+
 <div id="sidebar-delete-selected" class="sidebar">
     <?= $hyperlink('', '#', [
         'class' => 'sidebar-close o-icon-close',
@@ -224,7 +225,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::cl
     <div class="sidebar-content">
         <div id="sidebar-confirm">
             <h3><?= $translate('Delete logs') ?></h3>
-            <p><?= $translate('Are you sure you would like to delete all logs on all logs of this result?') ?></p>
+            <p><?= $translate('Are you sure you would like to delete all logs of this result?') ?></p>
             <p class="error"><?= sprintf(
                 $translate('%s: this action will permanently delete %s logs and cannot be undone.'),
                 sprintf('<strong>%s</strong>', $translate('Warning')),
