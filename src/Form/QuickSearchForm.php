@@ -36,18 +36,6 @@ class QuickSearchForm extends Form
 
         $this
             ->add([
-                'name' => 'created',
-                'type' => Element\Text::class,
-                'options' => [
-                    'label' => 'Date', // @translate
-                ],
-                'attributes' => [
-                    'id' => 'created',
-                    'placeholder' => 'Set a date with optional comparator…', // @translate
-                ],
-            ])
-
-            ->add([
                 'name' => 'severity_min',
                 'type' => Element\Select::class,
                 'options' => [
@@ -73,6 +61,18 @@ class QuickSearchForm extends Form
                     'id' => 'severity_max',
                     'class' => 'chosen-select',
                     'data-placeholder' => 'Select maximum severity…', // @translate
+                ],
+            ])
+
+            ->add([
+                'name' => 'created',
+                'type' => Element\Text::class,
+                'options' => [
+                    'label' => 'Date', // @translate
+                ],
+                'attributes' => [
+                    'id' => 'created',
+                    'placeholder' => 'Set a date with optional comparator…', // @translate
                 ],
             ])
 
