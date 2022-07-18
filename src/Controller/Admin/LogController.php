@@ -22,6 +22,8 @@ class LogController extends AbstractActionController
 
     public function browseAction()
     {
+        $this->setBrowseDefaults('created');
+
         $params = $this->params()->fromQuery();
 
         $formSearch = $this->getForm(QuickSearchForm::class);
@@ -33,7 +35,6 @@ class LogController extends AbstractActionController
             // TODO Don't check validity?
         }
 
-        $this->setBrowseDefaults('created');
         // TODO Manage multiple messages in/nin.
         $params += ['message' => []];
         if (!is_array($params['message'])) {
@@ -46,21 +47,20 @@ class LogController extends AbstractActionController
         $response = $this->api()->search('logs', $params);
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
-        /** @var \Omeka\Form\ConfirmForm $formDeleteSelected */
         $formDeleteSelected = $this->getForm(ConfirmForm::class);
         $formDeleteSelected
-            ->setAttribute('id', 'confirm-delete-selected')
             ->setAttribute('action', $this->url()->fromRoute('admin/log/default', ['action' => 'batch-delete'], true))
+            ->setAttribute('id', 'confirm-delete-selected');
+        $formDeleteSelected
             ->setButtonLabel('Confirm delete'); // @translate
 
-        /** @var \Omeka\Form\ConfirmForm $formDeleteAll */
         $formDeleteAll = $this->getForm(ConfirmForm::class);
         $formDeleteAll
-            ->setAttribute('id', 'confirm-delete-all')
             ->setAttribute('action', $this->url()->fromRoute('admin/log/default', ['action' => 'batch-delete-all'], true))
-            ->setButtonLabel('Confirm delete'); // @translate
-        $formDeleteAll
+            ->setAttribute('id', 'confirm-delete-all')
             ->get('submit')->setAttribute('disabled', true);
+        $formDeleteAll
+            ->setButtonLabel('Confirm delete'); // @translate
 
         $logs = $response->getContent();
 
