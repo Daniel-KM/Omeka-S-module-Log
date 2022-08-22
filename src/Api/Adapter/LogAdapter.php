@@ -18,6 +18,18 @@ class LogAdapter extends AbstractEntityAdapter
         'job' => 'job',
         'reference' => 'reference',
         'severity' => 'severity',
+        'message' => 'message',
+        'created' => 'created',
+    ];
+
+    protected $scalarFields = [
+        'id' => 'id',
+        'owner' => 'owner',
+        'job' => 'job',
+        'reference' => 'reference',
+        'severity' => 'severity',
+        'message' => 'message',
+        'context' => 'context',
         'created' => 'created',
     ];
 
