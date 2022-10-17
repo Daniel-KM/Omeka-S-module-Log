@@ -6,6 +6,7 @@ return [
     'logger' => [
         // The default config in Omeka is false, but this module is designed to log.
         'log' => true,
+
         // Path and priority are used by Omeka default config. Anyway, the local
         // config override it, at least for priority. To set null avoid a check.
         // Note: these options override the ones in the standard config:
@@ -15,6 +16,8 @@ return [
         // This is the default level in the standard config. Should not be null
         // when upgrade (so check the file config/local.config.php).
         'priority' => null,
+
+        // Enable/disable the output writers.
         'writers' => [
             // The database used by this module. The database can be the main
             // one or an another one: set it "config/database-log.ini" or in
@@ -42,6 +45,10 @@ return [
             // Note: External logs (db, sentry, etc.) are not fully checked, so their
             // config should be checked separately.
         ],
+
+        // The logger uses the Laminas Log configuration.
+        // @see https://docs.laminas.dev/laminas-log
+        // @see https://docs.laminas.dev/laminas-log/service-manager
         'options' => [
             'writers' => [
                 'db' => [
@@ -92,7 +99,7 @@ return [
                         'facility' => LOG_USER,
                     ],
                 ],
-                // See https://gitlab.com/facile-it/sentry-module#log-writer
+                // See https://github.com/facile-it/sentry-module#log-writer
                 'sentry' => [
                     'name' => \Facile\SentryModule\Log\Writer\Sentry::class,
                     'options' => [
