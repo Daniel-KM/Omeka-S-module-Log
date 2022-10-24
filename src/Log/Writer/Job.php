@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Log\Log\Writer;
 
 use Laminas\Log\Writer\AbstractWriter;

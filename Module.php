@@ -53,7 +53,7 @@ class Module extends AbstractModule
     {
         $services = $this->getServiceLocator();
         $t = $services->get('MvcTranslator');
-        $messenger = new \Omeka\Mvc\Controller\Plugin\Messenger;
+        $messenger = $services->get('ControllerPluginManager')->get('messenger');
         $config = $services->get('Config');
         if (empty($config['logger']['log'])) {
             $messenger->addError($t->translate("Logging is not active. You should enable it in the file config/local.config.php: `'log' => true`.")); // @translate
