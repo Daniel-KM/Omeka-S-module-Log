@@ -26,10 +26,12 @@
     ],
     "require": {
         "grimmlink/webui-popover": "^1.2",
+        "laminas/laminas-db": "^2.15",
         "oomphinc/composer-installers-extender": "^2.0"
     },
     "replace": {
-        "laminas/laminas-log": "*"
+        "laminas/laminas-log": "*",
+        "laminas/laminas-stdlib": "*"
     },
     "require-dev": {
         "biblibre/omeka-s-test-helper": "dev-master"

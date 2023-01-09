@@ -36,12 +36,18 @@ if (!class_exists(\Generic\AbstractModule::class)) {
 }
 
 use Generic\AbstractModule;
+use Laminas\ModuleManager\ModuleManager;
 use Laminas\Mvc\MvcEvent;
 use Omeka\Permissions\Assertion\OwnsEntityAssertion;
 
 class Module extends AbstractModule
 {
     public const NAMESPACE = __NAMESPACE__;
+
+    public function init(ModuleManager $moduleManager): void
+    {
+        require_once __DIR__ . '/vendor/autoload.php';
+    }
 
     public function onBootstrap(MvcEvent $event): void
     {
