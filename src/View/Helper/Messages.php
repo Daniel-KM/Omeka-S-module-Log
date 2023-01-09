@@ -24,6 +24,7 @@ class Messages extends AbstractHelper
      */
     public function get()
     {
+        // Messenger can be used directly, it is used only to get messages.
         $messenger = new Messenger;
         $messages = $messenger->get();
         $messenger->clear();
