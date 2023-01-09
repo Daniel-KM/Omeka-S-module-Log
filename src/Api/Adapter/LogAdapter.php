@@ -81,7 +81,7 @@ class LogAdapter extends AbstractEntityAdapter
             }
         }
 
-        if (isset($query['reference']) && $query['reference'] ) {
+        if (isset($query['reference']) && $query['reference']) {
             $qb->andWhere($expr->eq(
                 'omeka_root.reference',
                 $this->createNamedParameter($qb, $query['reference'])

@@ -34,9 +34,7 @@ trait PsrLogAwareTrait
         }
         if ($context) {
             // Check if there are non-mappable extra data.
-            $missingPlaceholders = array_filter($context, function ($key) use ($message) {
-                return strpos($message, '{' . $key . '}') === false;
-            }, ARRAY_FILTER_USE_KEY);
+            $missingPlaceholders = array_filter($context, fn ($key) => strpos($message, '{' . $key . '}') === false, ARRAY_FILTER_USE_KEY);
             if ($missingPlaceholders) {
                 if (strpos($message, '{extra}') === false) {
                     $event['message'] .= ' {extra}';
