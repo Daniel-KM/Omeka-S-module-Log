@@ -446,7 +446,7 @@ of the CeCILL license and that you accept its terms.
 Copyright
 ---------
 
-* Copyright Daniel Berthereau, 2017-2022 [Daniel-KM] on GitLab)
+* Copyright Daniel Berthereau, 2017-2023 [Daniel-KM] on GitLab)
 
 * Library [webui-popover]: Sandy Walker
 * Library [facile/sentry]: Copyright 2016 Thomas Mauro Vargiu
@@ -457,7 +457,7 @@ Copyright
 [PSR-3]: http://www.php-fig.org/psr/psr-3
 [PHP-FIG]: http://www.php-fig.org
 [webui-popover]: https://github.com/sandywalker/webui-popover
-[installing a module]: http://dev.omeka.org/docs/s/user-manual/modules/#installing-modules
+[Installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
 [Log.zip]: https://gitlab.com/Daniel-KM/Omeka-S-module-Log/-/releases
 [Laminas Framework Log]: https://docs.laminas.dev/laminas-log
 [config of the module]: https://gitlab.com/Daniel-KM/Omeka-S-module-Log/-/blob/master/config/module.config.php#L5-117
