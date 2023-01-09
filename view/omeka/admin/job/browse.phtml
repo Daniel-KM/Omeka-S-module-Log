@@ -6,37 +6,20 @@
 
 // Copy of Omeka application/view/omeka/admin/job/browse.phtml, with added links.
 
-$translate = $this->plugin('translate');
-$escape = $this->plugin('escapeHtml');
-$hyperlink = $this->plugin('hyperlink');
+$plugins = $this->getHelperPluginManager();
 $url = $this->plugin('url');
+$escape = $plugins->get('escapeHtml');
+$translate = $plugins->get('translate');
+$hyperlink = $plugins->get('hyperlink');
 
 $this->htmlElement('body')->appendAttribute('class', 'jobs browse');
-$sortHeadings = [
-    [
-        'label' => $translate('ID'),
-        'value' => 'id',
-    ],
-    [
-        'label' => $translate('Class'),
-        'value' => 'class',
-    ],
-    [
-        'label' => $translate('Status'),
-        'value' => 'status',
-    ],
-    [
-        'label' => $translate('Owner'),
-        'value' => 'owner',
-    ],
-];
 ?>
 
 <?= $this->pageTitle($translate('Jobs')) ?>
 
 <div class="browse-controls">
     <?= $this->pagination() ?>
-    <?= $this->sortSelector($sortHeadings) ?>
+    <?= $this->browse()->renderSortSelector('jobs') ?>
 </div>
 <?php $this->trigger('view.browse.before'); ?>
 

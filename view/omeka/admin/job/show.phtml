@@ -8,9 +8,12 @@
 
 // Copy of Omeka application/view/omeka/admin/job/show.phtml, with a link added in the bottom.
 
-$translate = $this->plugin('translate');
-$escape = $this->plugin('escapeHtml');
+$plugins = $this->getHelperPluginManager();
 $url = $this->plugin('url');
+$escape = $plugins->get('escapeHtml');
+$translate = $plugins->get('translate');
+$hyperlink = $plugins->get('hyperlink');
+
 $this->htmlElement('body')->appendAttribute('class', 'jobs show');
 
 $hasProgress = method_exists($job, 'step');
@@ -44,63 +47,65 @@ if ($owner = $job->owner()) {
     <?php endif; ?>
 </div>
 
-<div class="meta-group">
-    <h4><?= $translate('Status') ?></h4>
-    <div class="value"><?= $job->statusLabel() ?></div>
-</div>
-<?php if ($hasProgress): ?>
-<div class="meta-group">
-    <h4><?= $translate('Progress') ?></h4>
-    <div class="value"><?= $progress ?></div>
-</div>
-<?php endif; ?>
-<div class="meta-group">
-    <h4><?= $translate('Started') ?></h4>
-    <div class="value"><?= $started ?></div>
-</div>
-<div class="meta-group">
-    <h4><?= $translate('Ended') ?></h4>
-    <div class="value"><?= $ended ?></div>
-</div>
-<div class="meta-group">
-    <h4><?= $translate('Class') ?></h4>
-    <div class="value"><?= $job->jobClass() ?></div>
-</div>
-<div class="meta-group">
-    <h4><?= $translate('Owner') ?></h4>
-    <div class="value"><?= $ownerText ?></div>
-</div>
-<div class="meta-group">
-    <h4><?= $translate('Args') ?></h4>
-    <?php if ($job->args()): ?>
-        <?php $args = json_encode($job->args(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_LINE_TERMINATORS); ?>
-        <div class="value"><pre><?= $escape($args) ?></pre></div>
-    <?php else: ?>
-    <div class="value"><?= $translate('[no args]') ?></div>
-    <?php endif; ?>
-</div>
-<div class="meta-group">
-    <h4><?= $translate('Log') ?></h4>
-    <div class="value">
-    <?php if ($job->log()): ?>
-    <?= $this->hyperlink($translate('view log'),
-        $url(null, ['action' => 'log'], true),
-        ['target' => '_blank']) ?>
-    <?php else: ?>
-    <?= $translate('[no log]') ?>
-    <?php endif; ?>
+<dl class="job-metadata">
+    <div class="meta-group">
+        <dt><?= $translate('Status') ?></dt>
+        <dd class="value"><?= $job->statusLabel() ?></dd>
     </div>
-</div>
-<?php // Specific part for the module Log. ?>
-<div class="meta-group">
-    <h4><?= $translate('Log (database)') ?></h4>
-    <div class="value">
-    <?php $totalLogs = $this->api()->search('logs', ['job_id' => $job->id(), 'limit' => 0])->getTotalResults(); ?>
-    <?php if ($totalLogs): ?>
-    <?= $this->hyperlink(sprintf($translate('View log (%d results)'), $totalLogs),
-        $url('admin/log/default', [], ['query' => ['job_id' => $job->id()]])) ?>
-    <?php else: ?>
-    <?= $translate('[no log]') ?>
-    <?php endif; ?>
+    <?php if ($hasProgress): ?>
+    <div class="meta-group">
+        <dt><?= $translate('Progress') ?></dt>
+        <dd class="value"><?= $progress ?></dd>
     </div>
-</div>
+    <?php endif; ?>
+    <div class="meta-group">
+        <dt><?= $translate('Started') ?></dt>
+        <dd class="value"><?= $started ?></dd>
+    </div>
+    <div class="meta-group">
+        <dt><?= $translate('Ended') ?></dt>
+        <dd class="value"><?= $ended ?></dd>
+    </div>
+    <div class="meta-group">
+        <dt><?= $translate('Class') ?></dt>
+        <dd class="value"><?= $job->jobClass() ?></dd>
+    </div>
+    <div class="meta-group">
+        <dt><?= $translate('Owner') ?></dt>
+        <dd class="value"><?= $ownerText ?></dd>
+    </div>
+    <div class="meta-group">
+        <dt><?= $translate('Args') ?></dt>
+        <?php if ($job->args()): ?>
+            <?php $args = json_encode($job->args(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_LINE_TERMINATORS); ?>
+            <dd class="value"><pre><?= $escape($args) ?></pre></dd>
+        <?php else: ?>
+        <dd class="value"><?= $translate('[no args]') ?></dd>
+        <?php endif; ?>
+    </div>
+    <div class="meta-group">
+        <dt><?= $translate('Log') ?></dt>
+        <dd class="value">
+            <?php if ($job->log()): ?>
+            <?= $hyperlink($translate('view log'),
+                $url(null, ['action' => 'log'], true),
+                ['target' => '_blank']) ?>
+            <?php else: ?>
+            <?= $translate('[no log]') ?>
+            <?php endif; ?>
+        </dd>
+    </div>
+
+    <div class="meta-group">
+        <dt><?= $translate('Log (database)') ?></dt>
+        <dd class="value">
+            <?php $totalLogs = $this->api()->search('logs', ['job_id' => $job->id(), 'limit' => 0])->getTotalResults(); ?>
+            <?php if ($totalLogs): ?>
+            <?= $hyperlink(sprintf($translate('View log (%d results)'), $totalLogs),
+                $url('admin/log/default', [], ['query' => ['job_id' => $job->id()]])) ?>
+            <?php else: ?>
+            <?= $translate('[no log]') ?>
+            <?php endif; ?>
+        </dd>
+    </div>
+</dl>
