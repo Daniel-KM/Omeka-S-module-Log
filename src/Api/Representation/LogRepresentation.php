@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Log\Api\Representation;
 
 use Log\Stdlib\PsrMessage;
@@ -81,8 +82,8 @@ class LogRepresentation extends AbstractEntityRepresentation
         $message = $this->resource->getMessage();
         $context = $this->resource->getContext() ?: [];
         $psrMessage = new PsrMessage($message, $context);
-        $psrMessage->setTranslator($translator);
-        return $psrMessage;
+        return $psrMessage
+            ->setTranslator($translator);
     }
 
     /**
@@ -99,6 +100,7 @@ class LogRepresentation extends AbstractEntityRepresentation
         $message = $this->resource->getMessage();
         $context = $this->resource->getContext() ?: [];
         if ($context) {
+            /** @var \Omeka\View\Helper\Hyperlink $hyperlink */
             $hyperlink = $this->getViewHelper('hyperlink');
             $url = $this->getViewHelper('url');
             foreach ($context as $key => $value) {
@@ -168,9 +170,9 @@ class LogRepresentation extends AbstractEntityRepresentation
         }
 
         $psrMessage = new PsrMessage($message, $context);
-        $psrMessage->setTranslator($translator);
-        $psrMessage->setEscapeHtml($escapeHtml);
-        return $psrMessage;
+        return $psrMessage
+            ->setTranslator($translator)
+            ->setEscapeHtml($escapeHtml);
     }
 
     public function created()
