@@ -159,7 +159,7 @@ class LogRepresentation extends AbstractEntityRepresentation
                         }
                         break;
                     case 'url':
-                        $context[$key] = $hyperlink($value, $value);
+                        $context[$key] = $hyperlink(basename($value), $value);
                         $escapeHtml = false;
                         break;
                     case 'link':

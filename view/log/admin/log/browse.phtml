@@ -18,6 +18,8 @@ $translate = $plugins->get('translate');
 $hyperlink = $plugins->get('hyperlink');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
 
+$strLength = 240;
+
 $this->htmlElement('body')->appendAttribute('class', 'logs browse');
 
 $this->headLink()
@@ -116,9 +118,9 @@ $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::cl
                 <span class="log-message">
                     <?php $shouldEscape = $log->text()->escapeHtml(); ?>
                     <?php $text = $log->text()->translate(); ?>
-                    <?php $isLong = strlen($text) > 240; ?>
+                    <?php $isLong = mb_strlen($shouldEscape ? $text : strip_tags($text)) > $strLength; ?>
                     <?php if ($isLong): ?>
-                    <span class="log-message-truncated truncate"><?= nl2br(substr($shouldEscape ? strip_tags($text) : $text, 0, 240)) . '…' ?></span>
+                    <span class="log-message-truncated truncate"><?= nl2br($escape(mb_substr(strip_tags($text), 0, $strLength))) . '…' ?></span>
                     <?php else: ?>
                     <?= $shouldEscape ? $escape($text) : $text ?>
                     <?php endif; ?>
