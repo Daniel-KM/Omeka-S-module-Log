@@ -26,7 +26,7 @@ class Dispatcher extends \Omeka\Job\Dispatcher
         // The priority "0" fixes a precedency issue with the processor UserId.
         $this->logger->addProcessor($userJobIdProcessor, 0);
 
-        // Copy from parent method.
+        // Adapted from parent method.
 
         try {
             $strategy->send($job);
