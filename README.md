@@ -262,7 +262,7 @@ spaces.
 So, instead of logging like this:
 
 ```php
-// Classic logging.
+// Classic logging (not translatable).
 $this->logger()->info(sprintf($message, ...$args));
 $this->logger()->info(sprintf('The %s #%d has been updated.', 'item', 43));
 // output: The item #43 has been updated.
