@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 namespace Log\Job;
 
 use DateTime;
@@ -6,6 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Log\Log\Writer\Job as JobWriter;
 use Omeka\Entity\Job;
 use Omeka\Job\DispatchStrategy\StrategyInterface;
+use Omeka\Job\Exception;
 
 class Dispatcher extends \Omeka\Job\Dispatcher
 {
@@ -14,6 +16,50 @@ class Dispatcher extends \Omeka\Job\Dispatcher
      */
     protected $useJobWriter;
 
+    /**
+     * Refresh owner before flush.
+     *
+     * {@inheritDoc}
+     * @see \Omeka\Job\Dispatcher::dispatch()
+     */
+    public function dispatch($class, $args = null, StrategyInterface $strategy = null)
+    {
+        if (!class_exists($class)) {
+            throw new Exception\InvalidArgumentException(sprintf('The job class "%s" does not exist.', $class));
+        }
+        if (!is_subclass_of($class, 'Omeka\Job\JobInterface')) {
+            throw new Exception\InvalidArgumentException(sprintf('The job class "%s" does not implement Omeka\Job\JobInterface.', $class));
+        }
+
+        // Refresh owner and use reference only to avoid doctrine issue when a
+        // job dispatches another job.
+        $owner = $this->auth->getIdentity();
+        $owner = $owner
+            ? $this->entityManager->getReference(\Omeka\Entity\User::class, $owner->getId())
+            : null;
+
+        $job = new Job;
+        $job->setStatus(Job::STATUS_STARTING);
+        $job->setClass($class);
+        $job->setArgs($args);
+        $job->setOwner($owner);
+        $this->entityManager->persist($job);
+        $this->entityManager->flush();
+
+        if (!$strategy) {
+            $strategy = $this->getDispatchStrategy();
+        }
+
+        $this->send($job, $strategy);
+        return $job;
+    }
+
+    /**
+     * Better management of job during process.
+     *
+     * {@inheritDoc}
+     * @see \Omeka\Job\Dispatcher::send()
+     */
     public function send(Job $job, StrategyInterface $strategy): void
     {
         // Keep the default writer if wanted.
@@ -48,6 +94,7 @@ class Dispatcher extends \Omeka\Job\Dispatcher
             } catch (\Exception $e) {
                 return;
             }
+
             $jobEntity->setLog($job->getLog());
             $jobEntity->setStatus(Job::STATUS_ERROR);
             $jobEntity->setEnded(new DateTime('now'));
