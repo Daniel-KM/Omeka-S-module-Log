@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
+
 namespace Log\Entity;
 
 use DateTime;
-use Doctrine\ORM\Event\LifecycleEventArgs;
 use Omeka\Entity\AbstractEntity;
 use Omeka\Entity\Job;
 use Omeka\Entity\User;
@@ -29,7 +29,6 @@ use Omeka\Entity\User;
  *         )
  *     }
  * )
- * @HasLifecycleCallbacks
  */
 class Log extends AbstractEntity
 {
@@ -112,7 +111,14 @@ class Log extends AbstractEntity
 
     /**
      * @var DateTime
-     * @Column(type="datetime")
+     *
+     * @Column(
+     *     type="datetime",
+     *     nullable=false,
+     *     options={
+     *         "default":"CURRENT_TIMESTAMP"
+     *     }
+     * )
      */
     protected $created;
 
@@ -196,15 +202,5 @@ class Log extends AbstractEntity
     public function getCreated(): DateTime
     {
         return $this->created;
-    }
-
-    /**
-     * @PrePersist
-     * @param LifecycleEventArgs $eventContext
-     */
-    public function prePersist(LifecycleEventArgs $eventContext): self
-    {
-        $this->created = new DateTime('now');
-        return $this;
     }
 }
