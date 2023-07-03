@@ -63,7 +63,7 @@ class LogAdapter extends AbstractEntityAdapter
 
         // Job table is not joined to get only existing jobs: useless with
         // "on delete cascade".
-        if (isset($query['job_id'])) {
+        if (isset($query['job_id']) && $query['job_id'] !== '' && $query['job_id'] !== []) {
             $ids = $query['job_id'];
             if (!is_array($ids)) {
                 $ids = [$ids];
