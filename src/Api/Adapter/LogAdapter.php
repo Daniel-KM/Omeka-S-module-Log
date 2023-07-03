@@ -156,31 +156,30 @@ class LogAdapter extends AbstractEntityAdapter
         EntityInterface $entity,
         ErrorStore $errorStore
     ): void {
-        switch ($request->getOperation()) {
-            case Request::CREATE:
-                $data = $request->getContent();
-                if (empty($data['o:owner'])) {
-                    $owner = null;
-                } elseif (is_object($data['o:owner'])) {
-                    $owner = $data['o:owner'];
-                } else {
-                    $owner = $this->getAdapter('users')->findEntity($data['o:owner']['o:id']);
-                }
-                if (empty($data['o:job'])) {
-                    $job = null;
-                } elseif (is_object($data['o:job'])) {
-                    $job = $data['o:job'];
-                } else {
-                    $job = $this->getAdapter('jobs')->findEntity($data['o:job']['o:id']);
-                }
-                $entity->setOwner($owner);
-                $entity->setJob($job);
-                $entity->setReference($data['o:reference']);
-                $entity->setSeverity($data['o:severity']);
-                $entity->setMessage($data['o:message']);
-                $entity->setContext($data['o:context']);
-                $entity->setCreated(new \DateTime('now'));
-                break;
+        // Logs are not updatable.
+        if ($request->getOperation() === Request::CREATE) {
+            $data = $request->getContent();
+            if (empty($data['o:owner'])) {
+                $owner = null;
+            } elseif (is_object($data['o:owner'])) {
+                $owner = $data['o:owner'];
+            } else {
+                $owner = $this->getAdapter('users')->findEntity($data['o:owner']['o:id']);
+            }
+            if (empty($data['o:job'])) {
+                $job = null;
+            } elseif (is_object($data['o:job'])) {
+                $job = $data['o:job'];
+            } else {
+                $job = $this->getAdapter('jobs')->findEntity($data['o:job']['o:id']);
+            }
+            $entity->setOwner($owner);
+            $entity->setJob($job);
+            $entity->setReference($data['o:reference']);
+            $entity->setSeverity($data['o:severity']);
+            $entity->setMessage($data['o:message']);
+            $entity->setContext($data['o:context']);
+            $entity->setCreated(new \DateTime('now'));
         }
     }
 

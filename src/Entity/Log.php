@@ -11,10 +11,22 @@ use Omeka\Entity\User;
  * @Entity
  * @Table(
  *     indexes={
- *         @Index(name="owner_idx", columns={"owner_id"}),
- *         @Index(name="job_idx", columns={"job_id"}),
- *         @Index(name="reference_idx", columns={"reference"}),
- *         @Index(name="severity_idx", columns={"severity"})
+ *         @Index(
+ *             name="owner_idx",
+ *             columns={"owner_id"}
+ *         ),
+ *         @Index(
+ *             name="job_idx",
+ *             columns={"job_id"}
+ *         ),
+ *         @Index(
+ *             name="reference_idx",
+ *             columns={"reference"}
+ *         ),
+ *         @Index(
+ *             name="severity_idx",
+ *             columns={"severity"}
+ *         )
  *     }
  * )
  * @HasLifecycleCallbacks
@@ -23,6 +35,7 @@ class Log extends AbstractEntity
 {
     /**
      * @var int
+     *
      * @Id
      * @Column(type="integer")
      * @GeneratedValue
@@ -30,6 +43,8 @@ class Log extends AbstractEntity
     protected $id;
 
     /**
+     * @var \Omeka\Entity\User
+     *
      * @ManyToOne(
      *     targetEntity="Omeka\Entity\User"
      * )
@@ -41,6 +56,8 @@ class Log extends AbstractEntity
     protected $owner;
 
     /**
+     * @var \Omeka\Entity\Job
+     *
      * @ManyToOne(
      *     targetEntity="Omeka\Entity\Job"
      * )
@@ -53,31 +70,43 @@ class Log extends AbstractEntity
 
     /**
      * @var string
+     *
      * @Column(
      *     length=190,
-     *     options={"default"=""}
+     *     options={
+     *         "default":""
+     *     }
      * )
      */
     protected $reference = '';
 
     /**
      * @var int
+     *
      * @Column(
      *     type="integer",
-     *     options={"default"=0}
+     *     options={
+     *         "default":0
+     *     }
      * )
      */
     protected $severity = 0;
 
     /**
      * @var string
-     * @Column(type="text")
+     *
+     * @Column(
+     *     type="text"
+     * )
      */
     protected $message;
 
     /**
      * @var array
-     * @Column(type="json")
+     *
+     * @Column(
+     *     type="json"
+     * )
      */
     protected $context;
 
