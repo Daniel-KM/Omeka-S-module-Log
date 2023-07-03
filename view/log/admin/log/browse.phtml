@@ -29,29 +29,6 @@ $this->headScript()
     ->appendFile($assetUrl('vendor/webui-popover/jquery.webui-popover.min.js', 'Log'), 'text/javascript', ['defer' => 'defer'])
     ->appendFile($assetUrl('js/log.js', 'Log'), 'text/javascript', ['defer' => 'defer']);
 
-$sortHeadings = [
-    [
-        'label' => $translate('Date'),
-        'value' => 'created',
-    ],
-    [
-        'label' => $translate('Reference'),
-        'value' => 'reference',
-    ],
-    [
-        'label' => $translate('Severity'),
-        'value' => 'severity',
-    ],
-    [
-        'label' => $translate('Job'),
-        'value' => 'job',
-    ],
-    [
-        'label' => $translate('User'),
-        'value' => 'owner',
-    ],
-];
-
 $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::class, 'batch_delete');
 ?>
 
@@ -62,7 +39,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::cl
 <div class="browse-controls">
     <?= $this->pagination() ?>
     <button type="button" class="search advanced-search quick-search"><?= $translate('Quick filter') ?></button>
-    <?= $this->sortSelector($sortHeadings) ?>
+    <?= $this->browse()->renderSortSelector('logs') ?>
 </div>
 
 <div id="page-actions">
@@ -93,18 +70,12 @@ $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::cl
         <thead>
             <tr>
                 <th>
-                <?php if ($userIsAllowedBatchDelete): ?>
-                <input type="checkbox" class="select-all">
-                <?php endif; ?>
-                <?= $escape($translate('Message')) ?>
+                    <?php if ($userIsAllowedBatchDelete): ?>
+                    <input type="checkbox" class="select-all">
+                    <?php endif; ?>
+                    <?= $escape($translate('Message')) ?>
                 </th>
-                <th><?= $sortLink($translate('Date'), 'created') ?></th>
-                <th><?= $sortLink($translate('Severity'), 'severity') ?></th>
-                <th><?= $sortLink($translate('Reference'), 'reference') ?></th>
-                <?php /*
-                <th><?= $sortLink($translate('User'), 'owner') ?></th>
-                */ ?>
-                <th><?= $sortLink($translate('Job'), 'job') ?></th>
+                <?= $this->browse()->renderHeaderRow('logs') ?>
             </tr>
         </thead>
         <tbody>
@@ -150,36 +121,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::cl
                     ]) ?></li>
                 </ul>
             </td>
-            <td><?= $i18n->dateFormat($log->created(), 'medium', 'medium') ?></td>
-            <td><?= $hyperlink($translate($log->severityLabel()), $url(null, [], ['query' => ['page' => null, 'severity' => $log->severity()] + $this->params()->fromQuery()], true)) ?></td>
-            <td><?= $hyperlink($translate($log->reference()), $url(null, [], ['query' => ['reference' => $log->reference()]], true)) ?></td>
-            <?php /*
-            if ($owner = $log->owner()) {
-                $ownerText = $hyperlink($owner->email(), $url('admin/id', ['controller' => 'user', 'action' => 'show', 'id' => $owner->id()]));
-            } else {
-                $ownerText = '';
-            }
-            ?>
-            <td><?= $ownerText ?></td>
-            */ ?>
-            <td>
-            <?php $job = $log->job(); ?>
-            <?php if ($job): ?>
-                <div>
-                    <span class="log-job-status">
-                    <?= $hyperlink($translate($job->statusLabel()), $url(null, [], ['query' => ['job_id' => $job->id()]], true)); ?>
-                    </span>
-                    <span class="log-job-param">
-                    <?= $hyperlink($translate('Parameters'), $url('admin/id', ['controller' => 'job', 'action' => 'show', 'id' => $job->id()])) ?>
-                    </span>
-                    <?php if ($job->log()): ?>
-                    <span class="log-job-log">
-                    <?= $hyperlink($translate('Log'), $url('admin/id', ['controller' => 'job', 'action' => 'log', 'id' => $job->id()]), ['target' => '_blank']) ?>
-                    </span>
-                    <?php endif; ?>
-                </div>
-            <?php endif; ?>
-            </td>
+            <?php echo $this->browse()->renderContentRow('logs', $log); ?>
         </tr>
         <?php endforeach; ?>
         </tbody>

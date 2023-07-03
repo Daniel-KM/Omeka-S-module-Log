@@ -22,29 +22,29 @@ class LogController extends AbstractActionController
 
     public function browseAction()
     {
-        $this->setBrowseDefaults('created');
-
-        $params = $this->params()->fromQuery();
+        $this->browse()->setDefaults('logs');
+        $query = $this->params()->fromQuery();
 
         $formSearch = $this->getForm(QuickSearchForm::class);
         $formSearch
             ->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'browse'], true))
             ->setAttribute('id', 'log-search');
-        if ($params) {
-            $formSearch->setData($params);
+        if ($query) {
+            $formSearch->setData($query);
             // TODO Don't check validity?
         }
 
         // TODO Manage multiple messages in/nin.
-        $params += ['message' => []];
-        if (!is_array($params['message'])) {
-            $params['message'] = [['text' => $params['message'], 'type' => 'in']];
+        $query += ['message' => []];
+        if (!is_array($query['message'])) {
+            $query['message'] = [['text' => $query['message'], 'type' => 'in']];
         }
-        if (isset($params['message_not']) && strlen($params['message_not'])) {
-            $params['message'][] = ['text' => $params['message_not'], 'type' => 'nin'];
-            unset($params['message_not']);
+        if (isset($query['message_not']) && strlen($query['message_not'])) {
+            $query['message'][] = ['text' => $query['message_not'], 'type' => 'nin'];
+            unset($query['message_not']);
         }
-        $response = $this->api()->search('logs', $params);
+
+        $response = $this->api()->search('logs', $query);
         $this->paginator($response->getTotalResults(), $this->params()->fromQuery('page'));
 
         $formDeleteSelected = $this->getForm(ConfirmForm::class);

@@ -236,6 +236,50 @@ return [
             ],
         ],
     ],
+    'column_types' => [
+        'invokables' => [
+            'log_id' => ColumnType\Id::class,
+            'log_owner' => ColumnType\Owner::class,
+            'log_job' => ColumnType\Job::class,
+            'log_reference' => ColumnType\Reference::class,
+            'log_severity' => ColumnType\Severity::class,
+            'log_message' => ColumnType\Message::class,
+            'log_created' => ColumnType\Created::class,
+        ],
+    ],
+    'column_defaults' => [
+        'admin' => [
+            'logs' => [
+                // ['type' => 'log_message'],
+                ['type' => 'log_created'],
+                ['type' => 'log_severity'],
+                ['type' => 'log_reference'],
+                ['type' => 'log_job'],
+            ],
+        ],
+    ],
+    'browse_defaults' => [
+        'admin' => [
+            'logs' => [
+                'sort_by' => 'id',
+                'sort_order' => 'desc',
+            ],
+        ],
+    ],
+    'sort_defaults' => [
+        'admin' => [
+            'logs' => [
+                'id' => 'Id', // @translate
+                'owner_id' => 'Owner', // @translate
+                'job_id' => 'Job', // @translate
+                'reference' => 'Reference', // @translate
+                'severity' => 'Severity', // @translate
+                'message' => 'Message', // @translate
+                // 'context' => 'Context', // @translate,
+                'created' => 'Created', // @translate
+            ],
+        ],
+    ],
     'navigation' => [
         'AdminGlobal' => [
             [
