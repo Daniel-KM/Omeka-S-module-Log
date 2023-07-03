@@ -268,7 +268,7 @@ $this->logger()->info(sprintf('The %s #%d has been updated.', 'item', 43));
 // output: The item #43 has been updated.
 ```
 
-a PSR-3 standard log is:
+A PSR-3 standard log is:
 
 ```php
 // PSR-3 logging.
