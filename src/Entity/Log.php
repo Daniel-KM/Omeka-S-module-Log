@@ -121,7 +121,7 @@ class Log extends AbstractEntity
         return $this->id;
     }
 
-    public function setOwner(User $owner = null): AbstractEntity
+    public function setOwner(User $owner = null): self
     {
         $this->owner = $owner;
         return $this;
@@ -132,7 +132,7 @@ class Log extends AbstractEntity
         return $this->owner;
     }
 
-    public function setJob(Job $job = null): AbstractEntity
+    public function setJob(Job $job = null): self
     {
         $this->job = $job;
         return $this;
@@ -143,7 +143,7 @@ class Log extends AbstractEntity
         return $this->job;
     }
 
-    public function setReference($reference): AbstractEntity
+    public function setReference($reference): self
     {
         $this->reference = $reference;
         return $this;
@@ -154,7 +154,7 @@ class Log extends AbstractEntity
         return $this->reference;
     }
 
-    public function setSeverity($severity): AbstractEntity
+    public function setSeverity($severity): self
     {
         $this->severity = (int) $severity;
         return $this;
@@ -165,7 +165,7 @@ class Log extends AbstractEntity
         return $this->severity;
     }
 
-    public function setMessage($message): AbstractEntity
+    public function setMessage($message): self
     {
         $this->message = $message;
         return $this;
@@ -176,7 +176,7 @@ class Log extends AbstractEntity
         return $this->message;
     }
 
-    public function setContext(array $context): AbstractEntity
+    public function setContext(array $context): self
     {
         $this->context = $context;
         return $this;
@@ -187,7 +187,7 @@ class Log extends AbstractEntity
         return $this->context;
     }
 
-    public function setCreated(DateTime $created): AbstractEntity
+    public function setCreated(DateTime $created): self
     {
         $this->created = $created;
         return $this;
@@ -202,7 +202,7 @@ class Log extends AbstractEntity
      * @PrePersist
      * @param LifecycleEventArgs $eventContext
      */
-    public function prePersist(LifecycleEventArgs $eventContext): AbstractEntity
+    public function prePersist(LifecycleEventArgs $eventContext): self
     {
         $this->created = new DateTime('now');
         return $this;
