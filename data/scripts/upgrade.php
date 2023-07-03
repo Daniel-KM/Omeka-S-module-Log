@@ -33,7 +33,7 @@ CREATE INDEX owner_idx ON log (owner_id);
 SQL;
     foreach (explode(";\n", $sqls) as $sql) {
         try {
-            $connection->executeQuery($sql);
+            $connection->executeStatement($sql);
         } catch (\Exception $e) {
         }
     }
@@ -42,11 +42,39 @@ SQL;
 if (version_compare($oldVersion, '3.3.12.6', '<')) {
     // @link https://www.doctrine-project.org/projects/doctrine-dbal/en/2.6/reference/types.html#array-types
     $sql = <<<'SQL'
-ALTER TABLE `log`
-CHANGE `context` `context` LONGTEXT NOT NULL COMMENT '(DC2Type:json)';
+ALTER TABLE `log` CHANGE `context` `context` LONGTEXT NOT NULL COMMENT '(DC2Type:json)';
 SQL;
     try {
-        $connection->executeQuery($sql);
+        $connection->executeStatement($sql);
     } catch (\Exception $e) {
+    }
+}
+
+if (version_compare($oldVersion, '3.4.16', '<')) {
+    // Create index first to avoid issue on foreign keys.
+    $sqls = <<<'SQL'
+CREATE INDEX IDX_8F3F68C57E3C61F9 ON `log` (`owner_id`);
+CREATE INDEX IDX_8F3F68C5BE04EA9 ON `log` (`job_id`);
+CREATE INDEX IDX_8F3F68C5AEA34913 ON `log` (`reference`);
+CREATE INDEX IDX_8F3F68C5F660D16B ON `log` (`severity`);
+
+DROP INDEX owner_idx ON `log`;
+DROP INDEX job_idx ON `log`;
+DROP INDEX reference_idx ON `log`;
+DROP INDEX severity_idx ON `log`;
+SQL;
+    /*
+    $sqls = array_filter(explode(";\n", $sqls));
+    $connection->transactional(function($connection) use ($sqls) {
+        foreach ((array) $sqls as $sql) {
+            $connection->executeStatement($sql);
+        }
+    });
+    */
+    foreach (array_filter(explode(";\n", $sqls)) as $sql) {
+        try {
+            $connection->executeStatement($sql);
+        } catch (\Exception $e) {
+        }
     }
 }
