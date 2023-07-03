@@ -12,19 +12,9 @@ use Omeka\Entity\User;
  * @Table(
  *     indexes={
  *         @Index(
- *             name="owner_idx",
- *             columns={"owner_id"}
- *         ),
- *         @Index(
- *             name="job_idx",
- *             columns={"job_id"}
- *         ),
- *         @Index(
- *             name="reference_idx",
  *             columns={"reference"}
  *         ),
  *         @Index(
- *             name="severity_idx",
  *             columns={"severity"}
  *         )
  *     }
