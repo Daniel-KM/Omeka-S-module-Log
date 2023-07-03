@@ -104,7 +104,8 @@ class LogRepresentation extends AbstractEntityRepresentation
             $hyperlink = $this->getViewHelper('hyperlink');
             $url = $this->getViewHelper('url');
             foreach ($context as $key => $value) {
-                $cleanKey = preg_replace('~[^a-z]~', '', strtolower((string) $key));
+                $lowerKey = strtolower((string) $key);
+                $cleanKey = preg_replace('~[^a-z]~', '', $lowerKey);
                 switch ($cleanKey) {
                     case 'itemid':
                     case 'itemsetid':
@@ -159,7 +160,9 @@ class LogRepresentation extends AbstractEntityRepresentation
                         }
                         break;
                     case 'url':
-                        $context[$key] = $hyperlink(basename($value), $value);
+                    // Already managed via the clean key.
+                    // case strpos($lowerKey, 'url_') === 0:
+                        $context[$key] = $hyperlink(basename($value), $value, ['target' => '_blank']);
                         $escapeHtml = false;
                         break;
                     case 'link':
@@ -172,6 +175,7 @@ class LogRepresentation extends AbstractEntityRepresentation
         $psrMessage = new PsrMessage($message, $context);
         return $psrMessage
             ->setTranslator($translator)
+            // TODO Manage the case where some keys should be escaped and some keys not.
             ->setEscapeHtml($escapeHtml);
     }
 
