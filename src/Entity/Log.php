@@ -106,7 +106,7 @@ class Log extends AbstractEntity
      *     type="datetime",
      *     nullable=false,
      *     options={
-     *         "default":"CURRENT_TIMESTAMP"
+     *         "default": "CURRENT_TIMESTAMP"
      *     }
      * )
      */
