@@ -119,11 +119,19 @@ class LoggerFactory implements FactoryInterface
             unset($iniConfig['user']);
             $iniConfig['driver'] = 'Pdo_Mysql';
             $iniConfig['platform'] = 'Mysql';
+            // Driver options allow to pass specific options, in particular the
+            // ssl certificate. Doctrine use camel case and Laminas snake case.
+            if (isset($iniConfig['driverOptions'])) {
+                $iniConfig['driver_options'] = $iniConfig['driverOptions'];
+            }
         }
         // Avoid an issue on common config.
         elseif (empty($iniConfig['driver'])) {
             $iniConfig['driver'] = 'Pdo_Mysql';
             $iniConfig['platform'] = 'Mysql';
+            if (isset($iniConfig['driverOptions'])) {
+                $iniConfig['driver_options'] = $iniConfig['driverOptions'];
+            }
         }
 
         return new \Laminas\Db\Adapter\Adapter($iniConfig);
