@@ -79,7 +79,7 @@ class LoggerFactory implements FactoryInterface
      * To disable the database, set `"db" => false` in the module config.
      *
      * For performance, flexibility and stability reasons, the write process
-     * uses a specific Zend Db adapter. The read/delete process in api or ui
+     * uses a specific Laminas Db adapter. The read/delete process in api or ui
      * uses the default doctrine entity manager.
      * @todo Use a second entity manager to manage the database and save logs in real time.
      *

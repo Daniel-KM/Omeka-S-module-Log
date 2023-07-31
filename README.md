@@ -16,12 +16,19 @@ to send an email when a critical error occurs.
 The logs are [PSR-3] compliant: they can managed by any other tool that respects
 this standard (see below). They can be translated too.
 
+The module can be used with the error monitoring service [Sentry] to log end user
+errors and to profile and to trace exceptions, allowing to find issues hard to
+reproduce quicker.
+
 
 Installation
 ------------
 
 The module uses an external library, [webui-popover], so use the release zip
 to install it, or use and init the source.
+
+If you want to use Sentry, the server should run php 8.0 or later. Php 7.4, the
+minimum version of Omeka S v4, is not supported.
 
 See general end user documentation for [installing a module].
 
@@ -149,8 +156,8 @@ logger, add the options, at your choice:
     ],
 ```
 
-Note that this will disable the default error logging of php and debug tools, so
-if you want to keep it, add a writer for it.
+Note that **this will disable the default error logging of php and debug tools**,
+so if you want to keep it, add a writer for it.
 
 Furthermore, they are managed automatically for background jobs.
 
@@ -183,75 +190,57 @@ documentation for the format of the config.
 
 ### Sentry
 
-[Sentry] is an error tracking service. It should be installed in a particular
-way, following these steps, from the root of Omeka S:
+[Sentry] is an error monitoring service. To use it, you need a server running
+php 8.0 or more and to update some keys in the file `config/local.config.php` at
+the root of Omeka:
 
-- Sentry requires the library `php-curl`, that should be enabled on the server.
-- Install Sentry via composer **in the root of Omeka**, not in the module
-- Include the composer library for Sentry.
-- Copy the default config file (see // https://github.com/facile-it/sentry-module#client)
-  in the config dir of Omeka and set your Sentry dsn.
-- Modify the Omeka file `application/config/application.config.php` to load
-  Sentry as the last module, and append the config file `config/sentry.config.local.php`
-  to the `config_glob_paths` under the key `module_listener_options`.
-- Enable Sentry via the file `config/local.config.php`, setting key `['logger']['writers']['sentry']`
-  as true.
+- set key `['logger']['writers']['sentry]` as `true`.
+- set key `['sentry']['disable_module']` as `false` (this is the default).
+- fill key `['sentry']['options']['dsn']` with dsn, that is a url provided by
+  Sentry in your account and used for authentication and logging.
+- optionally, to monitor the front-end with javascript, set the key `['sentry']['javascript']['inject_script']`
+  as `true` and fill the key `['sentry']['javascript']['options']['dsn']` with
+  the dsn or another one.
+- set any other specific config for Sentry as you need for proxy, error
+  handling, error rate, hooks, tracing, environment production/development,
+  version, filters, etc: see the [documentation about the configuration].
 
-As a script:
+By default, only exceptions are logged. To log more data, you need to modify two
+options:
 
-```sh
-# From the root of Omeka (to adapt to your installation).
-cd /var/www/html
-# Set the Sentry client key "DSN".
-DSN='https://abcdefabcdefabcdefabcdefabcdefab@o123456.ingest.sentry.io/1234567'
-composer require facile-it/sentry-module php-http/curl-client laminas/laminas-diactoros
-cp modules/Log/config/sentry.config.local.php.dist config/sentry.config.local.php
-sed -i -r "s|'dsn' => '',|'dsn' => '$DSN',|" config/sentry.config.local.php
-sed -i -r "s|'Omeka',|'Omeka',\n        'Facile\SentryModule',|" application/config/application.config.php
-sed -i -r "s|OMEKA_PATH . '/config/local.config.php',|OMEKA_PATH . '/config/local.config.php',\n            OMEKA_PATH . '/config/sentry.config.local.php',|" application/config/application.config.php
-# TODO Enable sentry in config/local.config.php, checking existing keys for logger.
-```
+- enable the logging in key `['logger']['options']['writers']['sentry']['options']['attach_to_logger']`
+- update the priority in key `['logger']['options']['writers']['sentry']['options']['filters'][0]['options']['priority']`
+  if needed. The default is `\Laminas\Log\Logger::ERR` and fine in most of the
+  cases.
 
-So the file `application/config/application.config.php` should be:
+Note that it is is useless to monitor events that are not at least error or
+eventually warning. The aim of Sentry is to deploy it to monitor end users
+errors. For development, use other loggers.
 
-```php
-return [
-    'modules' => [
-        'Laminas\Form',
-        'Laminas\I18n',
-        'Laminas\Mvc\I18n',
-        'Laminas\Mvc\Plugin\Identity',
-        'Laminas\Navigation',
-        'Laminas\Router',
-        'Omeka',
-        'Facile\SentryModule',
-    ],
-    'module_listener_options' => [
-        'module_paths' => [
-            'Omeka' => OMEKA_PATH . '/application',
-            OMEKA_PATH . '/modules',
-        ],
-        'config_glob_paths' => [
-            OMEKA_PATH . '/config/local.config.php',
-            OMEKA_PATH . '/config/sentry.config.local.php',
-        ],
-    ],
-    …
-```
-
-And the file `config/local.config.php` should be something like:
+So to log exceptions and other errors in Sentry, update the Omeka file `config/local.config.php`
+like this:
 
 ```php
-    'loggers' => [
+    // Fill the other keys as needed.
+    'logger' => [
         'log' => true,
-        'priority' => \Laminas\Log\Logger::INFO,
         'writers' => [
             'sentry' => true,
         ],
+        'options' => [
+            'writers' => [
+                'sentry' => [
+                    'options' => [
+                        'attach_to_logger' => true,
+                    ],
+                ],
+            ],
+        ],
     ],
 ```
 
-That's all!
+**Warning**: the free Sentry subscription plan is limited to 5000 errors or
+exceptions by month.
 
 
 PSR-3 and logging
@@ -404,6 +393,9 @@ TODO
 - [ ] Use the second entity manager in all cases.
 - [ ] Add an option to copy logs inside jobs when the module is uninstalled.
 - [ ] Fix incompatibility between authentication modules (Ldap, Cas, Shibboleth). The user id is currently disabled in such a case.
+- [ ] Replace laminas-db by a second entity manager? But Sentry uses it for now.
+- [ ] Separate Sentry into another module? It will be cleaner, but heavier in fact because only two small checks are needed, not a full module process.
+- [ ] Use key "psr_log" instead of "log" (see https://docs.laminas.dev/laminas-log/service-manager/#psrloggerabstractadapterfactory).
 
 
 Warning
@@ -451,7 +443,8 @@ The fact that you are presently reading this means that you have had knowledge
 of the CeCILL license and that you accept its terms.
 
 * The library [webui-popover] is published under the license [MIT].
-* The library [facile/sentry] is published under the license [MIT].
+* The libraries [sentry/sentry] and [facile-it/sentry-module] are published
+  under the license [MIT].
 
 
 Copyright
@@ -471,9 +464,11 @@ Copyright
 [Installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
 [Log.zip]: https://gitlab.com/Daniel-KM/Omeka-S-module-Log/-/releases
 [Laminas Framework Log]: https://docs.laminas.dev/laminas-log
-[config of the module]: https://gitlab.com/Daniel-KM/Omeka-S-module-Log/-/blob/master/config/module.config.php#L5-117
+[config of the module]: https://gitlab.com/Daniel-KM/Omeka-S-module-Log/-/blob/master/config/module.config.php#L6-126
+[documentation about the configuration]: https://docs.sentry.io/platforms/php/configuration/
 [Sentry]: https://sentry.io
-[facile/sentry]: https://github.com/facile-it/sentry-module
+[sentry/sentry]: https://github.com/sentry/sentry
+[facile-it/sentry-module]: https://github.com/facile-it/sentry-module
 [module issues]: https://gitlab.com/Daniel-KM/Omeka-S-module-Log/-/issues
 [CeCILL v2.1]: https://www.cecill.info/licences/Licence_CeCILL_V2.1-en.html
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html

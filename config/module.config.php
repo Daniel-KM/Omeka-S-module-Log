@@ -15,6 +15,7 @@ return [
         'path' => null,
         // This is the default level in the standard config. Should not be null
         // when upgrade (so check the file config/local.config.php).
+        // It is used only for the stream logger.
         'priority' => null,
 
         // Enable/disable the output writers.
@@ -30,7 +31,7 @@ return [
             // This is the default log file of Omeka (logs/application.log).
             'stream' => true,
             // Log for Omeka jobs (useless with this module).
-            // This is a standard Zend writer, but there is no more parameters.
+            // This is a standard Laminas writer, but there is no more parameters.
             // Note: the default log of job is a big text field (4GB), so it may
             // prevent to restore a database if they a row is too big (bigger than
             // the param "max_allowed_packet" in the config of mariadb/mysql).
@@ -85,6 +86,7 @@ return [
                     'name' => 'stream',
                     'options' => [
                         // This is the default level in the standard config.
+                        // It may be bypassed by the shortcut key set in ['logger']['priority'] when not null.
                         'filters' => \Laminas\Log\Logger::NOTICE,
                         'formatter' => Formatter\PsrLogSimple::class,
                         'stream' => OMEKA_PATH . '/logs/application.log',
