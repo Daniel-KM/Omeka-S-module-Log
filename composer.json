@@ -25,14 +25,25 @@
         "admin"
     ],
     "require": {
-        "php": ">=7.4",
+        "php": "^8.0",
         "grimmlink/webui-popover": "^1.2",
-        "laminas/laminas-db": "2.15.1",
+        "facile-it/sentry-module": "^3.0",
+        "laminas/laminas-db": "^2.18",
+        "symfony/http-client": "^5.4",
+        "nyholm/psr7": "^1.8",
         "oomphinc/composer-installers-extender": "^2.0"
     },
     "replace": {
-        "laminas/laminas-log": "*",
-        "laminas/laminas-stdlib": "*"
+        "laminas/laminas-log": "2.15",
+        "laminas/laminas-servicemanager": "*",
+        "laminas/laminas-stdlib": "*",
+        "psr/container": "*",
+        "psr/log": "*",
+        "symfony/deprecation-contracts": "*",
+        "symfony/options-resolver": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php80": "*",
+        "symfony/service-contracts": "2.5.1"
     },
     "require-dev": {
         "biblibre/omeka-s-test-helper": "dev-master"
@@ -83,7 +94,8 @@
     "config": {
         "allow-plugins": {
             "composer/installers": true,
-            "oomphinc/composer-installers-extender": true
+            "oomphinc/composer-installers-extender": true,
+            "php-http/discovery": true
         }
     }
 }
