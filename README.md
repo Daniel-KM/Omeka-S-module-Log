@@ -187,26 +187,32 @@ documentation for the format of the config.
 way, following these steps, from the root of Omeka S:
 
 - Sentry requires the library `php-curl`, that should be enabled on the server.
-- Sentry should be installed via composer in the root of Omeka.
-- Include the library:
+- Install Sentry via composer **in the root of Omeka**, not in the module
+- Include the composer library for Sentry.
+- Copy the default config file (see // https://github.com/facile-it/sentry-module#client)
+  in the config dir of Omeka and set your Sentry dsn.
+- Modify the Omeka file `application/config/application.config.php` to load
+  Sentry as the last module, and append the config file `config/sentry.config.local.php`
+  to the `config_glob_paths` under the key `module_listener_options`.
+- Enable Sentry via the file `config/local.config.php`, setting key `['logger']['writers']['sentry']`
+  as true.
 
-```bash
-# Note: Omeka uses composer version 1, so you may have to download it.
-composer require facile-it/sentry-module php-http/curl-client laminas/laminas-diactoros
-```
-
-- The psr formatter `facile-it/sentry-psr-log` may be added too (need config).
-- Copy the default config file (see // https://github.com/facile-it/sentry-module#client),
-  and set your Sentry dsn:
+As a script:
 
 ```sh
+# From the root of Omeka (to adapt to your installation).
+cd /var/www/html
+# Set the Sentry client key "DSN".
+DSN='https://abcdefabcdefabcdefabcdefabcdefab@o123456.ingest.sentry.io/1234567'
+composer require facile-it/sentry-module php-http/curl-client laminas/laminas-diactoros
 cp modules/Log/config/sentry.config.local.php.dist config/sentry.config.local.php
-sed -i -r "s|'dsn' => '',|'dsn' => 'https://abcdefabcdefabcdefabcdefabcdefab@sentry.io/1234567',|" config/sentry.config.local.php
+sed -i -r "s|'dsn' => '',|'dsn' => '$DSN',|" config/sentry.config.local.php
+sed -i -r "s|'Omeka',|'Omeka',\n        'Facile\SentryModule',|" application/config/application.config.php
+sed -i -r "s|OMEKA_PATH . '/config/local.config.php',|OMEKA_PATH . '/config/local.config.php',\n            OMEKA_PATH . '/config/sentry.config.local.php',|" application/config/application.config.php
+# TODO Enable sentry in config/local.config.php, checking existing keys for logger.
 ```
 
-In the file `application/config/application.config.php`, add the module
-`Facile\SentryModule` as the last module, plus the config file as new config_glob_paths
-of module_listener_options:
+So the file `application/config/application.config.php` should be:
 
 ```php
 return [
@@ -229,15 +235,20 @@ return [
             OMEKA_PATH . '/config/local.config.php',
             OMEKA_PATH . '/config/sentry.config.local.php',
         ],
-    […]
+    ],
+    …
 ```
 
-Finally, enable Sentry via your `config/local.config.php`:
+And the file `config/local.config.php` should be something like:
 
 ```php
+    'loggers' => [
+        'log' => true,
+        'priority' => \Laminas\Log\Logger::INFO,
         'writers' => [
             'sentry' => true,
         ],
+    ],
 ```
 
 That's all!
