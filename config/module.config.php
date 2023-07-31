@@ -39,8 +39,8 @@ return [
             // like /var/log/nginx/ssl-vhost1.error.log, /var/log/apache2/error.log, /var/log/lastlog, or
             // /tmp/systemd-private-xxx-apache2.service-xxx/tmp/php_errors.log, etc.
             'syslog' => false,
-            // Config for sentry, an error tracking service (https://sentry.io).
-            // See readme to enable it.
+            // Config for sentry, an error monitoring service (https://sentry.io).
+            // The option below should be set too according to it.
             'sentry' => false,
             // Note: External logs (db, sentry, etc.) are not fully checked, so their
             // config should be checked separately.
@@ -107,7 +107,13 @@ return [
                             [
                                 'name' => 'priority',
                                 'options' => [
-                                    'priority' => \Laminas\Log\Logger::INFO,
+                                    // Sentry is an error monitoring service and the aim is to deploy
+                                    // it to track end users errors.
+                                    // So it is useless to track events that are not at least error or
+                                    // eventually warning.
+                                    // Note that the free Sentry subscription plan is limited to 5000 errors or
+                                    // exceptions by month. So for development, you may use other loggers.
+                                    'priority' => \Laminas\Log\Logger::ERR,
                                 ],
                             ],
                         ],
@@ -298,6 +304,32 @@ return [
                 'base_dir' => dirname(__DIR__) . '/language',
                 'pattern' => '%s.mo',
                 'text_domain' => null,
+            ],
+        ],
+    ],
+    /**
+     * Set specific config for Sentry.
+     * Don't update values here, but copy the needed keys at the root of Omeka in config/local.config.php.
+     * The only required value is:
+     * - dsn, that is a url provided by Sentry used to authenticate and log.
+     * @see https://github.com/facile-it/sentry-module#client
+     * @see https://docs.sentry.io/platforms/php/configuration/
+     */
+    'sentry' => [
+        'disable_module' => false,
+        'options' => [
+            // Sentry dsn.
+            'dsn' => '',
+            // other sentry options
+            // https://docs.sentry.io/error-reporting/configuration/?platform=php
+        ],
+        'javascript' => [
+            'inject_script' => false,
+            'options' => [
+                // Sentry Raven dsn.
+                'dsn' => '',
+                // other sentry options
+                // https://docs.sentry.io/platforms/javascript
             ],
         ],
     ],

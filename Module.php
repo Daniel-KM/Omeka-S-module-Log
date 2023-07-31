@@ -46,7 +46,28 @@ class Module extends AbstractModule
 
     public function init(ModuleManager $moduleManager): void
     {
+        // Autoload is needed only for Sentry, so prepare it only if needed.
+
+        // Here, the configs are not yet merged, so check local.config.php for
+        // Sentry. It avoids to add an event.
+        $localConfig = require OMEKA_PATH . '/config/local.config.php';
+        if (empty($localConfig['logger']['writers']['sentry'])
+            || !empty($localConfig['sentry']['disable_module'])
+        ) {
+            return;
+        }
+
         require_once __DIR__ . '/vendor/autoload.php';
+
+        // To store the module name is useless to make Sentry working, but it
+        // allows to list it with ModuleManager->getModules() later.
+        $modules = $moduleManager->getModules();
+        $modules[] = 'Facile\SentryModule';
+        $moduleManager->setModules($modules);
+
+        // Omeka has already loaded modules from application.config.php, so load
+        // it here.
+        $moduleManager->loadModule('Facile\SentryModule');
     }
 
     public function onBootstrap(MvcEvent $event): void
