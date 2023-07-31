@@ -48,6 +48,12 @@ class Module extends AbstractModule
     {
         // Autoload is needed only for Sentry, so prepare it only if needed.
 
+        // Dependencies of Sentry require at least php 8.0.
+        if (PHP_VERSION_ID < 80000) {
+            // error_log('To use module Log with Sentry, php should be version 8.0 or more.');
+            return;
+        }
+
         // Here, the configs are not yet merged, so check local.config.php for
         // Sentry. It avoids to add an event.
         $localConfig = require OMEKA_PATH . '/config/local.config.php';
