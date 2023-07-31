@@ -80,6 +80,24 @@ class Module extends AbstractModule
     {
         parent::onBootstrap($event);
         $this->addAclRules();
+
+        // Track errors only if needed.
+        $services = $this->getServiceLocator();
+        $config = $services->get('Config');
+        if (empty($config['logger']['writers']['sentry'])
+            || empty($config['logger']['options']['writers']['sentry']['options']['attach_to_logger'])
+            || !empty($config['sentry']['disable_module'])
+        ) {
+            return;
+        }
+
+        $application = $event->getApplication();
+        $services = $application->getServiceManager();
+        $eventManager = $application->getEventManager();
+
+        /** @var \Facile\SentryModule\Listener\ErrorHandlerListener $errorHandlerListener */
+        $errorHandlerListener = $services->get(\Facile\SentryModule\Listener\ErrorHandlerListener::class);
+        $errorHandlerListener->attach($eventManager);
     }
 
     protected function postInstall(): void

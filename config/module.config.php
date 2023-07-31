@@ -117,6 +117,8 @@ return [
                                 ],
                             ],
                         ],
+                        // Handle all errors, not only exceptions. Ths is a specific option of this module,
+                        'attach_to_logger' => false,
                     ],
                 ],
             ],
