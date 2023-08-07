@@ -78,3 +78,13 @@ SQL;
         }
     }
 }
+
+if (version_compare($oldVersion, '3.4.18', '<')) {
+    $translator = $services->get('MvcTranslator');
+    $message = new Message(
+        $translator->translate('Support of the third party service Sentry was moved to a separate module, %1$sLog Sentry%2$s.'), // @translate
+        '<a href="https://gitlab.com/Daniel-KM/Omeka-S-module-LogSentry" target="_blank" rel="noopener">', '</a>'
+    );
+    $message->setEscapeHtml(false);
+    $messenger->addWarning($message);
+}
