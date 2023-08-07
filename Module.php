@@ -46,58 +46,13 @@ class Module extends AbstractModule
 
     public function init(ModuleManager $moduleManager): void
     {
-        // Autoload is needed only for Sentry, so prepare it only if needed.
-
-        // Dependencies of Sentry require at least php 8.0.
-        if (PHP_VERSION_ID < 80000) {
-            // error_log('To use module Log with Sentry, php should be version 8.0 or more.');
-            return;
-        }
-
-        // Here, the configs are not yet merged, so check local.config.php for
-        // Sentry. It avoids to add an event.
-        $localConfig = require OMEKA_PATH . '/config/local.config.php';
-        if (empty($localConfig['logger']['writers']['sentry'])
-            || !empty($localConfig['sentry']['disable_module'])
-        ) {
-            return;
-        }
-
         require_once __DIR__ . '/vendor/autoload.php';
-
-        // To store the module name is useless to make Sentry working, but it
-        // allows to list it with ModuleManager->getModules() later.
-        $modules = $moduleManager->getModules();
-        $modules[] = 'Facile\SentryModule';
-        $moduleManager->setModules($modules);
-
-        // Omeka has already loaded modules from application.config.php, so load
-        // it here.
-        $moduleManager->loadModule('Facile\SentryModule');
     }
 
     public function onBootstrap(MvcEvent $event): void
     {
         parent::onBootstrap($event);
         $this->addAclRules();
-
-        // Track errors only if needed.
-        $services = $this->getServiceLocator();
-        $config = $services->get('Config');
-        if (empty($config['logger']['writers']['sentry'])
-            || empty($config['logger']['options']['writers']['sentry']['options']['attach_to_logger'])
-            || !empty($config['sentry']['disable_module'])
-        ) {
-            return;
-        }
-
-        $application = $event->getApplication();
-        $services = $application->getServiceManager();
-        $eventManager = $application->getEventManager();
-
-        /** @var \Facile\SentryModule\Listener\ErrorHandlerListener $errorHandlerListener */
-        $errorHandlerListener = $services->get(\Facile\SentryModule\Listener\ErrorHandlerListener::class);
-        $errorHandlerListener->attach($eventManager);
     }
 
     protected function postInstall(): void

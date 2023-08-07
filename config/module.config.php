@@ -3,6 +3,8 @@
 namespace Log;
 
 return [
+    // Important: don't modify this file, but copy the keys you want in config/local.config.php at the root of Omeka.
+
     'logger' => [
         // The default config in Omeka is false, but this module is designed to log.
         'log' => true,
@@ -41,7 +43,7 @@ return [
             // /tmp/systemd-private-xxx-apache2.service-xxx/tmp/php_errors.log, etc.
             'syslog' => false,
             // Config for sentry, an error monitoring service (https://sentry.io).
-            // The option below should be set too according to it.
+            // The module LogSentry is required.
             'sentry' => false,
             // Note: External logs (db, sentry, etc.) are not fully checked, so their
             // config should be checked separately.
@@ -99,28 +101,6 @@ return [
                         'formatter' => Formatter\PsrLogSimple::class,
                         'application' => 'omeka-s',
                         'facility' => LOG_USER,
-                    ],
-                ],
-                // See https://github.com/facile-it/sentry-module#log-writer
-                'sentry' => [
-                    'name' => \Facile\SentryModule\Log\Writer\Sentry::class,
-                    'options' => [
-                        'filters' => [
-                            [
-                                'name' => 'priority',
-                                'options' => [
-                                    // Sentry is an error monitoring service and the aim is to deploy
-                                    // it to track end users errors.
-                                    // So it is useless to track events that are not at least error or
-                                    // eventually warning.
-                                    // Note that the free Sentry subscription plan is limited to 5000 errors or
-                                    // exceptions by month. So for development, you may use other loggers.
-                                    'priority' => \Laminas\Log\Logger::ERR,
-                                ],
-                            ],
-                        ],
-                        // Handle all errors, not only exceptions. Ths is a specific option of this module,
-                        'attach_to_logger' => false,
                     ],
                 ],
             ],
@@ -308,32 +288,6 @@ return [
                 'base_dir' => dirname(__DIR__) . '/language',
                 'pattern' => '%s.mo',
                 'text_domain' => null,
-            ],
-        ],
-    ],
-    /**
-     * Set specific config for Sentry.
-     * Don't update values here, but copy the needed keys at the root of Omeka in config/local.config.php.
-     * The only required value is:
-     * - dsn, that is a url provided by Sentry used to authenticate and log.
-     * @see https://github.com/facile-it/sentry-module#client
-     * @see https://docs.sentry.io/platforms/php/configuration/
-     */
-    'sentry' => [
-        'disable_module' => false,
-        'options' => [
-            // Sentry dsn.
-            'dsn' => '',
-            // other sentry options
-            // https://docs.sentry.io/error-reporting/configuration/?platform=php
-        ],
-        'javascript' => [
-            'inject_script' => false,
-            'options' => [
-                // Sentry Raven dsn.
-                'dsn' => '',
-                // other sentry options
-                // https://docs.sentry.io/platforms/javascript
             ],
         ],
     ],
