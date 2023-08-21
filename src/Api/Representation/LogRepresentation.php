@@ -109,22 +109,26 @@ class LogRepresentation extends AbstractEntityRepresentation
                 switch ($cleanKey) {
                     case 'itemid':
                     case 'itemsetid':
-                    case 'mediaid':
-                    case 'userid':
-                    case 'ownerid':
                     case 'jobid':
+                    case 'mediaid':
+                    case 'ownerid':
+                    case 'userid':
                     case 'annotationid':
                         $resourceTypes = [
                             'itemid' => 'item',
                             'itemsetid' => 'item-set',
-                            'mediaid' => 'media',
-                            'userid' => 'user',
-                            'ownerid' => 'user',
                             'jobid' => 'job',
+                            'mediaid' => 'media',
+                            'ownerid' => 'user',
+                            'userid' => 'user',
                             'annotationid' => 'annotation',
                         ];
                         $resourceType = $resourceTypes[$cleanKey];
                         $context[$key] = $hyperlink($value, $url('admin/id', ['controller' => $resourceType, 'id' => $value]));
+                        $escapeHtml = false;
+                        break;
+                    case 'assetid':
+                        $context[$key] = $hyperlink($value, $url('admin/default', ['controller' => 'asset', 'id' => $value], ['query' => ['id' => $value]]));
                         $escapeHtml = false;
                         break;
                     case 'resourceid':
@@ -132,10 +136,14 @@ class LogRepresentation extends AbstractEntityRepresentation
                         $resourceType = $context['resource'] ?? $context['resource_name'] ?? $context['resource_type'] ?? null;
                         if ($resourceType) {
                             $resourceTypes = [
+                                'asset' => 'asset',
+                                'assets' => 'asset',
                                 'item' => 'item',
                                 'items' => 'item',
                                 'itemset' => 'item-set',
                                 'itemsets' => 'item-set',
+                                'job' => 'job',
+                                'jobs' => 'job',
                                 'media' => 'media',
                                 'user' => 'user',
                                 'users' => 'user',
@@ -145,7 +153,9 @@ class LogRepresentation extends AbstractEntityRepresentation
                             $resourceType = preg_replace('~[^a-z]~', '', strtolower($resourceType));
                             if (isset($resourceTypes[$resourceType])) {
                                 $resourceType = $resourceTypes[$resourceType];
-                                $context[$key] = $hyperlink($value, $url('admin/id', ['controller' => $resourceType, 'id' => $value]));
+                                $context[$key] = $resourceType === 'asset'
+                                    ? $hyperlink($value, $url('admin/default', ['controller' => 'asset', 'id' => $value], ['query' => ['id' => $value]]))
+                                    : $hyperlink($value, $url('admin/id', ['controller' => $resourceType, 'id' => $value]));
                                 $escapeHtml = false;
                                 if (isset($context['resource'])) {
                                     $context['resource'] = $translator->translate($context['resource']);
