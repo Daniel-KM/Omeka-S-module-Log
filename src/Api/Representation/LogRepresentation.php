@@ -175,8 +175,11 @@ class LogRepresentation extends AbstractEntityRepresentation
                         $context[$key] = $hyperlink(basename($value), $value, ['target' => '_blank']);
                         $escapeHtml = false;
                         break;
+                    case 'href':
                     case 'link':
                         $escapeHtml = false;
+                        break;
+                    default:
                         break;
                 }
             }
