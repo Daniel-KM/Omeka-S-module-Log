@@ -67,7 +67,7 @@ class Module extends AbstractModule
         $messenger->addWarning($t->translate('You may need to update config/local.config.php to update your log settings.')); // @translate
         $message = new \Omeka\Stdlib\Message(
             $t->translate('See examples of config in the %sreadme%s.'), // @translate
-            '<a href="https://gitlab.com/Daniel-KM/Omeka-S-module-Log/#config" target=" blank" rel="noopener">', '</a>'
+            '<a href="https://gitlab.com/Daniel-KM/Omeka-S-module-Log/#config" target="_blank" rel="noopener">', '</a>'
         );
         $message->setEscapeHtml(false);
         $messenger->addNotice($message);
