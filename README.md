@@ -176,8 +176,18 @@ host     = ""
 ;driver   =
 ```
 
+Extended options are supported via keys `driverOptions[xxx]`, in particular
+when the ssl option is on:
+
+```ini
+driverOptions[1014] = 0
+driverOptions[1009] = "/path/to/domain.certificate.cer"
+```
+
+Here, `1014` is `PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT` and `1009` is `PDO::MYSQL_ATTR_SSL_CA`.
+
 Note that when the logs are logged externally, the admin interface cannot be
-used.
+used for now.
 
 ### Additionnal logging
 
