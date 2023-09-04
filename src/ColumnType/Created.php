@@ -2,6 +2,9 @@
 
 namespace Log\ColumnType;
 
+use Laminas\View\Renderer\PhpRenderer;
+use Omeka\Api\Representation\AbstractEntityRepresentation;
+
 class Created extends \Omeka\ColumnType\Created
 
 {
@@ -15,5 +18,10 @@ class Created extends \Omeka\ColumnType\Created
         return [
             'logs',
         ];
+    }
+
+    public function renderContent(PhpRenderer $view, AbstractEntityRepresentation $resource, array $data) : ?string
+    {
+        return $view->i18n()->dateFormat($resource->created(), 'medium', 'medium');
     }
 }
