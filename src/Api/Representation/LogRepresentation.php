@@ -104,6 +104,7 @@ class LogRepresentation extends AbstractEntityRepresentation
             $hyperlink = $this->getViewHelper('hyperlink');
             $url = $this->getViewHelper('url');
             foreach ($context as $key => $value) {
+                $value = (string) $value;
                 $lowerKey = strtolower((string) $key);
                 $cleanKey = preg_replace('~[^a-z]~', '', $lowerKey);
                 switch ($cleanKey) {
