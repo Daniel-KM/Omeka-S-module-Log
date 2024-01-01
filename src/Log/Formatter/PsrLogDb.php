@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Log\Formatter;
+namespace Log\Log\Formatter;
 
 use Common\Log\Formatter\PsrLogAwareTrait;
 use DateTime;

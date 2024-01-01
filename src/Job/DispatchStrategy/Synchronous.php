@@ -39,7 +39,7 @@ class Synchronous extends \Omeka\Job\DispatchStrategy\Synchronous
                     }
 
                     // Enable the user and job id in the default logger.
-                    $userJobIdProcessor = new \Log\Processor\UserJobId($job);
+                    $userJobIdProcessor = new \Log\Log\Processor\UserJobId($job);
                     // The priority "0" fixes a precedency issue with the processor UserId.
                     $logger->addProcessor($userJobIdProcessor, 0);
                 }
@@ -68,7 +68,7 @@ class Synchronous extends \Omeka\Job\DispatchStrategy\Synchronous
                     }
 
                     // Enable the user and job id in the default logger.
-                    $userJobIdProcessor = new \Log\Processor\UserJobId($job);
+                    $userJobIdProcessor = new \Log\Log\Processor\UserJobId($job);
                     // The priority "0" fixes a precedency issue with the processor UserId.
                     $logger->addProcessor($userJobIdProcessor, 0);
                 }

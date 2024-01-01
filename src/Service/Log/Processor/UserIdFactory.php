@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Log\Service\Processor;
+namespace Log\Service\Log\Processor;
 
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
-use Log\Processor\UserId;
+use Log\Log\Processor\UserId;
 
 class UserIdFactory implements FactoryInterface
 {

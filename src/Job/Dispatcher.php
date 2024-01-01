@@ -70,7 +70,7 @@ class Dispatcher extends \Omeka\Job\Dispatcher
         }
 
         // Enable the user and job id in the default logger.
-        $userJobIdProcessor = new \Log\Processor\UserJobId($job);
+        $userJobIdProcessor = new \Log\Log\Processor\UserJobId($job);
         // The priority "0" fixes a precedency issue with the processor UserId.
         $this->logger->addProcessor($userJobIdProcessor, 0);
 

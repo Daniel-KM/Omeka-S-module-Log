@@ -58,7 +58,7 @@ return [
                     'name' => 'db',
                     'options' => [
                         'filters' => \Laminas\Log\Logger::DEBUG,
-                        'formatter' => Formatter\PsrLogDb::class,
+                        'formatter' => Log\Formatter\PsrLogDb::class,
                         'db' => null,
                         // 'db' => new \Laminas\Db\Adapter\Adapter([
                         //     'driver' => 'mysqli',
@@ -106,7 +106,7 @@ return [
             ],
             'processors' => [
                 'userid' => [
-                    'name' => Processor\UserId::class,
+                    'name' => Log\Processor\UserId::class,
                 ],
             ],
             // Special options for exceptions, errors and fatal errors, disabled by Laminas by default.
@@ -167,14 +167,14 @@ return [
     ],
     'log_processors' => [
         'invokables' => [
-            Processor\JobId::class => Processor\JobId::class,
+            Log\Processor\JobId::class => Log\Processor\JobId::class,
         ],
         'factories' => [
-            Processor\UserId::class => Service\Processor\UserIdFactory::class,
+            Log\Processor\UserId::class => Service\Log\Processor\UserIdFactory::class,
         ],
         'aliases' => [
-            'jobid' => Processor\JobId::class,
-            'userid' => Processor\UserId::class,
+            'jobid' => Log\Processor\JobId::class,
+            'userid' => Log\Processor\UserId::class,
         ],
     ],
     'router' => [

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Log\Processor;
+namespace Log\Log\Processor;
 
 use Laminas\Log\Processor\ProcessorInterface;
 use Omeka\Entity\User;

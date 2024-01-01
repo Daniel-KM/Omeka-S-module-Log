@@ -6,8 +6,8 @@ use Interop\Container\ContainerInterface;
 use Laminas\Log\Logger;
 use Laminas\Log\Writer\Noop;
 use Laminas\ServiceManager\Factory\FactoryInterface;
-use Log\Processor\UserId;
-use Log\Service\Processor\UserIdFactory;
+use Log\Log\Processor\UserId;
+use Log\Service\Log\Processor\UserIdFactory;
 
 /**
  * Logger factory.
