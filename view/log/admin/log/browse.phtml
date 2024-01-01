@@ -87,9 +87,11 @@ $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::cl
                 <input type="checkbox" name="resource_ids[]" value="<?= $log->id() ?>"<?php if (!$userIsAllowedDelete): ?> disabled="disabled"<?php endif; ?>>
                 <?php endif; ?>
                 <span class="log-message">
-                    <?php $shouldEscape = $log->text()->escapeHtml(); ?>
-                    <?php $text = $log->text()->translate(); ?>
-                    <?php $isLong = mb_strlen($shouldEscape ? $text : strip_tags($text)) > $strLength; ?>
+                    <?php
+                    $shouldEscape = $log->text()->escapeHtml();
+                    $text = $log->text()->translate();
+                    $isLong = mb_strlen($shouldEscape ? $text : strip_tags($text)) > $strLength;
+                    ?>
                     <?php if ($isLong): ?>
                     <span class="log-message-truncated truncate"><?= nl2br($escape(mb_substr(strip_tags($text), 0, $strLength))) . '…' ?></span>
                     <?php else: ?>
@@ -121,7 +123,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::cl
                     ]) ?></li>
                 </ul>
             </td>
-            <?php echo $this->browse()->renderContentRow('logs', $log); ?>
+            <?= $this->browse()->renderContentRow('logs', $log) ?>
         </tr>
         <?php endforeach; ?>
         </tbody>
@@ -199,7 +201,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::cl
     <div class="sidebar-content">
         <div id="sidebar-search-form" class="disable-unsaved-warning">
             <h3><?= $translate('Search logs') ?></h3>
-            <?php // echo $hyperlink($translate('Advanced search'), $url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']) ?>
+            <?php // = $hyperlink($translate('Advanced search'), $url(null, ['action' => 'search'], ['query' => $this->params()->fromQuery()], true), ['class' => 'advanced-search']) ?>
             <?= $this->form($formSearch) ?>
         </div>
     </div>
