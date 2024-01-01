@@ -27,6 +27,8 @@ Installation
 The module uses an external library, [webui-popover], so use the release zip
 to install it, or use and init the source.
 
+This module requires the module [Common], that should be installed first.
+
 See general end user documentation for [installing a module].
 
 * From the zip
@@ -50,8 +52,8 @@ of Omeka: `rm -rf vendor && composer install --no-dev`.
 Config
 ------
 
-The config is a pure Laminas log config: see the [Laminas Framework Log] documentation
-for the format. Only common settings are explained here.
+The config is a pure Laminas log config: see the [Laminas Framework Log]
+documentation for the format. Only common settings are explained here.
 
 To enable or disable an option or a writer, it is recommended to copy the wanted
 keys inside your own `config/local.config.php`, so the maintenance will be
@@ -202,58 +204,40 @@ Install module [Log Sentry] and update the config.
 **Warning**: the free Sentry subscription plan is limited to 5000 errors or
 exceptions by month.
 
+### Delete old logs
+
+When the table is growing too much, it's time to clear them. It can be done with
+a task of the module [Easy Admin] or via these SQL queries:
+
+```sql
+# To delete all messages lower or equal to info:
+DELETE FROM `log`
+WHERE `severity` <= 6;
+
+# To delete only duplicate messages:
+DELETE FROM `log`
+WHERE `message` IN (select message from (SELECT message FROM log GROUP BY message ORDER BY COUNT(id) DESC limit 12) as s);
+```
 
 PSR-3 and logging
 -----------------
 
-### PSR-3
+With [PSR-3], the message uses placeholders that are not in C-style of the
+function `sprintf` (`%s`, `%d`, etc.), but in moustache-style, identified with
+`{` and `}`, without spaces.
 
-The PHP Framework Interop Group ([PHP-FIG]) represents the majority of php
-frameworks, in particular all main CMS.
-
-[PSR-3] means that the message and its context may be separated in the logs, so
-they can be translated and managed by any other compliant tools. This is useful
-in particular when an external database is used to store logs.
-
-The message uses placeholders that are not in C-style of the function `sprintf`
-(`%s`, `%d`, etc.), but in moustache-style, identified with `{` and `}`, without
-spaces.
-
-So, instead of logging like this:
-
-```php
-// Classic logging (not translatable).
-$this->logger()->info(sprintf($message, ...$args));
-$this->logger()->info(sprintf('The %s #%d has been updated.', 'item', 43));
-// output: The item #43 has been updated.
-```
-
-A PSR-3 standard log is:
-
-```php
-// PSR-3 logging.
-$this->logger()->info($message, $context);
-$this->logger()->info(
-    'The {resource} #{id} has been updated.', // @translate
-    ['resource' => 'item', 'id' => 43]
-);
-// output: The item #43 has been updated.
-```
-
-If an Exception object is passed in the context data, it must be in the `exception`
-key.
-
-Because the logs are translatable at user level, with a message and context, the
-message must not be translated when logging.
+These features depend on the module [Common]. Only specific features from the
+current module are presented here.
 
 ### Logging extra data
 
 The module adds three extra data to improve management of logs inside Omeka: the
 current user, the job and a reference. The user and the job are automatically
 added via the extra keys `userId` and `jobId`, that replace manually set keys.
-The reference can be added as additional key `referenceId`. If the context uses
-these keys as placeholders, they are mapped in the message, else they are
-removed from the context.
+The reference can be added as additional key `referenceId`. These keys are added
+automatically in most of the cases, so you don't need to add them. If the
+context uses these keys as placeholders, they are mapped in the message, else
+they are removed from the context.
 
 ```php
 // PSR-3 logging with extra data.
@@ -284,7 +268,8 @@ The reference can be any short string. It may be a category or a unique
 identifier. If there is a job, it may repeat or not the values available in the
 job settings and metadata.
 
-It can be added at the beginning of the process to avoid to set it for each log:
+It can be added at the beginning of the process to avoid to set it for each log.
+This is the normal way to log messages:
 
 ```php
 // PSR-3 logging with reference id (a random number if not set).
@@ -299,63 +284,16 @@ $this->logger()->info(
 // output in database: The item #43 has been updated by user #1.
 ```
 
-### Compatibility
-
-* Compatibility with the default stream logger
-
-The PSR-3 messages are converted into simple messages for the default logger.
-Other extra data are appended.
-
-* Compatibility with core messages
-
-The logger stores the core messages as it, without context, so they can be
-displayed. They are not translatable if they use placeholders.
-
-### Helpers
-
-- Direct database logging
-
-A controller plugin is available to log messages directly in the database and
-inside it only: `loggerDb`. If used inside a job, it should be initialized to
-keep track of the user and the job:
-
-```php
-$userJobIdProcessor = new \Log\Processor\UserJobId($this->job);
-$this->loggerDb()->addProcessor($userJobIdProcessor);
-```
-
-- PSR-3 Message
-
-If the message may be reused, the helper PsrMessage() can be used, with all the
-values:
-
-```php
-$message = new \Log\Stdlib\PsrMessage(
-    'The {resource} #{id} has been updated by user #{userId}.', // @translate
-    ['resource' => 'item', 'id' => 43, 'userId' => $user->id()]
-);
-$this->logger()->info($message->getMessage(), $message->getContext());
-echo $message;
-// With translation.
-$message->setTranslator($translator);
-echo $message;
-```
-
-- Plural
-
-By construction, the plural is not managed: only one message is saved in the
-log. So, if any, the plural message should be prepared before the logging.
-
 
 TODO
 ----
 
+- [ ] Use key "psr_log" instead of "log" (see https://docs.laminas.dev/laminas-log/service-manager/#psrloggerabstractadapterfactory).
 - [ ] Use the second entity manager in all cases.
 - [ ] Add an option to copy logs inside jobs when the module is uninstalled.
 - [ ] Fix incompatibility between authentication modules (Ldap, Cas, Shibboleth). The user id is currently disabled in such a case.
 - [ ] Replace laminas-db by a second entity manager?
 - [x] Separate Sentry into another module? It will be cleaner, but heavier in fact because only two small checks are needed, not a full module process.
-- [ ] Use key "psr_log" instead of "log" (see https://docs.laminas.dev/laminas-log/service-manager/#psrloggerabstractadapterfactory).
 
 
 Warning
@@ -417,7 +355,7 @@ Copyright
 [Log Sentry]: https://gitlab.com/Daniel-KM/Omeka-S-module-LogSentry
 [Omeka S]: https://omeka.org/s
 [PSR-3]: http://www.php-fig.org/psr/psr-3
-[PHP-FIG]: http://www.php-fig.org
+[Common]: https://gitlab.com/Daniel-KM/Omeka-S-module-Common
 [webui-popover]: https://github.com/sandywalker/webui-popover
 [Installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
 [Log.zip]: https://gitlab.com/Daniel-KM/Omeka-S-module-Log/-/releases
