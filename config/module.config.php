@@ -90,7 +90,7 @@ return [
                         // This is the default level in the standard config.
                         // It may be bypassed by the shortcut key set in ['logger']['priority'] when not null.
                         'filters' => \Laminas\Log\Logger::NOTICE,
-                        'formatter' => Formatter\PsrLogSimple::class,
+                        'formatter' => \Common\Log\Formatter\PsrLogSimple::class,
                         'stream' => OMEKA_PATH . '/logs/application.log',
                     ],
                 ],
@@ -98,7 +98,7 @@ return [
                     'name' => 'syslog',
                     'options' => [
                         'filters' => \Laminas\Log\Logger::ERR,
-                        'formatter' => Formatter\PsrLogSimple::class,
+                        'formatter' => \Common\Log\Formatter\PsrLogSimple::class,
                         'application' => 'omeka-s',
                         'facility' => LOG_USER,
                     ],
@@ -140,8 +140,6 @@ return [
     'view_helpers' => [
         'invokables' => [
             'logSearchFilters' => View\Helper\LogSearchFilters::class,
-            // Required to manage PsrMessage.
-            'messages' => View\Helper\Messages::class,
         ],
     ],
     'form_elements' => [

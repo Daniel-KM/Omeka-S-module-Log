@@ -2,10 +2,10 @@
 
 namespace Log\Controller\Admin;
 
+use Common\Stdlib\PsrMessage;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 use Log\Form\QuickSearchForm;
-use Log\Stdlib\PsrMessage;
 use Omeka\Form\ConfirmForm;
 
 class LogController extends AbstractActionController

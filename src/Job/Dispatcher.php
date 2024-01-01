@@ -4,10 +4,10 @@ namespace Log\Job;
 
 use DateTime;
 use Doctrine\ORM\EntityManager;
-use Log\Log\Writer\Job as JobWriter;
 use Omeka\Entity\Job;
 use Omeka\Job\DispatchStrategy\StrategyInterface;
 use Omeka\Job\Exception;
+use Omeka\Log\Writer\Job as JobWriter;
 
 class Dispatcher extends \Omeka\Job\Dispatcher
 {
@@ -64,7 +64,9 @@ class Dispatcher extends \Omeka\Job\Dispatcher
     {
         // Keep the default writer if wanted.
         if ($this->useJobWriter) {
-            $this->logger->addWriter(new JobWriter($job));
+            $writer = new JobWriter($job);
+            $writer->setFormatter(new \Common\Log\Formatter\PsrLogSimple);
+            $this->logger->addWriter($writer);
         }
 
         // Enable the user and job id in the default logger.

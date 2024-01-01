@@ -1,10 +1,11 @@
 <?php declare(strict_types=1);
+
 namespace Log\Job\DispatchStrategy;
 
 use Doctrine\ORM\EntityManager;
 use Laminas\Log\Logger;
-use Log\Log\Writer\Job as JobWriter;
 use Omeka\Entity\Job;
+use Omeka\Log\Writer\Job as JobWriter;
 
 class Synchronous extends \Omeka\Job\DispatchStrategy\Synchronous
 {
@@ -32,7 +33,9 @@ class Synchronous extends \Omeka\Job\DispatchStrategy\Synchronous
 
                     // Job writer should be reenabled.
                     if ($this->serviceLocator->get('Config')['logger']['writers']['job']) {
-                        $logger->addWriter(new JobWriter($job));
+                        $writer = new JobWriter($job);
+                        $writer->setFormatter(new \Common\Log\Formatter\PsrLogSimple);
+                        $logger->addWriter($writer);
                     }
 
                     // Enable the user and job id in the default logger.
@@ -59,7 +62,9 @@ class Synchronous extends \Omeka\Job\DispatchStrategy\Synchronous
 
                     // Job writer should be reenabled.
                     if ($this->serviceLocator->get('Config')['logger']['writers']['job']) {
-                        $logger->addWriter(new JobWriter($job));
+                        $writer = new JobWriter($job);
+                        $writer->setFormatter(new \Common\Log\Formatter\PsrLogSimple);
+                        $logger->addWriter($writer);
                     }
 
                     // Enable the user and job id in the default logger.

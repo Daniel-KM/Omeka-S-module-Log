@@ -2,7 +2,7 @@
 
 namespace Log\Api\Representation;
 
-use Log\Stdlib\PsrMessage;
+use Common\Stdlib\PsrMessage;
 use Omeka\Api\Representation\AbstractEntityRepresentation;
 
 class LogRepresentation extends AbstractEntityRepresentation

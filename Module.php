@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
 /*
- * Copyright Daniel Berthereau, 2017-2023
+ * Copyright Daniel Berthereau, 2017-2024
  *
  * This software is governed by the CeCILL license under French law and abiding
  * by the rules of distribution of free software.  You can use, modify and/ or
@@ -29,20 +29,25 @@
 
 namespace Log;
 
-if (!class_exists(\Generic\AbstractModule::class)) {
-    require file_exists(dirname(__DIR__) . '/Generic/AbstractModule.php')
-        ? dirname(__DIR__) . '/Generic/AbstractModule.php'
-        : __DIR__ . '/src/Generic/AbstractModule.php';
+if (!class_exists(\Common\TraitModule::class)) {
+    require_once dirname(__DIR__) . '/Common/TraitModule.php';
 }
 
-use Generic\AbstractModule;
+use Common\TraitModule;
 use Laminas\ModuleManager\ModuleManager;
 use Laminas\Mvc\MvcEvent;
+use Omeka\Module\AbstractModule;
 use Omeka\Permissions\Assertion\OwnsEntityAssertion;
 
 class Module extends AbstractModule
 {
+    use TraitModule;
+
     public const NAMESPACE = __NAMESPACE__;
+
+    protected $dependencies = [
+        'Common',
+    ];
 
     public function init(ModuleManager $moduleManager): void
     {

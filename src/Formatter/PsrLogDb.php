@@ -2,6 +2,7 @@
 
 namespace Log\Formatter;
 
+use Common\Log\Formatter\PsrLogAwareTrait;
 use DateTime;
 use Laminas\Log\Formatter\Base;
 
