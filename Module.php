@@ -32,6 +32,13 @@ namespace Log;
 if (!class_exists(\Common\TraitModule::class)) {
     require_once dirname(__DIR__) . '/Common/TraitModule.php';
 }
+// Required during migration from Generic to Common.
+if (!class_exists(\Common\Log\Formatter\PsrLogAwareTrait::class)) {
+    require_once dirname(__DIR__) . '/Common/src/Stdlib/PsrInterpolateInterface.php';
+    require_once dirname(__DIR__) . '/Common/src/Stdlib/PsrInterpolateTrait.php';
+    require_once dirname(__DIR__) . '/Common/src/Log/Formatter/PsrLogAwareTrait.php';
+    require_once dirname(__DIR__) . '/Common/src/Log/Formatter/PsrLogSimple.php';
+}
 
 use Common\TraitModule;
 use Laminas\ModuleManager\ModuleManager;
