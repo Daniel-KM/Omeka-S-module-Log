@@ -292,7 +292,7 @@ TODO
 - [ ] Use the second entity manager in all cases.
 - [ ] Add an option to copy logs inside jobs when the module is uninstalled.
 - [ ] Fix incompatibility between authentication modules (Ldap, Cas, Shibboleth). The user id is currently disabled in such a case.
-- [ ] Replace laminas-db by a second entity manager?
+- [ ] Replace laminas-db by doctrine and a second entity manager.
 - [x] Separate Sentry into another module? It will be cleaner, but heavier in fact because only two small checks are needed, not a full module process.
 
 
