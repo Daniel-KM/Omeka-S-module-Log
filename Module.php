@@ -67,6 +67,20 @@ class Module extends AbstractModule
         $this->addAclRules();
     }
 
+    protected function preInstall(): void
+    {
+        /** @var \Omeka\Module\Manager $moduleManager */
+        $moduleManager = $services->get('Omeka\ModuleManager');
+        $module = $moduleManager->getModule('Common');
+        if (!$module || $module->getState() !== \Omeka\Module\Manager::STATE_ACTIVE) {
+            $message = new \Omeka\Stdlib\Message(
+                'The module %1$s should be upgraded to version %2$s or later.', // @translate
+                'Common', '3.4.47'
+            );
+            throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
+        }
+    }
+
     protected function postInstall(): void
     {
         $services = $this->getServiceLocator();
