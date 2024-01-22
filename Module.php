@@ -69,13 +69,13 @@ class Module extends AbstractModule
 
     protected function preInstall(): void
     {
-        /** @var \Omeka\Module\Manager $moduleManager */
-        $moduleManager = $services->get('Omeka\ModuleManager');
-        $module = $moduleManager->getModule('Common');
-        if (!$module || $module->getState() !== \Omeka\Module\Manager::STATE_ACTIVE) {
+        $services = $this->getServiceLocator();
+        $translate = $services->get('ControllerPluginManager')->get('translate');
+
+        if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActiveVersion('Common', '3.4.48')) {
             $message = new \Omeka\Stdlib\Message(
-                'The module %1$s should be upgraded to version %2$s or later.', // @translate
-                'Common', '3.4.47'
+                $translate('The module %1$s should be upgraded to version %2$s or later.'), // @translate
+                'Common', '3.4.48'
             );
             throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
         }
@@ -84,15 +84,16 @@ class Module extends AbstractModule
     protected function postInstall(): void
     {
         $services = $this->getServiceLocator();
-        $t = $services->get('MvcTranslator');
-        $messenger = $services->get('ControllerPluginManager')->get('messenger');
         $config = $services->get('Config');
+        $translate = $services->get('ControllerPluginManager')->get('translate');
+        $messenger = $services->get('ControllerPluginManager')->get('messenger');
+
         if (empty($config['logger']['log'])) {
-            $messenger->addError($t->translate("Logging is not active. You should enable it in the file config/local.config.php: `'log' => true`.")); // @translate
+            $messenger->addError($translate("Logging is not active. You should enable it in the file config/local.config.php: `'log' => true`.")); // @translate
         }
-        $messenger->addWarning($t->translate('You may need to update config/local.config.php to update your log settings.')); // @translate
+        $messenger->addWarning($translate('You may need to update config/local.config.php to update your log settings.')); // @translate
         $message = new \Omeka\Stdlib\Message(
-            $t->translate('See examples of config in the %sreadme%s.'), // @translate
+            $translate('See examples of config in the %sreadme%s.'), // @translate
             '<a href="https://gitlab.com/Daniel-KM/Omeka-S-module-Log/#config" target="_blank" rel="noopener">', '</a>'
         );
         $message->setEscapeHtml(false);

@@ -19,6 +19,7 @@ use Omeka\Stdlib\Message;
 $plugins = $services->get('ControllerPluginManager');
 $api = $plugins->get('api');
 $settings = $services->get('Omeka\Settings');
+$translate = $plugins->get('translate');
 $connection = $services->get('Omeka\Connection');
 $messenger = $plugins->get('messenger');
 $entityManager = $services->get('Omeka\EntityManager');
@@ -80,9 +81,8 @@ SQL;
 }
 
 if (version_compare($oldVersion, '3.4.18', '<')) {
-    $translator = $services->get('MvcTranslator');
     $message = new Message(
-        $translator->translate('Support of the third party service Sentry was moved to a separate module, %1$sLog Sentry%2$s.'), // @translate
+        $translate('Support of the third party service Sentry was moved to a separate module, %1$sLog Sentry%2$s.'), // @translate
         '<a href="https://gitlab.com/Daniel-KM/Omeka-S-module-LogSentry" target="_blank" rel="noopener">', '</a>'
     );
     $message->setEscapeHtml(false);
@@ -90,13 +90,10 @@ if (version_compare($oldVersion, '3.4.18', '<')) {
 }
 
 if (version_compare($oldVersion, '3.4.21', '<')) {
-    /** @var \Omeka\Module\Manager $moduleManager */
-    $moduleManager = $services->get('Omeka\ModuleManager');
-    $module = $moduleManager->getModule('Common');
-    if (!$module || $module->getState() !== \Omeka\Module\Manager::STATE_ACTIVE) {
+    if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActiveVersion('Common', '3.4.48')) {
         $message = new Message(
-            'The module %1$s should be upgraded to version %2$s or later.', // @translate
-            'Common', '3.4.47'
+            $translate('The module %1$s should be upgraded to version %2$s or later.'), // @translate
+            'Common', '3.4.48'
         );
         throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
     }
