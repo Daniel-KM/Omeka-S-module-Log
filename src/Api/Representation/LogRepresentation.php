@@ -93,16 +93,48 @@ class LogRepresentation extends AbstractEntityRepresentation
      */
     public function text()
     {
+        /**
+         * @var \Omeka\View\Helper\Url $url
+         * @var \Omeka\View\Helper\Hyperlink $hyperlink
+         * @var \Omeka\I18n\Translator $translator
+         */
         $services = $this->getServiceLocator();
+        $url = $this->getViewHelper('url');
+        $hyperlink = $this->getViewHelper('hyperlink');
         $translator = $services->get('MvcTranslator');
-        $escapeHtml = true;
 
+        // For speed, use a base url so just append the controller name and the
+        // resource id without full url processing.
+        $resourcesToControllers = [
+            'asset' => 'asset',
+            'assets' => 'asset',
+            'item' => 'item',
+            'items' => 'item',
+            'itemset' => 'item-set',
+            'itemsets' => 'item-set',
+            'job' => 'job',
+            'jobs' => 'job',
+            'media' => 'media',
+            'user' => 'user',
+            'users' => 'user',
+            'annotation' => 'annotation',
+            'annotations' => 'annotation',
+            // For context.
+            'itemid' => 'item',
+            'itemsetid' => 'item-set',
+            'jobid' => 'job',
+            'mediaid' => 'media',
+            'ownerid' => 'user',
+            'userid' => 'user',
+            'annotationid' => 'annotation',
+        ];
+        $baseUrl = str_replace('/replace', '', $url('admin/default', ['controller' => 'replace']));
+
+        $escapeHtml = true;
         $message = $this->resource->getMessage();
         $context = $this->resource->getContext() ?: [];
+
         if ($context) {
-            /** @var \Omeka\View\Helper\Hyperlink $hyperlink */
-            $hyperlink = $this->getViewHelper('hyperlink');
-            $url = $this->getViewHelper('url');
             foreach ($context as $key => $value) {
                 $value = (string) $value;
                 $lowerKey = strtolower((string) $key);
@@ -115,48 +147,24 @@ class LogRepresentation extends AbstractEntityRepresentation
                     case 'ownerid':
                     case 'userid':
                     case 'annotationid':
-                        $resourceTypes = [
-                            'itemid' => 'item',
-                            'itemsetid' => 'item-set',
-                            'jobid' => 'job',
-                            'mediaid' => 'media',
-                            'ownerid' => 'user',
-                            'userid' => 'user',
-                            'annotationid' => 'annotation',
-                        ];
-                        $resourceType = $resourceTypes[$cleanKey];
-                        $context[$key] = $hyperlink($value, $url('admin/id', ['controller' => $resourceType, 'id' => $value]));
+                        $controller = $resourcesToControllers[$cleanKey];
+                        $context[$key] = $hyperlink($value, "$baseUrl/$controller/$value");
                         $escapeHtml = false;
                         break;
                     case 'assetid':
-                        $context[$key] = $hyperlink($value, $url('admin/default', ['controller' => 'asset', 'id' => $value], ['query' => ['id' => $value]]));
+                        $context[$key] = $hyperlink($value, "$baseUrl/asset/$value?id=$value");
                         $escapeHtml = false;
                         break;
                     case 'resourceid':
                     case 'id':
                         $resourceType = $context['resource'] ?? $context['resource_name'] ?? $context['resource_type'] ?? null;
                         if ($resourceType) {
-                            $resourceTypes = [
-                                'asset' => 'asset',
-                                'assets' => 'asset',
-                                'item' => 'item',
-                                'items' => 'item',
-                                'itemset' => 'item-set',
-                                'itemsets' => 'item-set',
-                                'job' => 'job',
-                                'jobs' => 'job',
-                                'media' => 'media',
-                                'user' => 'user',
-                                'users' => 'user',
-                                'annotation' => 'annotation',
-                                'annotations' => 'annotation',
-                            ];
                             $resourceType = preg_replace('~[^a-z]~', '', strtolower($resourceType));
-                            if (isset($resourceTypes[$resourceType])) {
-                                $resourceType = $resourceTypes[$resourceType];
-                                $context[$key] = $resourceType === 'asset'
-                                    ? $hyperlink($value, $url('admin/default', ['controller' => 'asset', 'id' => $value], ['query' => ['id' => $value]]))
-                                    : $hyperlink($value, $url('admin/id', ['controller' => $resourceType, 'id' => $value]));
+                            if (isset($resourcesToControllers[$resourceType])) {
+                                $controller = $resourcesToControllers[$resourceType];
+                                $context[$key] = $controller === 'asset'
+                                    ? $hyperlink($value, "$baseUrl/asset/$value?id=$value")
+                                    : $hyperlink($value, "$baseUrl/$controller/$value");
                                 $escapeHtml = false;
                                 if (isset($context['resource'])) {
                                     $context['resource'] = $translator->translate($context['resource']);
