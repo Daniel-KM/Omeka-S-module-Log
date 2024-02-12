@@ -110,6 +110,7 @@ class LogRepresentation extends AbstractEntityRepresentation
             'assets' => 'asset',
             'item' => 'item',
             'items' => 'item',
+            'item set' => 'item-set',
             'itemset' => 'item-set',
             'itemsets' => 'item-set',
             'job' => 'job',
@@ -192,12 +193,28 @@ class LogRepresentation extends AbstractEntityRepresentation
                         break;
                 }
             }
+        } else {
+            // Manage simple logs.
+            // Add resource links for logs with strings like "item #xxx".
+            // TODO Manage "resource" (or a route redirect).
+            if (mb_strpos($message, '#')) {
+                $count = 0;
+                $message = preg_replace_callback('~(?<resource>item set|item|job|media|owner|user|annotation) #(?<id>\d+)~i', function ($matches) use ($hyperlink, $baseUrl, $resourcesToControllers) {
+                $controller = $resourcesToControllers[strtolower($matches['resource'])];
+                return $matches['resource'] . ' #' . ($controller === 'asset'
+                    ? $hyperlink($matches['id'], "$baseUrl/asset/{$matches['id']}?id={$matches['id']}")
+                    : $hyperlink($matches['id'], "$baseUrl/$controller/{$matches['id']}"));
+                }, $message, -1, $count);
+                if ($count) {
+                    $escapeHtml = false;
+                }
+            }
         }
 
         $psrMessage = new PsrMessage($message, $context);
         return $psrMessage
             ->setTranslator($translator)
-            // TODO Manage the case where some keys should be escaped and some keys not.
+            // TODO Manage the case where some keys should be escaped and some keys not (may be a security issue when logs are external).
             ->setEscapeHtml($escapeHtml);
     }
 
