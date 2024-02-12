@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-31 00:00+0000\n"
-"PO-Revision-Date: 2023-07-31 00:00+0000\n"
+"POT-Creation-Date: 2024-02-12 00:00+0000\n"
+"PO-Revision-Date: 2024-02-12 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr\n"
@@ -15,9 +15,23 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.4.2\n"
+"X-Generator: Poedit 3.2.2\n"
 
-#: Module.php:110
+#: data/scripts/upgrade.php:85
+#, php-format
+msgid ""
+"Support of the third party service Sentry was moved to a separate module, "
+"%1$sLog Sentry%2$s."
+msgstr ""
+"La prise en charge du service tiers Sentry a été déplacée dans un module "
+"séparé, %1$sLog Sentry%2$s."
+
+#: data/scripts/upgrade.php:95 Module.php:77
+#, php-format
+msgid "The module %1$s should be upgraded to version %2$s or later."
+msgstr "Le module %1$s doit être mis à niveau à la version %2$s ou supérieure."
+
+#: Module.php:92
 msgid ""
 "Logging is not active. You should enable it in the file config/local.config."
 "php: `'log' => true`."
@@ -25,14 +39,14 @@ msgstr ""
 "Les journaux ne sont pas activés. Vous devez les activer dans le fichier "
 "config/local.config.php : `'log' => true`."
 
-#: Module.php:112
+#: Module.php:94
 msgid ""
 "You may need to update config/local.config.php to update your log settings."
 msgstr ""
 "Il peut être nécessaire de mettre à jour le fichier config/local.config.php "
 "pour les paramètres des journaux."
 
-#: Module.php:114
+#: Module.php:96
 #, php-format
 msgid "See examples of config in the %sreadme%s."
 msgstr "Cf. les exemples de configuration dans le %slisez-moi%s."
@@ -40,49 +54,6 @@ msgstr "Cf. les exemples de configuration dans le %slisez-moi%s."
 #: src/ColumnType/Job.php:58 view/log/admin/log/show-details.phtml:50
 msgid "Parameters"
 msgstr "Paramètres"
-
-#: src/Generic/AbstractModule.php:80 src/Generic/AbstractModule.php:88
-#: src/Generic/AbstractModule.php:890
-#, php-format
-msgid "This module requires the module \"%s\"."
-msgstr "Ce module requiert le module \"%s\"."
-
-#: src/Generic/AbstractModule.php:93
-#, php-format
-msgid "This module requires modules \"%s\"."
-msgstr "Ce module requiert les modules \"%s\"."
-
-#: src/Generic/AbstractModule.php:101
-msgid "This module has resources that cannot be installed."
-msgstr "Ce module a des ressources qui ne peuvent pas être installées."
-
-#: src/Generic/AbstractModule.php:108
-msgid ""
-"This module cannot install its tables, because they exist already. Try to "
-"remove them first."
-msgstr ""
-"Ce module ne peut pas installer ses tables car elles existent déjà. Essayez "
-"de les supprimer manuellement."
-
-#: src/Generic/AbstractModule.php:398
-#, php-format
-msgid "The module removed tables \"%s\" from a previous broken install."
-msgstr ""
-"Le module a supprimé les tables « %s » depuis une installation échouée."
-
-#: src/Generic/AbstractModule.php:885
-#, php-format
-msgid "This module requires the module \"%1$s\", version %2$s or above."
-msgstr "Ce module requiert le module « %1$s », version %2$s ou supérieure."
-
-#: src/Generic/AbstractModule.php:982
-#, php-format
-msgid ""
-"The module \"%s\" was automatically deactivated because the dependencies are "
-"unavailable."
-msgstr ""
-"Le module \"%s\" a été automatiquement désactivé car ses dépendances ne sont "
-"plus disponibles."
 
 #: src/View/Helper/LogSearchFilters.php:55
 msgid "Message contains"
@@ -121,34 +92,34 @@ msgstr "Filtre rapide"
 msgid "Message"
 msgstr "Message"
 
-#: view/log/admin/log/browse.phtml:103
+#: view/log/admin/log/browse.phtml:105
 msgid "Full log"
 msgstr "Message complet"
 
-#: view/log/admin/log/browse.phtml:153 view/log/admin/log/browse.phtml:171
+#: view/log/admin/log/browse.phtml:155 view/log/admin/log/browse.phtml:173
 msgid "Delete logs"
 msgstr "Supprimer les journaux"
 
-#: view/log/admin/log/browse.phtml:154
+#: view/log/admin/log/browse.phtml:156
 msgid "Are you sure you would like to delete the selected logs?"
 msgstr "Êtes-vous sûr de vouloir supprimer les journaux sélectionnés ?"
 
-#: view/log/admin/log/browse.phtml:156 view/log/admin/log/browse.phtml:174
+#: view/log/admin/log/browse.phtml:158 view/log/admin/log/browse.phtml:176
 #, php-format
 msgid "%s: this action will permanently delete %s logs and cannot be undone."
 msgstr ""
 "%s : cette action supprimera les %s journaux de manière définitive et ne "
 "pourra pas être annulée."
 
-#: view/log/admin/log/browse.phtml:172
+#: view/log/admin/log/browse.phtml:174
 msgid "Are you sure you would like to delete all logs of this result?"
 msgstr "Êtes-vous sûr de vouloir supprimer tous les journaux du résultat ?"
 
-#: view/log/admin/log/browse.phtml:189
+#: view/log/admin/log/browse.phtml:191
 msgid "Omeka could not find any logs, or they are saved in another place."
 msgstr "Omeka ne trouve pas de journal, ou ils sont enregistrés ailleurs."
 
-#: view/log/admin/log/browse.phtml:201
+#: view/log/admin/log/browse.phtml:203
 msgid "Search logs"
 msgstr "Rechercher les journaux"
 
@@ -252,7 +223,7 @@ msgstr "info"
 msgid "debug"
 msgstr "débogage"
 
-#: src/Job/DispatchStrategy/Synchronous.php:45
+#: src/Job/DispatchStrategy/Synchronous.php:48
 msgid ""
 "Fatal error: {message}\n"
 "in {file} on line {line}"
@@ -260,7 +231,7 @@ msgstr ""
 "Erreur fatale : {message}\n"
 "dans {file} ligne {line}"
 
-#: src/Job/DispatchStrategy/Synchronous.php:71
+#: src/Job/DispatchStrategy/Synchronous.php:76
 msgid ""
 "Warning: {message}\n"
 "in {file} on line {line}"
@@ -332,7 +303,7 @@ msgstr "Indiquer une chaîne non traduite…"
 msgid "Not in untranslated message"
 msgstr "Absent du message non traduit"
 
-#: src/ColumnType/Id.php:10 config/module.config.php:282
+#: src/ColumnType/Id.php:10 config/module.config.php:260
 msgid "Id"
 msgstr "Id"
 
@@ -378,11 +349,42 @@ msgstr ""
 "[Omeka S] Enregistrement des journaux dans le fichier désactivée : "
 "permission refusée pour écrire dans le fichier."
 
-#: src/Service/LoggerFactory.php:59 src/Service/LoggerDbFactory.php:29
+#: src/Service/LoggerFactory.php:59 src/Service/LoggerDbFactory.php:30
 msgid "[Omeka S] Database logging disabled: wrong config."
 msgstr ""
 "[Omeka S] Enregistrement des journaux en base de données désactivée : erreur "
 "de configuration."
+
+#, php-format
+#~ msgid "This module requires the module \"%s\"."
+#~ msgstr "Ce module requiert le module \"%s\"."
+
+#, php-format
+#~ msgid "This module requires modules \"%s\"."
+#~ msgstr "Ce module requiert les modules \"%s\"."
+
+#~ msgid "This module has resources that cannot be installed."
+#~ msgstr "Ce module a des ressources qui ne peuvent pas être installées."
+
+#~ msgid ""
+#~ "This module cannot install its tables, because they exist already. Try to "
+#~ "remove them first."
+#~ msgstr ""
+#~ "Ce module ne peut pas installer ses tables car elles existent déjà. "
+#~ "Essayez de les supprimer manuellement."
+
+#, php-format
+#~ msgid "The module removed tables \"%s\" from a previous broken install."
+#~ msgstr ""
+#~ "Le module a supprimé les tables « %s » depuis une installation échouée."
+
+#, php-format
+#~ msgid ""
+#~ "The module \"%s\" was automatically deactivated because the dependencies "
+#~ "are unavailable."
+#~ msgstr ""
+#~ "Le module \"%s\" a été automatiquement désactivé car ses dépendances ne "
+#~ "sont plus disponibles."
 
 #~ msgid "default"
 #~ msgstr "défaut"

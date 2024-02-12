@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-31 00:00+0000\n"
+"POT-Creation-Date: 2024-02-12 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,62 +17,36 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Module.php:110
+#: data/scripts/upgrade.php:85
+#, php-format
+msgid ""
+"Support of the third party service Sentry was moved to a separate module, "
+"%1$sLog Sentry%2$s."
+msgstr ""
+
+#: data/scripts/upgrade.php:95 Module.php:77
+#, php-format
+msgid "The module %1$s should be upgraded to version %2$s or later."
+msgstr ""
+
+#: Module.php:92
 msgid ""
 "Logging is not active. You should enable it in the file config/local.config."
 "php: `'log' => true`."
 msgstr ""
 
-#: Module.php:112
+#: Module.php:94
 msgid ""
 "You may need to update config/local.config.php to update your log settings."
 msgstr ""
 
-#: Module.php:114
+#: Module.php:96
 #, php-format
 msgid "See examples of config in the %sreadme%s."
 msgstr ""
 
 #: src/ColumnType/Job.php:58 view/log/admin/log/show-details.phtml:50
 msgid "Parameters"
-msgstr ""
-
-#: src/Generic/AbstractModule.php:80 src/Generic/AbstractModule.php:88
-#: src/Generic/AbstractModule.php:890
-#, php-format
-msgid "This module requires the module \"%s\"."
-msgstr ""
-
-#: src/Generic/AbstractModule.php:93
-#, php-format
-msgid "This module requires modules \"%s\"."
-msgstr ""
-
-#: src/Generic/AbstractModule.php:101
-msgid "This module has resources that cannot be installed."
-msgstr ""
-
-#: src/Generic/AbstractModule.php:108
-msgid ""
-"This module cannot install its tables, because they exist already. Try to "
-"remove them first."
-msgstr ""
-
-#: src/Generic/AbstractModule.php:398
-#, php-format
-msgid "The module removed tables \"%s\" from a previous broken install."
-msgstr ""
-
-#: src/Generic/AbstractModule.php:885
-#, php-format
-msgid "This module requires the module \"%1$s\", version %2$s or above."
-msgstr ""
-
-#: src/Generic/AbstractModule.php:982
-#, php-format
-msgid ""
-"The module \"%s\" was automatically deactivated because the dependencies are "
-"unavailable."
 msgstr ""
 
 #: src/View/Helper/LogSearchFilters.php:55
@@ -112,32 +86,32 @@ msgstr ""
 msgid "Message"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:103
+#: view/log/admin/log/browse.phtml:105
 msgid "Full log"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:153 view/log/admin/log/browse.phtml:171
+#: view/log/admin/log/browse.phtml:155 view/log/admin/log/browse.phtml:173
 msgid "Delete logs"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:154
+#: view/log/admin/log/browse.phtml:156
 msgid "Are you sure you would like to delete the selected logs?"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:156 view/log/admin/log/browse.phtml:174
+#: view/log/admin/log/browse.phtml:158 view/log/admin/log/browse.phtml:176
 #, php-format
 msgid "%s: this action will permanently delete %s logs and cannot be undone."
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:172
+#: view/log/admin/log/browse.phtml:174
 msgid "Are you sure you would like to delete all logs of this result?"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:189
+#: view/log/admin/log/browse.phtml:191
 msgid "Omeka could not find any logs, or they are saved in another place."
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:201
+#: view/log/admin/log/browse.phtml:203
 msgid "Search logs"
 msgstr ""
 
@@ -241,13 +215,13 @@ msgstr ""
 msgid "debug"
 msgstr ""
 
-#: src/Job/DispatchStrategy/Synchronous.php:45
+#: src/Job/DispatchStrategy/Synchronous.php:48
 msgid ""
 "Fatal error: {message}\n"
 "in {file} on line {line}"
 msgstr ""
 
-#: src/Job/DispatchStrategy/Synchronous.php:71
+#: src/Job/DispatchStrategy/Synchronous.php:76
 msgid ""
 "Warning: {message}\n"
 "in {file} on line {line}"
@@ -317,7 +291,7 @@ msgstr ""
 msgid "Not in untranslated message"
 msgstr ""
 
-#: src/ColumnType/Id.php:10 config/module.config.php:282
+#: src/ColumnType/Id.php:10 config/module.config.php:260
 msgid "Id"
 msgstr ""
 
@@ -357,6 +331,6 @@ msgstr ""
 msgid "[Omeka S] File logging disabled: not writeable."
 msgstr ""
 
-#: src/Service/LoggerFactory.php:59 src/Service/LoggerDbFactory.php:29
+#: src/Service/LoggerFactory.php:59 src/Service/LoggerDbFactory.php:30
 msgid "[Omeka S] Database logging disabled: wrong config."
 msgstr ""
