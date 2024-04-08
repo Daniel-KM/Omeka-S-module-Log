@@ -294,6 +294,7 @@ TODO
 - [ ] Fix incompatibility between authentication modules (Ldap, Cas, Shibboleth). The user id is currently disabled in such a case.
 - [ ] Replace laminas-db by doctrine and a second entity manager.
 - [x] Separate Sentry into another module? It will be cleaner, but heavier in fact because only two small checks are needed, not a full module process.
+- [ ] Improve display for messages like "item #xxx", "media #yyy", "resources #zz1, #zz2" with or without context.
 
 
 Warning
@@ -357,7 +358,7 @@ Copyright
 [PSR-3]: http://www.php-fig.org/psr/psr-3
 [Common]: https://gitlab.com/Daniel-KM/Omeka-S-module-Common
 [webui-popover]: https://github.com/sandywalker/webui-popover
-[Installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
+[installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
 [Log.zip]: https://gitlab.com/Daniel-KM/Omeka-S-module-Log/-/releases
 [Laminas Framework Log]: https://docs.laminas.dev/laminas-log
 [config of the module]: https://gitlab.com/Daniel-KM/Omeka-S-module-Log/-/blob/master/config/module.config.php#L6-126
