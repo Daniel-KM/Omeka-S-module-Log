@@ -106,6 +106,7 @@ class LogRepresentation extends AbstractEntityRepresentation
 
         // For speed, use a base url so just append the controller name and the
         // resource id without full url processing.
+        // In logs, it is recommended to use the precise context when possible.
         $resourcesToControllers = [
             'asset' => 'asset',
             'assets' => 'asset',
@@ -117,6 +118,8 @@ class LogRepresentation extends AbstractEntityRepresentation
             'job' => 'job',
             'jobs' => 'job',
             'media' => 'media',
+            'resourcetemplate' => 'resource-template',
+            'template' => 'resource-template',
             'user' => 'user',
             'users' => 'user',
             'annotation' => 'annotation',
@@ -128,6 +131,8 @@ class LogRepresentation extends AbstractEntityRepresentation
             'mediaid' => 'media',
             'ownerid' => 'user',
             'userid' => 'user',
+            'resourcetemplateid' => 'resource-template',
+            'templateid' => 'resource-template',
             'annotationid' => 'annotation',
         ];
         $baseUrl = str_replace('/replace', '', $url('admin/default', ['controller' => 'replace']));
@@ -148,6 +153,8 @@ class LogRepresentation extends AbstractEntityRepresentation
                     case 'itemsetid':
                     case 'jobid':
                     case 'mediaid':
+                    case 'resourcetemplateid':
+                    case 'templateid':
                     case 'ownerid':
                     case 'userid':
                     case 'annotationid':
