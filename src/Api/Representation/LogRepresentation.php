@@ -100,6 +100,7 @@ class LogRepresentation extends AbstractEntityRepresentation
          */
         $services = $this->getServiceLocator();
         $url = $this->getViewHelper('url');
+        $escape = $this->getViewHelper('escapeHtml');
         $hyperlink = $this->getViewHelper('hyperlink');
         $translator = $services->get('MvcTranslator');
 
@@ -136,8 +137,10 @@ class LogRepresentation extends AbstractEntityRepresentation
         $context = $this->resource->getContext() ?: [];
 
         if ($context) {
+            $shouldEscapes = [];
             foreach ($context as $key => $value) {
-                $value = (string) $value;
+                $shouldEscapes[$key] = true;
+                $value = trim((string) $value);
                 $lowerKey = strtolower((string) $key);
                 $cleanKey = preg_replace('~[^a-z]~', '', $lowerKey);
                 switch ($cleanKey) {
@@ -150,11 +153,11 @@ class LogRepresentation extends AbstractEntityRepresentation
                     case 'annotationid':
                         $controller = $resourcesToControllers[$cleanKey];
                         $context[$key] = $hyperlink($value, "$baseUrl/$controller/$value");
-                        $escapeHtml = false;
+                        $shouldEscapes[$key] = false;
                         break;
                     case 'assetid':
                         $context[$key] = $hyperlink($value, "$baseUrl/asset/$value?id=$value");
-                        $escapeHtml = false;
+                        $shouldEscapes[$key] = false;
                         break;
                     case 'resourceid':
                     case 'id':
@@ -166,7 +169,7 @@ class LogRepresentation extends AbstractEntityRepresentation
                                 $context[$key] = $controller === 'asset'
                                     ? $hyperlink($value, "$baseUrl/asset/$value?id=$value")
                                     : $hyperlink($value, "$baseUrl/$controller/$value");
-                                $escapeHtml = false;
+                                $shouldEscapes[$key] = false;
                                 if (isset($context['resource'])) {
                                     $context['resource'] = $translator->translate($context['resource']);
                                 }
@@ -183,14 +186,30 @@ class LogRepresentation extends AbstractEntityRepresentation
                     // Already managed via the clean key.
                     // case strpos($lowerKey, 'url_') === 0:
                         $context[$key] = $hyperlink(basename($value), $value, ['target' => '_blank']);
-                        $escapeHtml = false;
+                        $shouldEscapes[$key] = false;
                         break;
                     case 'href':
                     case 'link':
-                        $escapeHtml = false;
+                        $shouldEscapes[$key] = false;
                         break;
                     default:
                         break;
+                }
+            }
+            $countKeys = count($context);
+            $countShouldEscape = count(array_filter($shouldEscapes));
+            $countShouldNotEscape = $countKeys - $countShouldEscape;
+            if ($countKeys === $countShouldEscape) {
+                $escapeHtml = true;
+            } elseif ($countKeys === $countShouldNotEscape) {
+                $escapeHtml = false;
+            } else {
+                // Manual escaping.
+                $escapeHtml = false;
+                foreach ($context as $key => $value) {
+                    if ($shouldEscapes[$key]) {
+                        $context[$key] = $escape($value);
+                    }
                 }
             }
         } else {
