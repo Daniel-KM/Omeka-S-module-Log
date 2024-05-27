@@ -24,6 +24,14 @@ $connection = $services->get('Omeka\Connection');
 $messenger = $plugins->get('messenger');
 $entityManager = $services->get('Omeka\EntityManager');
 
+if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActiveVersion('Common', '3.4.58')) {
+    $message = new Message(
+        $translate('The module %1$s should be upgraded to version %2$s or later.'), // @translate
+        'Common', '3.4.58'
+    );
+    throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
+}
+
 if (version_compare($oldVersion, '3.2.1', '<')) {
     $sqls = <<<'SQL'
 ALTER TABLE log DROP FOREIGN KEY FK_8F3F68C5A76ED395;
@@ -87,14 +95,4 @@ if (version_compare($oldVersion, '3.4.18', '<')) {
     );
     $message->setEscapeHtml(false);
     $messenger->addWarning($message);
-}
-
-if (version_compare($oldVersion, '3.4.21', '<')) {
-    if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActiveVersion('Common', '3.4.56')) {
-        $message = new Message(
-            $translate('The module %1$s should be upgraded to version %2$s or later.'), // @translate
-            'Common', '3.4.56'
-        );
-        throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
-    }
 }
