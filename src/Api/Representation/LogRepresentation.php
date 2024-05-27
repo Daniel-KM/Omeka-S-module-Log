@@ -143,6 +143,7 @@ class LogRepresentation extends AbstractEntityRepresentation
 
         if ($context) {
             $shouldEscapes = [];
+            $prevSiteSlug = null;
             foreach ($context as $key => $value) {
                 $shouldEscapes[$key] = true;
                 $value = trim((string) $value);
@@ -187,6 +188,20 @@ class LogRepresentation extends AbstractEntityRepresentation
                                     $context['resource_type'] = $translator->translate($context['resource_type']);
                                 }
                             }
+                        }
+                        break;
+                    case 'siteslug':
+                        $context[$key] = $hyperlink($value, "$baseUrl/site/s/$value");
+                        $shouldEscapes[$key] = false;
+                        $prevSiteSlug = $value;
+                        break;
+                    case 'pageslug':
+                        if ($prevSiteSlug) {
+                            $context[$key] = $hyperlink($value, "$baseUrl/site/s/$prevSiteSlug/page/$value");
+                            $shouldEscapes[$key] = false;
+                        } elseif (isset($context['site_slug'])) {
+                            $context[$key] = $hyperlink($value, "$baseUrl/site/s/{$context['site_slug']}/page/$value");
+                            $shouldEscapes[$key] = false;
                         }
                         break;
                     case 'url':
