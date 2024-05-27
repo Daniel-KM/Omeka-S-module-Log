@@ -204,6 +204,8 @@ class LogRepresentation extends AbstractEntityRepresentation
                             $shouldEscapes[$key] = false;
                         }
                         break;
+                    case 'siteurl':
+                    case 'pageurl':
                     case 'url':
                     // Already managed via the clean key.
                     // case strpos($lowerKey, 'url_') === 0:
