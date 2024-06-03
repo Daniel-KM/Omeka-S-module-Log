@@ -164,7 +164,7 @@ class LogRepresentation extends AbstractEntityRepresentation
                         $shouldEscapes[$key] = false;
                         break;
                     case 'assetid':
-                        $context[$key] = $hyperlink($value, "$baseUrl/asset/$value?id=$value");
+                        $context[$key] = $hyperlink($value, "$baseUrl/asset?id=$value");
                         $shouldEscapes[$key] = false;
                         break;
                     case 'resourceid':
@@ -175,7 +175,7 @@ class LogRepresentation extends AbstractEntityRepresentation
                             if (isset($resourcesToControllers[$resourceType])) {
                                 $controller = $resourcesToControllers[$resourceType];
                                 $context[$key] = $controller === 'asset'
-                                    ? $hyperlink($value, "$baseUrl/asset/$value?id=$value")
+                                    ? $hyperlink($value, "$baseUrl/asset?id=$value")
                                     : $hyperlink($value, "$baseUrl/$controller/$value");
                                 $shouldEscapes[$key] = false;
                                 if (isset($context['resource'])) {
@@ -245,7 +245,7 @@ class LogRepresentation extends AbstractEntityRepresentation
                 $message = preg_replace_callback('~(?<resource>item set|item|job|media|owner|user|annotation) #(?<id>\d+)~i', function ($matches) use ($hyperlink, $baseUrl, $resourcesToControllers) {
                 $controller = $resourcesToControllers[strtolower($matches['resource'])];
                 return $matches['resource'] . ' #' . ($controller === 'asset'
-                    ? $hyperlink($matches['id'], "$baseUrl/asset/{$matches['id']}?id={$matches['id']}")
+                    ? $hyperlink($matches['id'], "$baseUrl/asset?id={$matches['id']}")
                     : $hyperlink($matches['id'], "$baseUrl/$controller/{$matches['id']}"));
                 }, $message, -1, $count);
                 if ($count) {
