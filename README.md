@@ -48,6 +48,14 @@ composer install --no-dev
 If an issue appears after upgrade of Omeka, don’t forget to update the packages
 of Omeka: `rm -rf vendor && composer install --no-dev`.
 
+* Server with php 8.2 or greater
+
+To support php 8.2 or greate, run this command first:
+
+```sh
+composer update
+```
+
 
 Config
 ------
