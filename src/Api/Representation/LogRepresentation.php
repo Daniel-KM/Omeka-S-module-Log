@@ -216,6 +216,10 @@ class LogRepresentation extends AbstractEntityRepresentation
                     case 'link':
                         $shouldEscapes[$key] = false;
                         break;
+                    case 'thesaurusid':
+                        $context[$key] = $hyperlink($value, "$baseUrl/thesaurus/$value/structure");
+                        $shouldEscapes[$key] = false;
+                        break;
                     default:
                         break;
                 }
