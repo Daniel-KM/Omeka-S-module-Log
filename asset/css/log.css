@@ -1,4 +1,4 @@
-@media screen {
+@media all {
     header nav .logs::before,
     .logs .subhead::before {
         content:"";
