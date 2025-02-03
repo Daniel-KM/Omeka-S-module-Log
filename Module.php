@@ -75,7 +75,7 @@ class Module extends AbstractModule
         /** @var \Laminas\ModuleManager\Listener\ConfigListener $configListener */
         $configListener = $event->getParam('configListener');
         $config = $configListener->getMergedConfig(false);
-        $config['logger']['log'] = true;
+        $config['logger']['log'] = empty($config['logger']['disable_log']);
         $configListener->setMergedConfig($config);
     }
 

@@ -11,6 +11,8 @@ return [
     'logger' => [
         // The default config in Omeka is false, but this module is designed to log.
         'log' => true,
+        // This option allows to really skip log without disabling this module.
+        'disable_log' => false,
 
         // Path and priority are used by Omeka default config. Anyway, the local
         // config override it, at least for priority. To set null avoid a check.
