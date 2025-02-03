@@ -2,9 +2,12 @@
 
 namespace Log;
 
-return [
-    // Important: don't modify this file, but copy the keys you want in config/local.config.php at the root of Omeka.
+/**
+ * Important: don't modify this file, but copy the keys you want in
+ * config/local.config.php at the root of Omeka.
+ */
 
+return [
     'logger' => [
         // The default config in Omeka is false, but this module is designed to log.
         'log' => true,

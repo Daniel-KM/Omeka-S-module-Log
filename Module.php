@@ -32,6 +32,7 @@ namespace Log;
 if (!class_exists(\Common\TraitModule::class)) {
     require_once dirname(__DIR__) . '/Common/TraitModule.php';
 }
+
 // Required during migration from Generic to Common.
 if (!class_exists(\Common\Log\Formatter\PsrLogAwareTrait::class)) {
     require_once dirname(__DIR__) . '/Common/src/Stdlib/PsrInterpolateInterface.php';
@@ -40,7 +41,9 @@ if (!class_exists(\Common\Log\Formatter\PsrLogAwareTrait::class)) {
     require_once dirname(__DIR__) . '/Common/src/Log/Formatter/PsrLogSimple.php';
 }
 
+use Common\Stdlib\PsrMessage;
 use Common\TraitModule;
+use Laminas\ModuleManager\ModuleEvent;
 use Laminas\ModuleManager\ModuleManager;
 use Laminas\Mvc\MvcEvent;
 use Omeka\Module\AbstractModule;
@@ -59,6 +62,21 @@ class Module extends AbstractModule
     public function init(ModuleManager $moduleManager): void
     {
         require_once __DIR__ . '/vendor/autoload.php';
+
+        $moduleManager->getEventManager()->attach(ModuleEvent::EVENT_MERGE_CONFIG, [$this, 'onEventMergeConfig']);
+    }
+
+    /**
+     * Force logger log = true in config, else this module is useless.
+     */
+    public function onEventMergeConfig(ModuleEvent $event): void
+    {
+        // At this point, the config is read only, so it is copied and replaced.
+        /** @var \Laminas\ModuleManager\Listener\ConfigListener $configListener */
+        $configListener = $event->getParam('configListener');
+        $config = $configListener->getMergedConfig(false);
+        $config['logger']['log'] = true;
+        $configListener->setMergedConfig($config);
     }
 
     public function onBootstrap(MvcEvent $event): void
@@ -84,17 +102,14 @@ class Module extends AbstractModule
     protected function postInstall(): void
     {
         $services = $this->getServiceLocator();
-        $config = $services->get('Config');
         $translate = $services->get('ControllerPluginManager')->get('translate');
         $messenger = $services->get('ControllerPluginManager')->get('messenger');
 
-        if (empty($config['logger']['log'])) {
-            $messenger->addError($translate("Logging is not active. You should enable it in the file config/local.config.php: `'log' => true`.")); // @translate
-        }
-        $messenger->addWarning($translate('You may need to update config/local.config.php to update your log settings.')); // @translate
-        $message = new \Omeka\Stdlib\Message(
+        $messenger->addWarning($translate('Logging is not active by default in Omeka. This module overrides option [logger][log].')); // @translate
+        $messenger->addWarning($translate('You may need to update the file config/local.config.php, in particular to set the default level of severity.')); // @translate
+        $message = new PsrMessage(
             $translate('See examples of config in the %sreadme%s.'), // @translate
-            '<a href="https://gitlab.com/Daniel-KM/Omeka-S-module-Log/#config" target="_blank" rel="noopener">', '</a>'
+            ['link' => '<a href="https://gitlab.com/Daniel-KM/Omeka-S-module-Log/#config" target="_blank" rel="noopener">', 'link_end' => '</a>']
         );
         $message->setEscapeHtml(false);
         $messenger->addNotice($message);
