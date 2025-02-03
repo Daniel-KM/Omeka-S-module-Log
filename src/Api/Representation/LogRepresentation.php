@@ -220,7 +220,20 @@ class LogRepresentation extends AbstractEntityRepresentation
                         $context[$key] = $hyperlink($value, "$baseUrl/thesaurus/$value/structure");
                         $shouldEscapes[$key] = false;
                         break;
+                    case 'json':
+                        $value = json_decode($value, true);
+                        $context[$key] = $value ? json_encode($value, 448) : $value;
+                        break;
                     default:
+                        // In many places, an array is stored as json, that is
+                        // the default transformation, so display it cleanerly.
+                        if ($value
+                            && mb_substr($value, 0, 1) === '{'
+                            && mb_substr($value, -1) === '}'
+                            && is_array($v = json_decode($value, true))
+                        ) {
+                            $context[$key] = json_encode($v, 448);
+                        }
                         break;
                 }
             }
