@@ -38,7 +38,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::cl
 
 <div class="browse-controls">
     <?= $this->pagination() ?>
-    <button type="button" class="search advanced-search quick-search"><?= $translate('Quick filter') ?></button>
+    <button type="button" class="button search advanced-search quick-search"><?= $translate('Quick filter') ?></button>
     <?= $this->browse()->renderSortSelector('logs') ?>
 </div>
 
@@ -57,7 +57,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::cl
             <?php endif; ?>
         </select>
         <div class="batch-actions">
-            <button type="button" class="default active" disabled="disabled"><?= $translate('Go') ?></button>
+            <button type="button" class="button default active" disabled="disabled"><?= $translate('Go') ?></button>
             <input type="hidden" name="query" class="batch-query" value="<?= $escapeAttr(json_encode($this->params()->fromQuery())) ?>">
             <?php if ($userIsAllowedBatchDelete): ?>
             <a class="delete button sidebar-content delete-selected" data-sidebar-selector="#sidebar-delete-selected"><?= $translate('Go') ?></a>
