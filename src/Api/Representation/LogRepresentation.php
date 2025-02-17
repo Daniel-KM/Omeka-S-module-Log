@@ -249,7 +249,13 @@ class LogRepresentation extends AbstractEntityRepresentation
                 $escapeHtml = false;
                 foreach ($context as $key => $value) {
                     if ($shouldEscapes[$key]) {
-                        $context[$key] = $escape($value);
+                        if (is_scalar($value)) {
+                            $context[$key] = $escape($value);
+                        } else {
+                            $v = $value;
+                            array_walk_recursive($v, $escape);
+                            $context[$key] = $v;
+                        }
                     }
                 }
             }
