@@ -87,15 +87,35 @@ class Module extends AbstractModule
 
     protected function preInstall(): void
     {
+        /** @var \Laminas\Mvc\I18n\Translator $translator */
         $services = $this->getServiceLocator();
-        $translate = $services->get('ControllerPluginManager')->get('translate');
+        $translator = $services->get('MvcTranslator');
 
         if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActiveVersion('Common', '3.4.66')) {
             $message = new \Omeka\Stdlib\Message(
-                $translate('The module %1$s should be upgraded to version %2$s or later.'), // @translate
+                $translator->translate('The module %1$s should be upgraded to version %2$s or later.'), // @translate
                 'Common', '3.4.66'
             );
             throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
+        }
+
+        if (!file_exists(__DIR__ . '/vendor/autoload.php')
+            || !file_exists(__DIR__ . '/vendor/laminas/laminas-db/composer.json')
+        ) {
+            $message = new PsrMessage(
+                'The libraries are not installed. Run "composer install" on the command line or load a version with libraries included.' // @translate
+            );
+            throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message->setTranslator($translator));
+        }
+
+        if (PHP_VERSION_ID >= 80200) {
+            $content = file_get_contents(__DIR__ . '/vendor/laminas/laminas-db/composer.json');
+            if (strpos($content, '"php": "^7.3 ||') ) {
+                $message = new PsrMessage(
+                    'The library is not compatible with the version of php on the server. Run "composer upgrade" on the command line or load a version for php ≥ 8.2.' // @translate
+                );
+                throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message->setTranslator($translator));
+            }
         }
     }
 

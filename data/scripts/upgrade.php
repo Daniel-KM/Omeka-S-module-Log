@@ -32,6 +32,16 @@ if (!method_exists($this, 'checkModuleActiveVersion') || !$this->checkModuleActi
     throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message);
 }
 
+if (PHP_VERSION_ID >= 80200) {
+    $content = file_get_contents(dirname(__DIR__, 2) . '/vendor/laminas/laminas-db/composer.json');
+    if (strpos($content, '"php": "^7.3 ||') ) {
+        $message = new PsrMessage(
+            'The library is not compatible with the version of php on the server. Run "composer upgrade" on the command line or load a version for php ≥ 8.2.' // @translate
+        );
+        throw new \Omeka\Module\Exception\ModuleCannotInstallException((string) $message->setTranslator($translator));
+    }
+}
+
 if (version_compare($oldVersion, '3.2.1', '<')) {
     $sqls = <<<'SQL'
 ALTER TABLE log DROP FOREIGN KEY FK_8F3F68C5A76ED395;
