@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-02-12 00:00+0000\n"
-"PO-Revision-Date: 2024-02-12 00:00+0000\n"
+"POT-Creation-Date: 2025-03-03 00:00+0000\n"
+"PO-Revision-Date: 2025-03-03 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr\n"
@@ -17,36 +17,28 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.2.2\n"
 
-#: data/scripts/upgrade.php:85
-#, php-format
-msgid ""
-"Support of the third party service Sentry was moved to a separate module, "
-"%1$sLog Sentry%2$s."
-msgstr ""
-"La prise en charge du service tiers Sentry a été déplacée dans un module "
-"séparé, %1$sLog Sentry%2$s."
-
-#: data/scripts/upgrade.php:95 Module.php:77
+#: data/scripts/upgrade.php:37 Module.php:96
 #, php-format
 msgid "The module %1$s should be upgraded to version %2$s or later."
 msgstr "Le module %1$s doit être mis à niveau à la version %2$s ou supérieure."
 
-#: Module.php:92
+#: Module.php:128
 msgid ""
-"Logging is not active. You should enable it in the file config/local.config."
-"php: `'log' => true`."
+"Logging is not active by default in Omeka. This module overrides option "
+"[logger][log]."
 msgstr ""
-"Les journaux ne sont pas activés. Vous devez les activer dans le fichier "
-"config/local.config.php : `'log' => true`."
+"La journalisation n’est pas active par défaut dans Omeka. Ce module la "
+"définit en outrepassant l’option [logger][log]."
 
-#: Module.php:94
+#: Module.php:129
 msgid ""
-"You may need to update config/local.config.php to update your log settings."
+"You may need to update the file config/local.config.php, in particular to "
+"set the default level of severity."
 msgstr ""
-"Il peut être nécessaire de mettre à jour le fichier config/local.config.php "
-"pour les paramètres des journaux."
+"Il peut être nécessaire de mettre à jour le fichier config/local.config.php, "
+"en particulier pour définir le niveau par défaut de la gravité."
 
-#: Module.php:96
+#: Module.php:131
 #, php-format
 msgid "See examples of config in the %sreadme%s."
 msgstr "Cf. les exemples de configuration dans le %slisez-moi%s."
@@ -188,6 +180,31 @@ msgstr "Journal (base de données)"
 msgid "View log (%d results)"
 msgstr "Voir les journaux (%d resultats)"
 
+#: data/scripts/upgrade.php:47 Module.php:115
+msgid ""
+"The library is not compatible with the version of php on the server. Run "
+"\"composer upgrade\" on the command line or load a version for php ≥ 8.2."
+msgstr ""
+"La bibliothèque n’est pas compatible avec la version de php sur le serveur. "
+"Lancez « composer upgrade » sur l’invite de commandes ou chargez une version "
+"pour php ≥ 8.2."
+
+#: data/scripts/upgrade.php:110
+msgid ""
+"Support of the third party service Sentry was moved to a separate module, "
+"{link}Log Sentry{link_end}."
+msgstr ""
+"La prise en charge du service tiers Sentry a été déplacée dans un module "
+"séparé, {link}Log Sentry{link_end}."
+
+#: Module.php:106
+msgid ""
+"The libraries are not installed. Run \"composer install\" on the command "
+"line or load a version with libraries included."
+msgstr ""
+"Les bibliothèques ne sont pas installées. Lancez « composer install » sur "
+"l’invite de commandes ou chargez une version avec les bibliothèques incluses."
+
 #: src/View/Helper/LogSearchFilters.php:33
 #: src/Api/Representation/LogRepresentation.php:63
 msgid "emergency"
@@ -303,7 +320,7 @@ msgstr "Indiquer une chaîne non traduite…"
 msgid "Not in untranslated message"
 msgstr "Absent du message non traduit"
 
-#: src/ColumnType/Id.php:10 config/module.config.php:260
+#: src/ColumnType/Id.php:10 config/module.config.php:265
 msgid "Id"
 msgstr "Id"
 
@@ -354,6 +371,13 @@ msgid "[Omeka S] Database logging disabled: wrong config."
 msgstr ""
 "[Omeka S] Enregistrement des journaux en base de données désactivée : erreur "
 "de configuration."
+
+#~ msgid ""
+#~ "Logging is not active. You should enable it in the file config/local."
+#~ "config.php: `'log' => true`."
+#~ msgstr ""
+#~ "Les journaux ne sont pas activés. Vous devez les activer dans le fichier "
+#~ "config/local.config.php : `'log' => true`."
 
 #, php-format
 #~ msgid "This module requires the module \"%s\"."
