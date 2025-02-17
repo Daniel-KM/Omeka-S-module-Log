@@ -101,6 +101,7 @@ class LoggerFactory implements FactoryInterface
             $iniConfig = $services->get('Omeka\Connection')->getParams();
             $iniConfig['database'] = $iniConfig['dbname'];
             $iniConfig['username'] = $iniConfig['user'];
+            $iniConfig['host'] = $iniConfig['host'] ?: 'localhost';
             unset($iniConfig['dbname']);
             unset($iniConfig['user']);
             $iniConfig['driver'] = 'Pdo_Mysql';
