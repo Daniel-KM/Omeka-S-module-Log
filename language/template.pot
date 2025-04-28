@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-03 00:00+0000\n"
+"POT-Creation-Date: 2025-04-28 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/scripts/upgrade.php:37 Module.php:96
+#: data/scripts/upgrade.php:38 Module.php:96
 #, php-format
 msgid "The module %1$s should be upgraded to version %2$s or later."
 msgstr ""
@@ -35,8 +35,7 @@ msgid ""
 msgstr ""
 
 #: Module.php:131
-#, php-format
-msgid "See examples of config in the %sreadme%s."
+msgid "See examples of config in the {link}readme{link_end}."
 msgstr ""
 
 #: src/ColumnType/Job.php:58 view/log/admin/log/show-details.phtml:50
@@ -174,13 +173,13 @@ msgstr ""
 msgid "View log (%d results)"
 msgstr ""
 
-#: data/scripts/upgrade.php:47 Module.php:115
+#: data/scripts/upgrade.php:48 Module.php:115
 msgid ""
 "The library is not compatible with the version of php on the server. Run "
 "\"composer upgrade\" on the command line or load a version for php ≥ 8.2."
 msgstr ""
 
-#: data/scripts/upgrade.php:110
+#: data/scripts/upgrade.php:114
 msgid ""
 "Support of the third party service Sentry was moved to a separate module, "
 "{link}Log Sentry{link_end}."

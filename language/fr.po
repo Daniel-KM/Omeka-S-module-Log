@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-03-03 00:00+0000\n"
-"PO-Revision-Date: 2025-03-03 00:00+0000\n"
+"POT-Creation-Date: 2025-04-28 00:00+0000\n"
+"PO-Revision-Date: 2025-04-28 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.2.2\n"
 
-#: data/scripts/upgrade.php:37 Module.php:96
+#: data/scripts/upgrade.php:38 Module.php:96
 #, php-format
 msgid "The module %1$s should be upgraded to version %2$s or later."
 msgstr "Le module %1$s doit être mis à niveau à la version %2$s ou supérieure."
@@ -39,9 +39,8 @@ msgstr ""
 "en particulier pour définir le niveau par défaut de la gravité."
 
 #: Module.php:131
-#, php-format
-msgid "See examples of config in the %sreadme%s."
-msgstr "Cf. les exemples de configuration dans le %slisez-moi%s."
+msgid "See examples of config in the {link}readme{link_end}."
+msgstr "Cf. les exemples de configuration dans le {link}lisez-moi{link_end}."
 
 #: src/ColumnType/Job.php:58 view/log/admin/log/show-details.phtml:50
 msgid "Parameters"
@@ -180,7 +179,7 @@ msgstr "Journal (base de données)"
 msgid "View log (%d results)"
 msgstr "Voir les journaux (%d resultats)"
 
-#: data/scripts/upgrade.php:47 Module.php:115
+#: data/scripts/upgrade.php:48 Module.php:115
 msgid ""
 "The library is not compatible with the version of php on the server. Run "
 "\"composer upgrade\" on the command line or load a version for php ≥ 8.2."
@@ -189,7 +188,7 @@ msgstr ""
 "Lancez « composer upgrade » sur l’invite de commandes ou chargez une version "
 "pour php ≥ 8.2."
 
-#: data/scripts/upgrade.php:110
+#: data/scripts/upgrade.php:114
 msgid ""
 "Support of the third party service Sentry was moved to a separate module, "
 "{link}Log Sentry{link_end}."
