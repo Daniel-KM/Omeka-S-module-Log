@@ -94,12 +94,14 @@ class LogRepresentation extends AbstractEntityRepresentation
     public function text()
     {
         /**
+         * @var \Omeka\Api\Manager $api
          * @var \Omeka\View\Helper\Url $url
          * @var \Omeka\View\Helper\Hyperlink $hyperlink
          * @var \Omeka\I18n\Translator $translator
          */
         $services = $this->getServiceLocator();
         $url = $this->getViewHelper('url');
+        $api = $this->getViewHelper('api');
         $escape = $this->getViewHelper('escapeHtml');
         $hyperlink = $this->getViewHelper('hyperlink');
         $translator = $services->get('MvcTranslator');
@@ -185,8 +187,8 @@ class LogRepresentation extends AbstractEntityRepresentation
                         $context[$key] = $hyperlink($value, "$baseUrl/asset?id=$value");
                         $shouldEscapes[$key] = false;
                         break;
-                    case 'resourceid':
                     case 'id':
+                    case 'resourceid':
                         $resourceType = $context['resource'] ?? $context['resource_name'] ?? $context['resource_type'] ?? null;
                         if ($resourceType) {
                             $resourceType = preg_replace('~[^a-z]~', '', strtolower($resourceType));
@@ -205,6 +207,14 @@ class LogRepresentation extends AbstractEntityRepresentation
                                 if (isset($context['resource_type'])) {
                                     $context['resource_type'] = $translator->translate($context['resource_type']);
                                 }
+                            }
+                        } elseif ($cleanKey === 'resourceid' && (int) $value) {
+                            try {
+                                /** @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $resource */
+                                $controller = $api->read('resources', $value)->getContent()->getControllerName();
+                                $context[$key] = $hyperlink($value, "$baseUrl/$controller/$value");
+                                $shouldEscapes[$key] = false;
+                            } catch (\Exception $e) {
                             }
                         }
                         break;
