@@ -128,7 +128,7 @@ class Module extends AbstractModule
         $messenger->addWarning($translate('Logging is not active by default in Omeka. This module overrides option [logger][log].')); // @translate
         $messenger->addWarning($translate('You may need to update the file config/local.config.php, in particular to set the default level of severity.')); // @translate
         $message = new PsrMessage(
-            $translate('See examples of config in the %sreadme%s.'), // @translate
+            $translate('See examples of config in the {link}readme{link_end}.'), // @translate
             ['link' => '<a href="https://gitlab.com/Daniel-KM/Omeka-S-module-Log/#config" target="_blank" rel="noopener">', 'link_end' => '</a>']
         );
         $message->setEscapeHtml(false);

@@ -22,6 +22,7 @@ use Common\Stdlib\PsrMessage;
  * @var \Omeka\Mvc\Controller\Plugin\Messenger $messenger
  */
 $plugins = $services->get('ControllerPluginManager');
+$url = $plugins->get('url');
 $api = $plugins->get('api');
 $logger = $services->get('Omeka\Logger');
 $settings = $services->get('Omeka\Settings');
@@ -62,6 +63,7 @@ if (version_compare($oldVersion, '3.2.1', '<')) {
         try {
             $connection->executeStatement($sql);
         } catch (\Exception $e) {
+            // Already created.
         }
     }
 }
@@ -74,6 +76,7 @@ if (version_compare($oldVersion, '3.3.12.6', '<')) {
     try {
         $connection->executeStatement($sql);
     } catch (\Exception $e) {
+        // Already created.
     }
 }
 
@@ -101,6 +104,7 @@ if (version_compare($oldVersion, '3.4.16', '<')) {
         try {
             $connection->executeStatement($sql);
         } catch (\Exception $e) {
+            // Already created.
         }
     }
 }
@@ -112,4 +116,16 @@ if (version_compare($oldVersion, '3.4.18', '<')) {
     );
     $message->setEscapeHtml(false);
     $messenger->addWarning($message);
+}
+
+if (version_compare($oldVersion, '3.4.28', '<')) {
+    // Create index first to avoid issue on foreign keys.
+    $sql = <<<'SQL'
+        CREATE INDEX IDX_8F3F68C5B23DB7B8 ON `log` (`created`);
+        SQL;
+    try {
+        $connection->executeStatement($sql);
+    } catch (\Exception $e) {
+        // Already created.
+    }
 }
