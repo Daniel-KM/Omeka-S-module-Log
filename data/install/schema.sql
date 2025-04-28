@@ -11,6 +11,7 @@ CREATE TABLE `log` (
     INDEX IDX_8F3F68C5BE04EA9 (`job_id`),
     INDEX IDX_8F3F68C5AEA34913 (`reference`),
     INDEX IDX_8F3F68C5F660D16B (`severity`),
+    INDEX IDX_8F3F68C5B23DB7B8 (`created`),
     PRIMARY KEY(`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB;
 

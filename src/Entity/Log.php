@@ -16,6 +16,9 @@ use Omeka\Entity\User;
  *         ),
  *         @Index(
  *             columns={"severity"}
+ *         ),
+ *         @Index(
+ *             columns={"created"}
  *         )
  *     }
  * )
