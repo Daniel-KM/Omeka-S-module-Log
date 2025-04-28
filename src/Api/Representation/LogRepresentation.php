@@ -129,6 +129,7 @@ class LogRepresentation extends AbstractEntityRepresentation
             'itemsetid' => 'item-set',
             'jobid' => 'job',
             'mediaid' => 'media',
+            'oaiid' => 'oai-pmh',
             'ownerid' => 'user',
             'userid' => 'user',
             'resourcetemplateid' => 'resource-template',
@@ -221,11 +222,20 @@ class LogRepresentation extends AbstractEntityRepresentation
                             $shouldEscapes[$key] = false;
                         }
                         break;
+
+                    case 'oaiurl':
+                    case 'urloai':
+                    case 'oaiendpoint':
+                        $context[$key] = $hyperlink(basename($value), $value . '?verb=Identify', ['target' => '_blank']);
+                        $shouldEscapes[$key] = false;
+                        break;
+
+                    case 'url':
+                    // Start or end with "url".
                     case 'siteurl':
                     case 'pageurl':
-                    case 'url':
-                    // Already managed via the clean key.
-                    // case strpos($lowerKey, 'url_') === 0:
+                    case strpos($lowerKey, 'url') === 0:
+                    case mb_substr($lowerKey, -3) === 'url':
                         $context[$key] = $hyperlink(basename($value), $value, ['target' => '_blank']);
                         $shouldEscapes[$key] = false;
                         break;
@@ -233,14 +243,29 @@ class LogRepresentation extends AbstractEntityRepresentation
                     case 'link':
                         $shouldEscapes[$key] = false;
                         break;
+
+                    case 'oaiid':
+                        $oaiEndpoint = $context['oai_endpoint']
+                            ?? $context['oai_url']
+                            ?? $context['url_oai']
+                            /** @var \Omeka\Entity\Job $job */
+                            ?? ($job = $this->resource->getJob() ? $job->getArgs()['endpoint'] ?? null : null);
+                        if ($oaiEndpoint) {
+                            $context[$key] = $hyperlink($value, "$oaiEndpoint?verb=GetRecord&metadataPrefix=oai_dc&identifier=" . rawurlencode($value), ['target' => '_blank']);
+                            $shouldEscapes[$key] = false;
+                        }
+                        break;
+
                     case 'thesaurusid':
                         $context[$key] = $hyperlink($value, "$baseUrl/thesaurus/$value/structure");
                         $shouldEscapes[$key] = false;
                         break;
+
                     case 'json':
                         $value = json_decode($value, true);
                         $context[$key] = $value ? json_encode($value, 448) : $value;
                         break;
+
                     default:
                         // In many places, an array is stored as json, that is
                         // the default transformation, so display it cleanerly.
