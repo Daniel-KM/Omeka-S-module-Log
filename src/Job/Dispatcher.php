@@ -80,7 +80,7 @@ class Dispatcher extends \Omeka\Job\Dispatcher
 
         try {
             $strategy->send($job);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $this->logger->err((string) $e);
 
             // Account for "inside Doctrine" errors that close the EM
