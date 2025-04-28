@@ -143,6 +143,7 @@ class LogRepresentation extends AbstractEntityRepresentation
         $escapeHtml = true;
         $message = $this->resource->getMessage();
         $context = $this->resource->getContext() ?: [];
+        $jobArgs = ($job = $this->resource->getJob()) ? $job->getArgs() : [];
 
         // Messages that are more than 1000 characters are generally an
         // exception with an sql and long parameters, in particular the text
@@ -170,6 +171,7 @@ class LogRepresentation extends AbstractEntityRepresentation
                 $lowerKey = strtolower((string) $key);
                 $cleanKey = preg_replace('~[^a-z]~', '', $lowerKey);
                 switch ($cleanKey) {
+                    // Single id.
                     case 'itemid':
                     case 'itemsetid':
                     case 'jobid':
@@ -179,24 +181,67 @@ class LogRepresentation extends AbstractEntityRepresentation
                     case 'ownerid':
                     case 'userid':
                     case 'annotationid':
-                        $controller = $resourcesToControllers[$cleanKey];
-                        $context[$key] = $hyperlink($value, "$baseUrl/$controller/$value");
-                        $shouldEscapes[$key] = false;
+                    // Multiple ids.
+                    case 'itemids':
+                    case 'itemsetids':
+                    case 'jobids':
+                    case 'mediaids':
+                    case 'resourcetemplateids':
+                    case 'templateids':
+                    case 'ownerids':
+                    case 'userids':
+                    case 'annotationids':
+                        $controller = $resourcesToControllers[$cleanKey]
+                            ?? $resourcesToControllers[substr($cleanKey, 0, -1)];
+                        $values = array_values(array_filter(explode(' ', preg_replace('~[^0-9]~', ' ', $value))));
+                        if ($values) {
+                            $link = $hyperlink('{id}', "$baseUrl/$controller/{id}");
+                            foreach ($values as $value) {
+                                $context[$key] .= ', ' . str_replace('{id}', $values[0], $link);
+                            }
+                            $context[$key] = trim($context[$key], ', ');
+                            $shouldEscapes[$key] = false;
+                        }
                         break;
+
                     case 'assetid':
-                        $context[$key] = $hyperlink($value, "$baseUrl/asset?id=$value");
-                        $shouldEscapes[$key] = false;
+                    case 'assetids':
+                        $values = array_values(array_filter(explode(' ', preg_replace('~[^0-9]~', ' ', $value))));
+                        if ($values) {
+                            $link = $hyperlink('{id}', "$baseUrl/asset?id={id}");
+                            foreach ($values as $value) {
+                                $context[$key] .= ', ' . str_replace('{id}', $values[0], $link);
+                            }
+                            $context[$key] = trim($context[$key], ', ');
+                            $shouldEscapes[$key] = false;
+                        }
                         break;
+
                     case 'id':
                     case 'resourceid':
-                        $resourceType = $context['resource'] ?? $context['resource_name'] ?? $context['resource_type'] ?? null;
-                        if ($resourceType) {
+                    case 'ids':
+                    case 'resourceids':
+                        $values = array_values(array_filter(explode(' ', preg_replace('~[^0-9]~', ' ', $value))));
+                        $resourceType = $context['resource']
+                            ?? $context['resource_name']
+                            ?? $context['resource_type']
+                            ?? $context['entity_name']
+                            ?? $jobArgs['resource_name']
+                            ?? $jobArgs['resource_type']
+                            ?? $jobArgs['entity_name']
+                            ?? null;
+                        if ($values && $resourceType) {
                             $resourceType = preg_replace('~[^a-z]~', '', strtolower($resourceType));
                             if (isset($resourcesToControllers[$resourceType])) {
                                 $controller = $resourcesToControllers[$resourceType];
-                                $context[$key] = $controller === 'asset'
-                                    ? $hyperlink($value, "$baseUrl/asset?id=$value")
-                                    : $hyperlink($value, "$baseUrl/$controller/$value");
+                                $link = $controller === 'asset'
+                                    ? $hyperlink('__ID__', "$baseUrl/asset?id=__ID__}}")
+                                    : $hyperlink('__ID__', "$baseUrl/$controller/__ID__");
+                                $context[$key] = '';
+                                foreach ($values as $value) {
+                                    $context[$key] .= ', ' . str_replace('__ID__', $value, $link);
+                                }
+                                $context[$key] = trim($context[$key], ', ');
                                 $shouldEscapes[$key] = false;
                                 if (isset($context['resource'])) {
                                     $context['resource'] = $translator->translate($context['resource']);
@@ -208,7 +253,7 @@ class LogRepresentation extends AbstractEntityRepresentation
                                     $context['resource_type'] = $translator->translate($context['resource_type']);
                                 }
                             }
-                        } elseif ($cleanKey === 'resourceid' && (int) $value) {
+                        } elseif (count($values) === 1 && in_array($cleanKey, ['resourceid', 'resourceids'])) {
                             try {
                                 /** @var \Omeka\Api\Representation\AbstractResourceEntityRepresentation $resource */
                                 $controller = $api->read('resources', $value)->getContent()->getControllerName();
@@ -217,7 +262,9 @@ class LogRepresentation extends AbstractEntityRepresentation
                             } catch (\Exception $e) {
                             }
                         }
+                        // TODO Else link with "?id[]=xxx".
                         break;
+
                     case 'siteslug':
                         $context[$key] = $hyperlink($value, "$baseUrl/site/s/$value");
                         $shouldEscapes[$key] = false;
@@ -258,8 +305,9 @@ class LogRepresentation extends AbstractEntityRepresentation
                         $oaiEndpoint = $context['oai_endpoint']
                             ?? $context['oai_url']
                             ?? $context['url_oai']
-                            /** @var \Omeka\Entity\Job $job */
-                            ?? ($job = $this->resource->getJob() ? $job->getArgs()['endpoint'] ?? null : null);
+                            ?? $jobArgs['oai_endpoint']
+                            ?? $jobArgs['endpoint']
+                            ?? null;
                         if ($oaiEndpoint) {
                             $context[$key] = $hyperlink($value, "$oaiEndpoint?verb=GetRecord&metadataPrefix=oai_dc&identifier=" . rawurlencode($value), ['target' => '_blank']);
                             $shouldEscapes[$key] = false;
