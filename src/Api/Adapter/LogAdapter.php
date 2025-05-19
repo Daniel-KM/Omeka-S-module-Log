@@ -156,22 +156,31 @@ class LogAdapter extends AbstractEntityAdapter
         EntityInterface $entity,
         ErrorStore $errorStore
     ): void {
+        /** @var \Log\Entity\Log $entity */
+
         // Logs are not updatable.
+
         if ($request->getOperation() === Request::CREATE) {
             $data = $request->getContent();
+            $entityManager = $this->getEntityManager();
+            // Reload objects to avoid issues with doctrine.
             if (empty($data['o:owner'])) {
                 $owner = null;
             } elseif (is_object($data['o:owner'])) {
-                $owner = $data['o:owner'];
+                $owner = $entityManager->find(\Omeka\Entity\User::class, $data['o:owner']->getId());
+            } elseif (!empty($data['o:owner']['o:id'])) {
+                $owner = $entityManager->find(\Omeka\Entity\User::class, $data['o:owner']['o:id']);
             } else {
-                $owner = $this->getAdapter('users')->findEntity($data['o:owner']['o:id']);
+                $owner = $this->getServiceLocator()
+                    ->get('Omeka\AuthenticationService')->getIdentity();
+                $owner = $owner ? $entityManager->find(\Omeka\Entity\User::class, $owner->getId()) : null;
             }
             if (empty($data['o:job'])) {
                 $job = null;
             } elseif (is_object($data['o:job'])) {
-                $job = $data['o:job'];
+                $job = $entityManager->find(\Omeka\Entity\Job::class, $data['o:job']->getId());
             } else {
-                $job = $this->getAdapter('jobs')->findEntity($data['o:job']['o:id']);
+                $job = $entityManager->find(\Omeka\Entity\Job::class, $data['o:job']['o:id']);
             }
             $entity->setOwner($owner);
             $entity->setJob($job);
