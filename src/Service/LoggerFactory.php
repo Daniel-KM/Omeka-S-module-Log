@@ -3,8 +3,10 @@
 namespace Log\Service;
 
 use Interop\Container\ContainerInterface;
+use Laminas\Log\Exception;
 use Laminas\Log\Logger;
 use Laminas\Log\Writer\Noop;
+use Laminas\Log\Writer\Stream;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Log\Log\Processor\UserId;
 use Log\Service\Log\Processor\UserIdFactory;
@@ -34,6 +36,9 @@ class LoggerFactory implements FactoryInterface
         }
 
         // For compatibility with Omeka default config, that may be customized.
+        // Most of the time, the stream is disabled (see default config of the
+        // module), so there is no stream.
+
         if (!empty($writers['stream'])) {
             if (isset($config['logger']['priority'])) {
                 $writers['stream']['options']['filters'] = $config['logger']['priority'];
@@ -41,12 +46,21 @@ class LoggerFactory implements FactoryInterface
             if (isset($config['logger']['path'])) {
                 $writers['stream']['options']['stream'] = $config['logger']['path'];
             }
-
-            if (!is_file($writers['stream']['options']['stream'])
-                || !is_writeable($writers['stream']['options']['stream'])
-            ) {
-                unset($writers['stream']);
-                error_log('[Omeka S] File logging disabled: not writeable.'); // @translate
+            // The stream may not be a file (php://stdout), so check file only.
+            // The check is slightly different in Stream when there is no file.
+            if (is_file($writers['stream']['options']['stream'])) {
+                if (!is_writeable($writers['stream']['options']['stream'])) {
+                    unset($writers['stream']);
+                    error_log('[Omeka S] File logging disabled: not writeable.'); // @translate
+                }
+            } else {
+                // Early check the stream name to follow upstream process.
+                try {
+                    $writer = new Stream($writers['stream']['options']['stream']);
+                } catch (Exception\RuntimeException $e) {
+                    unset($writers['stream']);
+                    error_log('Omeka S log initialization failed: ' . $e->getMessage());
+                }
             }
         }
 
