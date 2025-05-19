@@ -195,9 +195,10 @@ class LogRepresentation extends AbstractEntityRepresentation
                             ?? $resourcesToControllers[substr($cleanKey, 0, -1)];
                         $values = array_values(array_filter(explode(' ', preg_replace('~[^0-9]~', ' ', $value))));
                         if ($values) {
-                            $link = $hyperlink('{id}', "$baseUrl/$controller/{id}");
-                            foreach ($values as $value) {
-                                $context[$key] .= ', ' . str_replace('{id}', $values[0], $link);
+                            $link = $hyperlink('__ID__', "$baseUrl/$controller/__ID__");
+                            $context[$key] = '';
+                            foreach ($values as $val) {
+                                $context[$key] .= ', ' . str_replace('__ID__', $val, $link);
                             }
                             $context[$key] = trim($context[$key], ', ');
                             $shouldEscapes[$key] = false;
@@ -208,9 +209,10 @@ class LogRepresentation extends AbstractEntityRepresentation
                     case 'assetids':
                         $values = array_values(array_filter(explode(' ', preg_replace('~[^0-9]~', ' ', $value))));
                         if ($values) {
-                            $link = $hyperlink('{id}', "$baseUrl/asset?id={id}");
-                            foreach ($values as $value) {
-                                $context[$key] .= ', ' . str_replace('{id}', $values[0], $link);
+                            $link = $hyperlink('__ID__', "$baseUrl/asset?id=__ID__");
+                            $context[$key] = '';
+                            foreach ($values as $val) {
+                                $context[$key] .= ', ' . str_replace('__ID__', $val, $link);
                             }
                             $context[$key] = trim($context[$key], ', ');
                             $shouldEscapes[$key] = false;
@@ -238,8 +240,8 @@ class LogRepresentation extends AbstractEntityRepresentation
                                     ? $hyperlink('__ID__', "$baseUrl/asset?id=__ID__}}")
                                     : $hyperlink('__ID__', "$baseUrl/$controller/__ID__");
                                 $context[$key] = '';
-                                foreach ($values as $value) {
-                                    $context[$key] .= ', ' . str_replace('__ID__', $value, $link);
+                                foreach ($values as $val) {
+                                    $context[$key] .= ', ' . str_replace('__ID__', $val, $link);
                                 }
                                 $context[$key] = trim($context[$key], ', ');
                                 $shouldEscapes[$key] = false;
