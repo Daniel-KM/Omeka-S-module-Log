@@ -51,7 +51,7 @@ $this->htmlElement('body')->appendAttribute('class', 'jobs browse');
             <td><?= $escape($this->i18n()->dateFormat($job->started(), null, \Omeka\View\Helper\i18n::DATE_FORMAT_SHORT)) ?></td>
             <td><?= $escape($job->jobClass()) ?></td>
             <td>
-            <?php $totalLogs = $this->api()->search('logs', ['job_id' => $job->id(), 'limit' => 0])->getTotalResults(); ?>
+            <?php $totalLogs = $this->api()->search('logs', ['job_id' => $job->id(), 'return_scalar' => 'id'])->getTotalResults(); ?>
             <?php if ($totalLogs): ?>
             <?= $hyperlink($translate($job->statusLabel()), $url('admin/log/default', [], ['query' => ['job_id' => $job->id()]])) ?>
             <?php else: ?>
