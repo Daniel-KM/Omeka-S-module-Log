@@ -9,7 +9,12 @@ namespace Log;
 
 return [
     'logger' => [
+        // Manage some options to bypass default Omeka options (see application/config/module.config.php
+        // and config/local.config.php).
+
         // The default config in Omeka is false, but this module is designed to log.
+        // This parameter is skipped in early event (see Module.php), else this
+        // module is useless. To really disable it, use key below, `disable_log`.
         'log' => true,
         // This option allows to really skip log without disabling this module.
         'disable_log' => false,
@@ -40,12 +45,12 @@ return [
             // Log for Omeka jobs (useless with this module).
             // This is a standard Laminas writer, but there is no more parameters.
             // Note: the default log of job is a big text field (4GB), so it may
-            // prevent to restore a database if they a row is too big (bigger than
-            // the param "max_allowed_packet" in the config of mariadb/mysql).
+            // prevent to restore a database if a row is too big (bigger than the
+            // param "max_allowed_packet" in the config of mariadb/mysql).
             'job' => false,
-            // This is the default log for php. On a web server, it may be a log inside /var/log
-            // like /var/log/nginx/ssl-vhost1.error.log, /var/log/apache2/error.log, /var/log/lastlog, or
-            // /tmp/systemd-private-xxx-apache2.service-xxx/tmp/php_errors.log, etc.
+            // This is the default log for php. On a web server, it may be a log
+            // inside /var/log like /var/log/nginx/ssl-vhost1.error.log, /var/log/apache2/error.log,
+            // /var/log/lastlog, or /tmp/systemd-private-xxx-apache2.service-xxx/tmp/php_errors.log, etc.
             'syslog' => false,
             // Config for sentry, an error monitoring service (https://sentry.io).
             // The module LogSentry is required.
