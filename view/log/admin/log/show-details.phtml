@@ -10,11 +10,16 @@ $plugins = $this->getHelperPluginManager();
 $url = $plugins->get('url');
 $i18n = $plugins->get('i18n');
 $escape = $plugins->get('escapeHtml');
+$assetUrl = $plugins->get('assetUrl');
 $translate = $plugins->get('translate');
 $hyperlink = $plugins->get('hyperlink');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
 
-$this->headLink()->appendStylesheet($this->assetUrl('css/log.css', 'Log'));
+$this->headLink()
+    ->appendStylesheet($this->assetUrl('css/job.css', 'Log'))
+    ->appendStylesheet($assetUrl('css/log.css', 'Log'));
+$this->headScript()
+    ->appendFile($assetUrl('js/job.js', 'Log'), 'text/javascript', ['defer' => 'defer']);
 
 $job = $log->job();
 $owner = $log->owner();
@@ -51,7 +56,10 @@ $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
         <?php if ($job): ?>
         <h4><?= $escape(sprintf($translate('Job #%d'), $job->id())) ?></h4>
         <div class="value">
-            <?= sprintf($translate('%1$s: %2$s'), $translate('Status'), $translate($job->statusLabel())) ?>
+            <span class="job-status" data-job-id="<?= $job->id() ?>">
+                <span class="job-status-title"><?= $translate('Status:') ?></span>
+                <span class="job-status-label"><?= $translate($job->statusLabel()) ?></span>
+            </span>
         </div>
         <?php if ($state): ?>
         <div class="value log-job">

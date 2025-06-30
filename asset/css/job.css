@@ -1,0 +1,12 @@
+@media all {
+    .job-state {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 4px;
+        & .system-state-icon  {
+            line-height: 24px;
+            margin-left: auto;
+        }
+    }
+}

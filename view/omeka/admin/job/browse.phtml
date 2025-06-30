@@ -13,12 +13,18 @@ $url = $this->plugin('url');
 $api = $this->plugin('api');
 $i18n = $this->plugin('i18n');
 $escape = $plugins->get('escapeHtml');
+$assetUrl = $plugins->get('assetUrl');
 $jobState = $plugins->get('jobState');
 $translate = $plugins->get('translate');
 $hyperlink = $plugins->get('hyperlink');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
 
 $this->htmlElement('body')->appendAttribute('class', 'jobs browse');
+
+$this->headLink()
+    ->appendStylesheet($assetUrl('css/job.css', 'Log'));
+$this->headScript()
+    ->appendFile($assetUrl('js/job.js', 'Log'), 'text/javascript', ['defer' => 'defer']);
 
 $stateLabels = array_map($translate, array_column(JobState::STATES, 'label', 's'));
 
@@ -90,17 +96,17 @@ $jobStateUrlBase = strtr($url('admin/job-state', ['id' => '0000']), ['0000' => '
             </td>
             <td><?= $escape($i18n->dateFormat($job->started(), null, \Omeka\View\Helper\i18n::DATE_FORMAT_SHORT)) ?></td>
             <td><?= $escape($job->jobClass()) ?></td>
-            <td>
+            <td class="job-status" data-job-id="<?= $job->id() ?>">">
                 <?php if ($totalLogs): ?>
-                <?= $hyperlink($translate($job->statusLabel()), $url('admin/log/default', [], ['query' => ['job_id' => $jobId]]), ['class' => 'status-link link-log']) ?>
+                <?= $hyperlink($translate($job->statusLabel()), $url('admin/log/default', [], ['query' => ['job_id' => $jobId]]), ['class' => 'status-link log-link job-status-label']) ?>
                 <?php else: ?>
-                <span class="status-label"><?= $escape($translate($job->statusLabel())) ?></span>
+                <span class="job-status-label" data-job-id="<?= $jobId ?>"><?= $escape($translate($job->statusLabel())) ?></span>
                 <?php endif; ?>
                 <?php if ($step): ?>
                 <span> - </span>
-                <span class="status-step"><?= $step; ?></span>
+                <span class="job-status-step"><?= $step; ?></span>
                 <span> / </span>
-                <span class="status-steps"><?= $job->totalSteps() ?></span>
+                <span class="job-status-steps"><?= $job->totalSteps() ?></span>
                 <?php endif; ?>
             </td>
             <td><?= $ownerText ?></td>
