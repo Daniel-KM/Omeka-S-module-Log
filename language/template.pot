@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-28 00:00+0000\n"
+"POT-Creation-Date: 2025-06-30 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,8 +38,13 @@ msgstr ""
 msgid "See examples of config in the {link}readme{link_end}."
 msgstr ""
 
-#: src/ColumnType/Job.php:58 view/log/admin/log/show-details.phtml:50
+#: src/ColumnType/Job.php:68 view/log/admin/log/show-details.phtml:82
 msgid "Parameters"
+msgstr ""
+
+#: src/ColumnType/Job.php:83 view/log/admin/log/show-details.phtml:33
+#: view/omeka/admin/job/browse.phtml:31 view/omeka/admin/job/show.phtml:56
+msgid "Warning: The system state may not be reliable on some servers."
 msgstr ""
 
 #: src/View/Helper/LogSearchFilters.php:55
@@ -47,19 +52,19 @@ msgid "Message contains"
 msgstr ""
 
 #: src/View/Helper/LogSearchFilters.php:61
-#: view/log/admin/log/show-details.phtml:30
+#: view/log/admin/log/show-details.phtml:46
 msgid "Reference"
 msgstr ""
 
 #: src/View/Helper/LogSearchFilters.php:67
 #: src/View/Helper/LogSearchFilters.php:72
 #: src/View/Helper/LogSearchFilters.php:78
-#: view/log/admin/log/show-details.phtml:26
+#: view/log/admin/log/show-details.phtml:40
 msgid "Severity"
 msgstr ""
 
 #: src/View/Helper/LogSearchFilters.php:95
-#: view/log/admin/log/show-details.phtml:58
+#: view/log/admin/log/show-details.phtml:90
 msgid "Job"
 msgstr ""
 
@@ -75,100 +80,92 @@ msgstr ""
 msgid "Quick filter"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:76 view/log/admin/log/show-details.phtml:63
+#: view/log/admin/log/browse.phtml:76 view/log/admin/log/show-details.phtml:97
 msgid "Message"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:105
+#: view/log/admin/log/browse.phtml:106
 msgid "Full log"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:155 view/log/admin/log/browse.phtml:173
+#: view/log/admin/log/browse.phtml:156 view/log/admin/log/browse.phtml:174
 msgid "Delete logs"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:156
+#: view/log/admin/log/browse.phtml:157
 msgid "Are you sure you would like to delete the selected logs?"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:158 view/log/admin/log/browse.phtml:176
+#: view/log/admin/log/browse.phtml:159 view/log/admin/log/browse.phtml:177
 #, php-format
 msgid "%s: this action will permanently delete %s logs and cannot be undone."
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:174
+#: view/log/admin/log/browse.phtml:175
 msgid "Are you sure you would like to delete all logs of this result?"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:191
+#: view/log/admin/log/browse.phtml:192
 msgid "Omeka could not find any logs, or they are saved in another place."
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:203
+#: view/log/admin/log/browse.phtml:204
 msgid "Search logs"
 msgstr ""
 
-#: view/log/admin/log/show-details.phtml:24
+#: view/log/admin/log/show-details.phtml:38
 #, php-format
 msgid "Log #%d on %s"
 msgstr ""
 
-#: view/log/admin/log/show-details.phtml:42
+#: view/log/admin/log/show-details.phtml:59
 #, php-format
 msgid "Job #%d"
 msgstr ""
 
-#: view/log/admin/log/show-details.phtml:44
+#: view/log/admin/log/show-details.phtml:62
+msgid "Status:"
+msgstr ""
+
+#: view/log/admin/log/show-details.phtml:69
+msgid "System state:"
+msgstr ""
+
+#: view/log/admin/log/show-details.phtml:76
 #, php-format
 msgid "Started at %s"
 msgstr ""
 
-#: view/log/admin/log/show-details.phtml:47
+#: view/log/admin/log/show-details.phtml:79
 #, php-format
 msgid "Ended at %s"
 msgstr ""
 
-#: view/omeka/admin/job/browse.phtml:30
-msgid "Id / Params"
+#: view/omeka/admin/job/browse.phtml:66
+msgid "Id (Params)"
 msgstr ""
 
-#: view/omeka/admin/job/browse.phtml:33
-msgid "Status / Log"
+#: view/omeka/admin/job/browse.phtml:67 view/omeka/admin/job/show.phtml:81
+msgid "System state"
 msgstr ""
 
-#: view/omeka/admin/job/browse.phtml:46 view/omeka/admin/job/show.phtml:39
-msgid "[no owner]"
+#: view/omeka/admin/job/browse.phtml:71
+msgid "Status (Log)"
 msgstr ""
 
-#: view/omeka/admin/job/show.phtml:25
+#: view/omeka/admin/job/show.phtml:37
 msgid "[undefined]"
 msgstr ""
 
-#: view/omeka/admin/job/show.phtml:28
-msgid "[not started]"
-msgstr ""
-
-#: view/omeka/admin/job/show.phtml:34
-msgid "[not ended]"
-msgstr ""
-
-#: view/omeka/admin/job/show.phtml:57
+#: view/omeka/admin/job/show.phtml:90
 msgid "Progress"
 msgstr ""
 
-#: view/omeka/admin/job/show.phtml:83
-msgid "[no args]"
-msgstr ""
-
-#: view/omeka/admin/job/show.phtml:94 view/omeka/admin/job/show.phtml:107
-msgid "[no log]"
-msgstr ""
-
-#: view/omeka/admin/job/show.phtml:100
+#: view/omeka/admin/job/show.phtml:133
 msgid "Log (database)"
 msgstr ""
 
-#: view/omeka/admin/job/show.phtml:104
+#: view/omeka/admin/job/show.phtml:137
 #, php-format
 msgid "View log (%d results)"
 msgstr ""
@@ -192,37 +189,37 @@ msgid ""
 msgstr ""
 
 #: src/View/Helper/LogSearchFilters.php:33
-#: src/Api/Representation/LogRepresentation.php:63
+#: src/Api/Representation/LogRepresentation.php:72
 msgid "emergency"
 msgstr ""
 
 #: src/View/Helper/LogSearchFilters.php:34
-#: src/Api/Representation/LogRepresentation.php:64
+#: src/Api/Representation/LogRepresentation.php:73
 msgid "alert"
 msgstr ""
 
 #: src/View/Helper/LogSearchFilters.php:35
-#: src/Api/Representation/LogRepresentation.php:65
+#: src/Api/Representation/LogRepresentation.php:74
 msgid "critical"
 msgstr ""
 
 #: src/View/Helper/LogSearchFilters.php:37
-#: src/Api/Representation/LogRepresentation.php:67
+#: src/Api/Representation/LogRepresentation.php:76
 msgid "warning"
 msgstr ""
 
 #: src/View/Helper/LogSearchFilters.php:38
-#: src/Api/Representation/LogRepresentation.php:68
+#: src/Api/Representation/LogRepresentation.php:77
 msgid "notice"
 msgstr ""
 
 #: src/View/Helper/LogSearchFilters.php:39
-#: src/Api/Representation/LogRepresentation.php:69
+#: src/Api/Representation/LogRepresentation.php:78
 msgid "info"
 msgstr ""
 
 #: src/View/Helper/LogSearchFilters.php:40
-#: src/Api/Representation/LogRepresentation.php:70
+#: src/Api/Representation/LogRepresentation.php:79
 msgid "debug"
 msgstr ""
 
@@ -302,7 +299,7 @@ msgstr ""
 msgid "Not in untranslated message"
 msgstr ""
 
-#: src/ColumnType/Id.php:10 config/module.config.php:265
+#: src/ColumnType/Id.php:10 config/module.config.php:292
 msgid "Id"
 msgstr ""
 
@@ -311,7 +308,7 @@ msgid ""
 "The logger is currently disabled for database. Check config/local.config.php."
 msgstr ""
 
-#: src/Controller/Admin/LogController.php:106
+#: src/Controller/Admin/LogController.php:103
 msgid "log"
 msgstr ""
 
@@ -338,10 +335,10 @@ msgid ""
 "may take a while."
 msgstr ""
 
-#: src/Service/LoggerFactory.php:49
+#: src/Service/LoggerFactory.php:54
 msgid "[Omeka S] File logging disabled: not writeable."
 msgstr ""
 
-#: src/Service/LoggerFactory.php:59 src/Service/LoggerDbFactory.php:30
+#: src/Service/LoggerFactory.php:73 src/Service/LoggerDbFactory.php:30
 msgid "[Omeka S] Database logging disabled: wrong config."
 msgstr ""
