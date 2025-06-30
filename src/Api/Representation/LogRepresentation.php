@@ -127,7 +127,6 @@ class LogRepresentation extends AbstractEntityRepresentation
             'users' => 'user',
             'annotation' => 'annotation',
             'annotations' => 'annotation',
-            'customvocab' => 'custom-vocab',
             // For context.
             'itemid' => 'item',
             'itemsetid' => 'item-set',
@@ -140,7 +139,7 @@ class LogRepresentation extends AbstractEntityRepresentation
             'templateid' => 'resource-template',
             'annotationid' => 'annotation',
         ];
-        $baseUrl = str_replace('/replace', '', $url('admin/default', ['controller' => 'replace']));
+        $baseUrl = strtr($url('admin/default', ['controller' => 'replace']), ['/replace' => '']);
 
         $escapeHtml = true;
         $message = $this->resource->getMessage();
@@ -201,7 +200,7 @@ class LogRepresentation extends AbstractEntityRepresentation
                             $link = $hyperlink('__ID__', "$baseUrl/$controller/__ID__");
                             $context[$key] = '';
                             foreach ($values as $val) {
-                                $context[$key] .= ', ' . str_replace('__ID__', $val, $link);
+                                $context[$key] .= ', ' . strtr($link, ['__ID__' => $val]);
                             }
                             $context[$key] = trim($context[$key], ', ');
                             $shouldEscapes[$key] = false;
@@ -215,7 +214,7 @@ class LogRepresentation extends AbstractEntityRepresentation
                             $link = $hyperlink('__ID__', "$baseUrl/asset?id=__ID__");
                             $context[$key] = '';
                             foreach ($values as $val) {
-                                $context[$key] .= ', ' . str_replace('__ID__', $val, $link);
+                                $context[$key] .= ', ' . strtr($link, ['__ID__' => $val]);
                             }
                             $context[$key] = trim($context[$key], ', ');
                             $shouldEscapes[$key] = false;
@@ -244,7 +243,7 @@ class LogRepresentation extends AbstractEntityRepresentation
                                     : $hyperlink('__ID__', "$baseUrl/$controller/__ID__");
                                 $context[$key] = '';
                                 foreach ($values as $val) {
-                                    $context[$key] .= ', ' . str_replace('__ID__', $val, $link);
+                                    $context[$key] .= ', ' . strtr($link, ['__ID__' => $val]);
                                 }
                                 $context[$key] = trim($context[$key], ', ');
                                 $shouldEscapes[$key] = false;
