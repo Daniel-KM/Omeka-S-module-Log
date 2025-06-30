@@ -23,11 +23,9 @@ $strLength = 240;
 $this->htmlElement('body')->appendAttribute('class', 'logs browse');
 
 $this->headLink()
-    ->appendStylesheet($assetUrl('vendor/webui-popover/jquery.webui-popover.min.css', 'Log'))
     ->appendStylesheet($assetUrl('css/job.css', 'Log'))
     ->appendStylesheet($assetUrl('css/log.css', 'Log'));
 $this->headScript()
-    ->appendFile($assetUrl('vendor/webui-popover/jquery.webui-popover.min.js', 'Log'), 'text/javascript', ['defer' => 'defer'])
     ->appendFile($assetUrl('js/job.js', 'Log'), 'text/javascript', ['defer' => 'defer'])
     ->appendFile($assetUrl('js/log.js', 'Log'), 'text/javascript', ['defer' => 'defer']);
 
@@ -81,10 +79,11 @@ $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::cl
             </tr>
         </thead>
         <tbody>
-        <?php foreach ($logs as $log): ?>
-        <?php $userIsAllowedDelete = $log->userIsAllowed('delete'); ?>
+        <?php foreach ($logs as $log):
+            $userIsAllowedDelete = $log->userIsAllowed('delete');
+            ?>
         <tr>
-            <td class="webui-popover-parent">
+            <td class="log-popover-parent">
                 <?php if ($userIsAllowedBatchDelete): ?>
                 <input type="checkbox" name="resource_ids[]" value="<?= $log->id() ?>"<?php if (!$userIsAllowedDelete): ?> disabled="disabled"<?php endif; ?>>
                 <?php endif; ?>
@@ -106,7 +105,7 @@ $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::cl
                             'class' => 'o-icon- fa fa-expand popover',
                             'title' => $translate('Full log'),
                         ]) ?>
-                        <div class="log-message-full webui-popover-content webui-popover-current"><?= $shouldEscape ? nl2br($escape($text)) : nl2br($text) ?></div>
+                        <div class="log-message-full log-popover-content log-popover-current"><?= $shouldEscape ? $escape($text) : $text ?></div>
                     </li>
                     <?php endif; ?>
                     <?php if ($userIsAllowedDelete): ?>
@@ -208,3 +207,6 @@ $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::cl
         </div>
     </div>
 </div>
+
+
+<?php //= $this->partial('common/dialog/log') ?>

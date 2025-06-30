@@ -1,0 +1,25 @@
+<?php
+/**
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var string|null $html
+ */
+
+$plugins = $this->getHelperPluginManager();
+$translate = $plugins->get('translate');
+?>
+
+<dialog class="popup popup-dialog dialog-log" ?>>
+    <div class="dialog-background">
+        <div class="dialog-panel">
+            <div class="dialog-header">
+                <button type="button" class="dialog-header-close-button" title="<?= $translate('Close') ?>" autofocus="autofocus">
+                    <span class="dialog-close">🗙</span>
+                </button>
+            </div>
+            <div class="dialog-contents">
+                <?= $html ?? '' ?>
+            </div>
+            <div class="dialog-footer"></div>
+        </div>
+    </div>
+</dialog>

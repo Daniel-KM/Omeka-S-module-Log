@@ -1,4 +1,10 @@
 @media all {
+
+    [hidden],
+    .hidden {
+        display: none;
+    }
+
     header nav .logs::before,
     .logs .subhead::before {
         content:"";
@@ -62,11 +68,22 @@
         font-size: smaller;
         font-style: italic;
     }
-}
 
-.logs .webui-popover-current {
-    display: none;
-}
-.logs .webui-popover-title {
-    display: none;
+    /** Dialog. */
+    #content dialog.popup-dialog {
+        margin: auto;
+    }
+    dialog .dialog-header-close-button {
+        float: right;
+    }
+    .logs .log-popover-current {
+        display: none;
+    }
+    .logs .log-message-truncated {
+        white-space: normal;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
+    }
+
 }

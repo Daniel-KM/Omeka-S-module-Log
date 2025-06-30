@@ -4,6 +4,36 @@
 
     $(document).ready(function() {
 
+        const dialogMessage = function (message, nl2br = false) {
+            // Use a dialog to display a message, that should be escaped.
+            var dialog = document.querySelector('dialog.popup-message');
+            if (!dialog) {
+                dialog = `
+    <dialog class="popup popup-dialog dialog-message popup-message" data-is-dynamic="1">
+        <div class="dialog-background">
+            <div class="dialog-panel">
+                <div class="dialog-header">
+                    <button type="button" class="dialog-header-close-button" title="Close" autofocus="autofocus">
+                        <span class="dialog-close">🗙</span>
+                    </button>
+                </div>
+                <div class="dialog-contents">
+                    {{ message }}
+                </div>
+            </div>
+        </div>
+    </dialog>`;
+                $('body').append(dialog);
+                dialog = document.querySelector('dialog.dialog-message');
+            }
+            if (nl2br) {
+                message = message.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+            }
+            dialog.innerHTML = dialog.innerHTML.replace('{{ message }}', message);
+            dialog.showModal();
+            $(dialog).trigger('o:dialog-opened');
+        };
+
         /**
          * Search sidebar.
          */
@@ -28,21 +58,22 @@
         /**
          * Better display of big logs.
          */
-        $('a.popover').webuiPopover('destroy').webuiPopover({
-            placement: 'auto-bottom',
-            content: function (element) {
-                const target = $('[data-target=' + element.id + ']');
-                const content = target.closest('.webui-popover-parent').find('.webui-popover-current');
-                $(content).removeClass('truncate').show();
-                return content;
-            },
-            title: '',
-            arrow: false,
-            backdrop: true,
-            onShow: function(element) { element.css({left: 0}); }
+        $('#content').on('click', 'a.popover', function() {
+            const message = $(this).closest('.log-popover-parent').find('.log-popover-current').text();
+            dialogMessage(message, true);
         });
 
-        $('a.popover').webuiPopover();
+        $(document).on('click', '.dialog-header-close-button', function() {
+            const dialog = this.closest('dialog.popup');
+            if (dialog) {
+                dialog.close();
+                if (dialog.hasAttribute('data-is-dynamic') && dialog.getAttribute('data-is-dynamic')) {
+                    dialog.remove();
+                }
+            } else {
+                $(this).closest('.popup').addClass('hidden').hide();
+            }
+        });
 
         // Complete the batch delete form after confirmation.
         // TODO Check if this is still needed.

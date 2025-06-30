@@ -26,9 +26,7 @@
     ],
     "require": {
         "php": ">=7.4",
-        "grimmlink/webui-popover": "^1.2",
-        "laminas/laminas-db": "^2.15",
-        "oomphinc/composer-installers-extender": "^2.0"
+        "laminas/laminas-db": "^2.15"
     },
     "replace": {
         "laminas/laminas-log": "2.15",
@@ -45,45 +43,6 @@
     "autoload-dev": {
         "psr-4": {
             "LogTest\\": "test/LogTest/"
-        }
-    },
-    "extra": {
-        "installer-types": ["omeka-addon-asset"],
-        "installer-paths": {
-            "asset/vendor/{$name}/": [
-                "type:omeka-addon-asset"
-            ]
-        }
-    },
-    "repositories": [
-        {
-            "type": "package",
-            "package": {
-                "name": "grimmlink/webui-popover",
-                "version": "1.2.18",
-                "type": "omeka-addon-asset",
-                "dist": {
-                    "type": "tar",
-                    "url": "https://github.com/grimmlink/webui-popover/archive/refs/heads/master.tar.gz"
-                },
-                "extra": {
-                    "installer-name": "webui-popover-full"
-                }
-            }
-        }
-    ],
-    "scripts": {
-        "post-install-cmd": "@build",
-        "post-update-cmd": "@build",
-        "build": [
-            "@php -r '@rename(__DIR__ . \"/asset/vendor/webui-popover-full/dist\", __DIR__ . \"/asset/vendor/webui-popover\");'",
-            "@php -r 'exec(sprintf(\"rm -rf %s\", escapeshellarg(__DIR__ . \"/asset/vendor/webui-popover-full\")));'"
-        ]
-    },
-    "config": {
-        "allow-plugins": {
-            "composer/installers": true,
-            "oomphinc/composer-installers-extender": true
         }
     }
 }
