@@ -23,11 +23,10 @@ $this->headScript()
 
 $job = $log->job();
 $owner = $log->owner();
-if ($owner):
-    $ownerText = $hyperlink($owner->email(), $this->url('admin/id', ['controller' => 'user', 'action' => 'show', 'id' => $owner->id()]));
-else:
-    $ownerText = '';
-endif;
+$ownerText = $owner
+    ? $hyperlink($owner->email(), $this->url('admin/id', ['controller' => 'user', 'action' => 'show', 'id' => $owner->id()]))
+    : '';
+$reference = $log->reference();
 
 $state = $log->jobState();
 
@@ -39,18 +38,21 @@ $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
     <h3 class="o-title"><?= $escape(sprintf($translate('Log #%d on %s'), $log->id(), $i18n->dateFormat($log->created(), 'medium', 'medium'))) ?></h3>
     <div class="meta-group">
         <h4><?= $escape($translate('Severity')) ?></h4>
-        <div class="value"><?= $escape($translate($log->severityLabel())) ?></div>
+        <div class="value">
+            <?= $escape($translate($log->severityLabel())) ?>
+        </div>
     </div>
     <div class="meta-group">
         <h4><?= $escape($translate('Reference')) ?></h4>
-        <div class="value"><?php
-        $reference = $log->reference();
-        echo $reference ? $escape($translate($reference)) : '-';
-        ?></div>
+        <div class="value">
+            <?= $reference ? $escape($translate($reference)) : '-' ?>
+        </div>
     </div>
     <div class="meta-group">
         <h4><?= $escape($translate('User')) ?></h4>
-        <div class="value"><?= $ownerText ?: '-' ?></div>
+        <div class="value">
+            <?= $ownerText ?: '<span>-</span>' ?>
+        </div>
     </div>
     <div class="meta-group">
         <?php if ($job): ?>
@@ -70,23 +72,25 @@ $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
             </span>
         </div>
         <?php endif; ?>
-        <div class="value"><?php
-        echo $escape(sprintf($translate('Started at %s'), $i18n->dateFormat($job->started(), 'medium', 'medium')));
-        ?></div>
-        <div class="value"><?php
-        echo $escape(sprintf($translate('Ended at %s'), $job->ended() ? $i18n->dateFormat($job->ended(), 'medium', 'medium') : '-'));
-        ?></div>
-        <div class="value"><?php
-        echo $hyperlink($translate('Parameters'), $this->url('admin/id', ['controller' => 'job', 'action' => 'show', 'id' => $job->id()]));
-        ?></div>
+        <div class="value">
+            <?= $escape(sprintf($translate('Started at %s'), $i18n->dateFormat($job->started(), 'medium', 'medium'))) ?>
+        </div>
+        <div class="value">
+            <?= $escape(sprintf($translate('Ended at %s'), $job->ended() ? $i18n->dateFormat($job->ended(), 'medium', 'medium') : '-')) ?>
+        </div>
+        <div class="value">
+            <?= $hyperlink($translate('Parameters'), $this->url('admin/id', ['controller' => 'job', 'action' => 'show', 'id' => $job->id()])) ?>
+        </div>
         <?php if ($job->log()): ?>
-        <div class="value"><?php
-        echo $hyperlink($translate('Log'), $this->url('admin/id', ['controller' => 'job', 'action' => 'log', 'id' => $job->id()]), ['target' => '_blank']);
-        ?></div>
+        <div class="value">
+            <?= $hyperlink($translate('Log'), $this->url('admin/id', ['controller' => 'job', 'action' => 'log', 'id' => $job->id()])) ?>
+        </div>
         <?php endif; ?>
     <?php else: ?>
         <h4><?= $escape($translate('Job')) ?></h4>
-        -
+        <div class="value">
+            <span>-</span>
+        </div>
     <?php endif; ?>
     </div>
     <div class="meta-group">
@@ -99,7 +103,9 @@ $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
         </span>
         */ ?>
         </h4>
-        <div class="value log-message webui-popover-content"><?= $log->text() ?></div>
+        <div class="value log-message webui-popover-content">
+            <?= $log->text() ?>
+        </div>
     </div>
     <?php $this->trigger('view.details', ['entity' => $log]); ?>
 </div>

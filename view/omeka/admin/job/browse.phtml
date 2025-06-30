@@ -81,7 +81,7 @@ $jobStateUrlBase = strtr($url('admin/job-state', ['id' => '0000']), ['0000' => '
                 ['controller' => 'user', 'action' => 'show', 'id' => $owner->id()]
             ));
         } else {
-            $ownerText = $translate('[no owner]');
+            $ownerText = $translate('[No owner]');
         }
         $totalLogs = $api->search('logs', ['job_id' => $jobId, 'limit' => 0])->getTotalResults();
         $step = method_exists($job, 'step') ? $job->step() : null;

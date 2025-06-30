@@ -3,17 +3,25 @@
 namespace Log\Api\Representation;
 
 use Common\Stdlib\PsrMessage;
+use DateTime;
 use Log\Stdlib\JobState;
 use Omeka\Api\Representation\AbstractEntityRepresentation;
+use Omeka\Api\Representation\JobRepresentation;
+use Omeka\Api\Representation\UserRepresentation;
 
 class LogRepresentation extends AbstractEntityRepresentation
 {
-    public function getControllerName()
+    /**
+     * @var \Log\Entity\Log
+     */
+    protected $resource;
+
+    public function getControllerName(): string
     {
         return 'log';
     }
 
-    public function getJsonLdType()
+    public function getJsonLdType(): string
     {
         return 'o:Log';
     }
@@ -48,17 +56,17 @@ class LogRepresentation extends AbstractEntityRepresentation
         ];
     }
 
-    public function reference()
+    public function reference(): string
     {
         return $this->resource->getReference();
     }
 
-    public function severity()
+    public function severity(): int
     {
         return $this->resource->getSeverity();
     }
 
-    public function severityLabel()
+    public function severityLabel(): string
     {
         $severities = [
             \Laminas\Log\Logger::EMERG => 'emergency', // @translate
@@ -74,10 +82,7 @@ class LogRepresentation extends AbstractEntityRepresentation
         return $severities[$severity] ?? $severity;
     }
 
-    /**
-     * @return PsrMessage
-     */
-    public function message()
+    public function message(): PsrMessage
     {
         $translator = $this->getServiceLocator()->get('MvcTranslator');
         $message = $this->resource->getMessage();
@@ -89,10 +94,8 @@ class LogRepresentation extends AbstractEntityRepresentation
 
     /**
      * Return translatable message with context (resource links).
-     *
-     * @return PsrMessage
      */
-    public function text()
+    public function text(): PsrMessage
     {
         /**
          * @var \Omeka\Api\Manager $api
@@ -395,12 +398,12 @@ class LogRepresentation extends AbstractEntityRepresentation
             ->setEscapeHtml($escapeHtml);
     }
 
-    public function created()
+    public function created(): DateTime
     {
         return $this->resource->getCreated();
     }
 
-    public function owner()
+    public function owner(): ?UserRepresentation
     {
         $owner = $this->resource->getOwner();
         return $owner
@@ -408,7 +411,7 @@ class LogRepresentation extends AbstractEntityRepresentation
             : null;
     }
 
-    public function job()
+    public function job(): ?JobRepresentation
     {
         $job = $this->resource->getJob();
         return $job

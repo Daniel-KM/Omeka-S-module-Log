@@ -11,7 +11,9 @@
 use \Log\Stdlib\JobState;
 
 $plugins = $this->getHelperPluginManager();
-$url = $this->plugin('url');
+$url = $plugins->get('url');
+$api = $plugins->get('api');
+$i18n = $plugins->get('i18n');
 $escape = $plugins->get('escapeHtml');
 $assetUrl = $plugins->get('assetUrl');
 $jobState = $plugins->get('jobState');
@@ -28,25 +30,25 @@ $this->headScript()
 
 $hasProgress = method_exists($job, 'step');
 if ($job->started()) {
-    $started = $this->i18n()->dateFormat($job->started(), 'long', 'long');
+    $started = $i18n->dateFormat($job->started(), 'long', 'long');
     if ($hasProgress) {
         $step = $job->step();
         $totalSteps = $job->totalSteps();
         $progress = $totalSteps ? sprintf('%s / %s', $step, $totalSteps) : $translate('[undefined]');
     }
 } else {
-    $started = $translate('[not started]');
+    $started = $translate('[Not started]');
     $progress = '-';
 }
 if ($job->ended()) {
-    $ended = $this->i18n()->dateFormat($job->ended(), 'long', 'long');
+    $ended = $i18n->dateFormat($job->ended(), 'long', 'long');
 } else {
-    $ended = $translate('[not ended]');
+    $ended = $translate('[Not ended]');
 }
 if ($owner = $job->owner()) {
-    $ownerText = $this->escapeHtml($owner->email());
+    $ownerText = $owner->email();
 } else {
-    $ownerText = $translate('[no owner]');
+    $ownerText = $translate('[No owner]');
 }
 
 $state = $jobState($job);
@@ -62,6 +64,7 @@ $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
 </style>
 
 <?= $this->pageTitle('#' . $escape($job->id()), 1, $translate('Jobs')) ?>
+
 <div id="page-actions">
     <?php if ('in_progress' == $job->status()): ?>
         <?= $this->form($confirmForm) ?>
@@ -102,7 +105,7 @@ $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
     </div>
     <div class="meta-group">
         <dt><?= $translate('Owner') ?></dt>
-        <dd class="value"><?= $ownerText ?></dd>
+        <dd class="value"><?= $escape($ownerText) ?></dd>
     </div>
     <div class="meta-group">
         <dt><?= $translate('Args') ?></dt>
@@ -110,7 +113,7 @@ $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
             <?php $args = json_encode($job->args(), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_LINE_TERMINATORS); ?>
             <dd class="value"><pre><?= $escape($args) ?></pre></dd>
         <?php else: ?>
-        <dd class="value"><?= $translate('[no args]') ?></dd>
+        <dd class="value"><?= $translate('[No args]') ?></dd>
         <?php endif; ?>
     </div>
     <div class="meta-group">
@@ -121,7 +124,7 @@ $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
                 $url(null, ['action' => 'log'], true),
                 ['target' => '_blank']) ?>
             <?php else: ?>
-            <?= $translate('[no log]') ?>
+            <?= $translate('[No log]') ?>
             <?php endif; ?>
         </dd>
     </div>
@@ -129,12 +132,12 @@ $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
     <div class="meta-group">
         <dt><?= $translate('Log (database)') ?></dt>
         <dd class="value">
-            <?php $totalLogs = $this->api()->search('logs', ['job_id' => $job->id(), 'return_scalar' => 'id'])->getTotalResults(); ?>
+            <?php $totalLogs = $api->search('logs', ['job_id' => $job->id(), 'limit' => 0])->getTotalResults(); ?>
             <?php if ($totalLogs): ?>
             <?= $hyperlink(sprintf($translate('View log (%d results)'), $totalLogs),
                 $url('admin/log/default', [], ['query' => ['job_id' => $job->id()]])) ?>
             <?php else: ?>
-            <?= $translate('[no log]') ?>
+            <?= $translate('[No log]') ?>
             <?php endif; ?>
         </dd>
     </div>

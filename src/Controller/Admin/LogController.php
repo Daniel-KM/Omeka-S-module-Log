@@ -98,16 +98,16 @@ class LogController extends AbstractActionController
         $response = $this->api()->read('logs', $this->params('id'));
         $log = $response->getContent();
 
-        $view = new ViewModel;
-        $view
+        $view = new ViewModel([
+            'resource' => $log,
+            'resourceLabel' => 'log', // @translate
+            'partialPath' => 'log/admin/log/show-details',
+            'linkTitle' => $linkTitle,
+            'log' => $log,
+        ]);
+        return $view
             ->setTerminal(true)
-            ->setTemplate('common/delete-confirm-details')
-            ->setVariable('resource', $log)
-            ->setVariable('resourceLabel', 'log') // @translate
-            ->setVariable('partialPath', 'log/admin/log/show-details')
-            ->setVariable('linkTitle', $linkTitle)
-            ->setVariable('log', $log);
-        return $view;
+            ->setTemplate('common/delete-confirm-details');
     }
 
     public function deleteAction()
