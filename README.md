@@ -24,17 +24,14 @@ allowing to find issues hard to reproduce quicker.
 Installation
 ------------
 
-The module uses an external library, [webui-popover], so use the release zip
-to install it, or use and init the source.
-
 This module requires the module [Common], that should be installed first.
 
 See general end user documentation for [installing a module].
 
 * From the zip
 
-Download the last release [Log.zip] from the list of releases (the master does
-not contain the dependency), and uncompress it in the `modules` directory.
+Download the last release [Log.zip] from the list of releases and uncompress it
+in the `modules` directory.
 
 * From the source and for development
 
@@ -50,7 +47,7 @@ of Omeka: `rm -rf vendor && composer install --no-dev`.
 
 * Server with php 8.2 or greater
 
-To support php 8.2 or greate, run this command first:
+To support php 8.2 or greater, run this command first:
 
 ```sh
 composer update
@@ -349,15 +346,11 @@ conditions as regards security.
 The fact that you are presently reading this means that you have had knowledge
 of the CeCILL license and that you accept its terms.
 
-* The library [webui-popover] is published under the license [MIT].
-
 
 Copyright
 ---------
 
-* Copyright Daniel Berthereau, 2017-2023 [Daniel-KM] on GitLab)
-
-* Library [webui-popover]: Sandy Walker
+* Copyright Daniel Berthereau, 2017-2025 [Daniel-KM] on GitLab)
 
 
 [Log]: https://gitlab.com/Daniel-KM/Omeka-S-module-Log
@@ -365,7 +358,6 @@ Copyright
 [Omeka S]: https://omeka.org/s
 [PSR-3]: http://www.php-fig.org/psr/psr-3
 [Common]: https://gitlab.com/Daniel-KM/Omeka-S-module-Common
-[webui-popover]: https://github.com/sandywalker/webui-popover
 [installing a module]: https://omeka.org/s/docs/user-manual/modules/#installing-modules
 [Log.zip]: https://gitlab.com/Daniel-KM/Omeka-S-module-Log/-/releases
 [Laminas Framework Log]: https://docs.laminas.dev/laminas-log
@@ -376,6 +368,5 @@ Copyright
 [GNU/GPL]: https://www.gnu.org/licenses/gpl-3.0.html
 [FSF]: https://www.fsf.org
 [OSI]: http://opensource.org
-[MIT]: https://github.com/sandywalker/webui-popover/blob/master/LICENSE.txt
 [GitLab]: https://gitlab.com/Daniel-KM
 [Daniel-KM]: https://gitlab.com/Daniel-KM "Daniel Berthereau"
