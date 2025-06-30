@@ -4,8 +4,12 @@
  * @var \Log\Api\Representation\LogRepresentation $log
  */
 
+use \Log\Stdlib\JobState;
+
+$plugins = $this->getHelperPluginManager();
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
 $hyperlink = $this->plugin('hyperlink');
 $i18n = $this->plugin('i18n');
 
@@ -18,7 +22,12 @@ if ($owner):
 else:
     $ownerText = '';
 endif;
- ?>
+
+$state = $log->jobState();
+
+$stateWarning = $escapeAttr($translate('Warning: The system state may not be reliable on some servers.'));
+$stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
+?>
 
 <div class="resource-details">
     <h3 class="o-title"><?= $escape(sprintf($translate('Log #%d on %s'), $log->id(), $i18n->dateFormat($log->created(), 'medium', 'medium'))) ?></h3>
@@ -40,6 +49,18 @@ endif;
     <div class="meta-group">
         <?php if ($job): ?>
         <h4><?= $escape(sprintf($translate('Job #%d'), $job->id())) ?></h4>
+        <div class="value">
+            <?= sprintf($translate('%1$s: %2$s'), $translate('Status'), $translate($job->statusLabel())) ?>
+        </div>
+        <?php if ($state): ?>
+        <div class="value">
+            <span class="job-state"<?= $stateWarning ?>>
+                <span class="system-state-title"><?= $translate('System state:') ?></span>
+                <span class="system-state-label"><?= $translate(JobState::STATES[$state]['label']) ?></span>
+                <span class="system-state-icon <?= JobState::STATES[$state]['icon'] ?>" title="<?= $translate(JobState::STATES[$state]['label']) ?>" aria-label="<?= $translate(JobState::STATES[$state]['label']) ?>"></span>
+            </span>
+        </div>
+        <?php endif; ?>
         <div class="value"><?php
         echo $escape(sprintf($translate('Started at %s'), $i18n->dateFormat($job->started(), 'medium', 'medium')));
         ?></div>

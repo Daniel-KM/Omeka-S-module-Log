@@ -9,6 +9,12 @@
     }
 
     /* Log browse */
+    .logs .log-job {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
     .logs .sidebar.search .advanced-search::before {
         display: inline-block;
         font-style: normal;
@@ -49,15 +55,28 @@
         position: inherit;
         margin-top: inherit;
     }
+
+    /* Show details  */
+    .job-state {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 4px;
+        & .system-state-icon  {
+           line-height: 24px;
+           margin-left: auto;
+        }
+    }
+    .logs .log-job-param,
+    .logs .log-job-log {
+        font-size: smaller;
+        font-style: italic;
+    }
 }
+
 .logs .webui-popover-current {
     display: none;
 }
 .logs .webui-popover-title {
     display: none;
-}
-.logs .log-job-param,
-.logs .log-job-log {
-    font-size: smaller;
-    font-style: italic;
 }

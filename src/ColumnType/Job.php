@@ -5,6 +5,7 @@ namespace Log\ColumnType;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Api\Representation\AbstractEntityRepresentation;
 use Omeka\ColumnType\ColumnTypeInterface;
+use Log\Stdlib\JobState;
 
 class Job implements ColumnTypeInterface
 {
@@ -51,21 +52,52 @@ class Job implements ColumnTypeInterface
 
         $plugins = $view->getHelperPluginManager();
         $url = $plugins->get('url');
+        $jobState = $plugins->get('jobState');
         $translate = $plugins->get('translate');
         $hyperlink = $plugins->get('hyperlink');
 
+        $replace = [
+            '__STATE__' => '',
+            '__LINK_LOG__' => '',
+        ];
+
         $linkStatus = $hyperlink($translate($job->statusLabel()), $url(null, [], ['query' => ['job_id' => $job->id()]], true));
         $linkParams = $hyperlink($translate('Parameters'), $url('admin/id', ['controller' => 'job', 'action' => 'show', 'id' => $job->id()]));
-        $linkJobLog = $job->log()
-            ? $hyperlink($translate('Log'), $url('admin/id', ['controller' => 'job', 'action' => 'log', 'id' => $job->id()]), ['target' => '_blank'])
-            : null;
+
+        $state = $jobState($job);
+        if ($state) {
+            $escape = $plugins->get('escapeHtmlAttr');
+            $escapeAttr = $plugins->get('escapeHtmlAttr');
+            $stateWarning = $escapeAttr($translate('Warning: The system state may not be reliable on some servers.'));
+            $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
+            $stateIcon = JobState::STATES[$state]['icon'];
+            $stateLabel = $translate(JobState::STATES[$state]['label']);
+            $stateLabelEsc = $escape($stateLabel);
+            $stateLabelEscAttr = $escapeAttr($stateLabel);
+            $replace['__STATE__'] = <<<HTML
+                <span class="job-state"$stateWarning>
+                    <span class="system-state-label">$stateLabelEsc</span>
+                    <span class="system-state-icon $stateIcon" title="$stateLabelEscAttr" aria-label="$stateLabelEscAttr"></span>
+                </span>
+                HTML;
+        }
+
+        if ($job->log()) {
+            $linkJobLog = $hyperlink($translate('Log'), $url('admin/id', ['controller' => 'job', 'action' => 'log', 'id' => $job->id()]), ['target' => '_blank']);
+            $replace['__LINK_LOG__'] = <<<HTML
+                <span class="log-job-log">$linkJobLog</span>
+                HTML;
+        }
+
         $html = <<<HTML
-<div>
-    <span class="log-job-status">$linkStatus</span>
-    <span class="log-job-param">$linkParams</span>
-    <span class="log-job-log">$linkJobLog</span>
-</div>
-HTML;
-        return $html;
+            <div class="log-job">
+                <span class="log-job-status">$linkStatus</span>
+                __STATE__
+                <span class="log-job-param">$linkParams</span>
+                __LINK_LOG__
+            </div>
+            HTML;
+
+        return strtr($html, $replace);
     }
 }

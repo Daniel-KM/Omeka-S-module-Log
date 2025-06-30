@@ -3,6 +3,7 @@
 namespace Log\Api\Representation;
 
 use Common\Stdlib\PsrMessage;
+use Log\Stdlib\JobState;
 use Omeka\Api\Representation\AbstractEntityRepresentation;
 
 class LogRepresentation extends AbstractEntityRepresentation
@@ -405,5 +406,55 @@ class LogRepresentation extends AbstractEntityRepresentation
         return $job
             ? $this->getAdapter('jobs')->getRepresentation($job)
             : null;
+    }
+
+    /**
+     * Check if the job associated to the log is in a living state.
+     *
+     * Windows is not supported (neither in omeka job anyway).
+     *
+     * Warning: in some cases, the state is not reliable, because it may be the
+     * one of another process.
+     *
+     * @return bool|null Null if no job, else the pid status of the job.
+     */
+    public function isJobLiving(): ?bool
+    {
+        $state = $this->jobState();
+        return $state
+            ? JobState::STATES[$state]['processing']
+            : null;
+    }
+
+    /**
+     * Get the state of the living job (running or stopping) associated to log.
+     *
+     * Only pid with a job in progress or stopping can be checked.
+     * Windows is not supported (neither in omeka job anyway).
+     *
+     * Linux states are:
+     * - R: Running
+     * - S: Interruptible Sleep (Sleep, waiting for event from software)
+     * - D: Uninterruptible Sleep (Dead, waiting for signal from hardware)
+     * - T: Stopped (Traced)
+     * - Z: Zombie
+     *
+     * Warning: in some cases, the state is not reliable, because it may be the
+     * one of another process.
+     *
+     * @uses \Log\Stdlib\JobState
+     *
+     * @return string|null Letter of the state of the process or null.
+     * Full state name can be retrieved from the constant JobState::STATES.
+     */
+    public function jobState(): ?string
+    {
+        // The job representation cannot access to the pid, so use entity.
+        $job = $this->resource->getJob();
+        if (!$job) {
+            return null;
+        }
+        $jobState = $this->getServiceLocator()->get('Log\JobState');
+        return $jobState($job);
     }
 }
