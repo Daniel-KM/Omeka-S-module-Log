@@ -6,14 +6,41 @@
 
 // Copy of Omeka application/view/omeka/admin/job/browse.phtml, with added links.
 
+use \Log\Stdlib\JobState;
+
 $plugins = $this->getHelperPluginManager();
 $url = $this->plugin('url');
+$api = $this->plugin('api');
+$i18n = $this->plugin('i18n');
 $escape = $plugins->get('escapeHtml');
+$jobState = $plugins->get('jobState');
 $translate = $plugins->get('translate');
 $hyperlink = $plugins->get('hyperlink');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
 
 $this->htmlElement('body')->appendAttribute('class', 'jobs browse');
+
+$stateLabels = array_map($translate, array_column(JobState::STATES, 'label', 's'));
+
+$stateWarning = $escapeAttr($translate('Warning: The system state may not be reliable on some servers.'));
+$stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
 ?>
+
+<?php // Display the state below the status. ?>
+<style>
+    .system-state-header {
+        float: right;
+        font-weight: normal;
+    }
+    .flex-between .tablesaw-cell-content {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .flex-br {
+        flex-basis: 100%;
+        height: 0;
+    }
+</style>
 
 <?= $this->pageTitle($translate('Jobs')) ?>
 
@@ -27,16 +54,18 @@ $this->htmlElement('body')->appendAttribute('class', 'jobs browse');
 <table class="tablesaw" data-tablesaw-mode="stack">
     <thead>
         <tr>
-            <th><?= $translate('Id / Params') ?></th>
+            <th>
+                <span><?= $translate('Id (Params)') ?></span>
+                <span class="system-state-header"<?= $stateWarning ?>><?= $translate('System state') ?></span>
+            </th>
             <th><?= $translate('Date') ?></th>
             <th><?= $translate('Class') ?></th>
-            <th><?= $translate('Status / Log') ?></th>
+            <th><?= $escape($translate('Status (Log)')) ?></th>
             <th><?= $translate('Owner') ?></th>
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($jobs as $job): ?>
-        <?php
+        <?php foreach ($jobs as $job):
         if ($owner = $job->owner()) {
             $ownerText = $hyperlink($owner->email(), $url(
                 'admin/id',
@@ -45,21 +74,31 @@ $this->htmlElement('body')->appendAttribute('class', 'jobs browse');
         } else {
             $ownerText = $translate('[no owner]');
         }
+        $totalLogs = $api->search('logs', ['job_id' => $job->id(), 'limit' => 0])->getTotalResults();
+        $step = method_exists($job, 'step') ? $job->step() : null;
+        $state = $jobState($job);
         ?>
         <tr>
-            <td><?= $job->link($escape($job->id())) ?></td>
-            <td><?= $escape($this->i18n()->dateFormat($job->started(), null, \Omeka\View\Helper\i18n::DATE_FORMAT_SHORT)) ?></td>
+            <td class="job-state flex-between">
+                <span><?= $job->link($escape($job->id())) ?></span>
+                <?php if ($state): ?>
+                <span class="system-state-icon <?= JobState::STATES[$state]['icon'] ?>" title="<?= $stateLabels[$state] ?>" aria-label="<?= $stateLabels[$state] ?>"></span>
+                <?php endif; ?>
+            </td>
+            <td><?= $escape($i18n->dateFormat($job->started(), null, \Omeka\View\Helper\i18n::DATE_FORMAT_SHORT)) ?></td>
             <td><?= $escape($job->jobClass()) ?></td>
             <td>
-            <?php $totalLogs = $this->api()->search('logs', ['job_id' => $job->id(), 'return_scalar' => 'id'])->getTotalResults(); ?>
-            <?php if ($totalLogs): ?>
-            <?= $hyperlink($translate($job->statusLabel()), $url('admin/log/default', [], ['query' => ['job_id' => $job->id()]])) ?>
-            <?php else: ?>
-            <?= $escape($translate($job->statusLabel())) ?>
-            <?php endif; ?>
-            <?php if (method_exists($job, 'step') && $step = $job->step()): ?>
-            - <?= $step; ?> / <?= $job->totalSteps() ?>
-            <?php endif; ?>
+                <?php if ($totalLogs): ?>
+                <?= $hyperlink($translate($job->statusLabel()), $url('admin/log/default', [], ['query' => ['job_id' => $job->id()]]), ['class' => 'status-link link-log']) ?>
+                <?php else: ?>
+                <span class="status-label"><?= $escape($translate($job->statusLabel())) ?></span>
+                <?php endif; ?>
+                <?php if ($step): ?>
+                <span> - </span>
+                <span class="status-step"><?= $step; ?></span>
+                <span> / </span>
+                <span class="status-steps"><?= $job->totalSteps() ?></span>
+                <?php endif; ?>
             </td>
             <td><?= $ownerText ?></td>
         </tr>

@@ -151,6 +151,9 @@ return [
         'invokables' => [
             'logSearchFilters' => View\Helper\LogSearchFilters::class,
         ],
+        'factories' => [
+            'jobState' => Service\ViewHelper\JobStateFactory::class,
+        ],
     ],
     'form_elements' => [
         'factories' => [

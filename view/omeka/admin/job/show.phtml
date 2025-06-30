@@ -8,11 +8,15 @@
 
 // Copy of Omeka application/view/omeka/admin/job/show.phtml, with a link added in the bottom.
 
+use \Log\Stdlib\JobState;
+
 $plugins = $this->getHelperPluginManager();
 $url = $this->plugin('url');
 $escape = $plugins->get('escapeHtml');
+$jobState = $plugins->get('jobState');
 $translate = $plugins->get('translate');
 $hyperlink = $plugins->get('hyperlink');
+$escapeAttr = $plugins->get('escapeHtmlAttr');
 
 $this->htmlElement('body')->appendAttribute('class', 'jobs show');
 
@@ -38,7 +42,18 @@ if ($owner = $job->owner()) {
 } else {
     $ownerText = $translate('[no owner]');
 }
+
+$state = $jobState($job);
+
+$stateWarning = $escapeAttr($translate('Warning: The system state may not be reliable on some servers.'));
+$stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
 ?>
+
+<style>
+    .state-icon {
+        margin-left: 12px;
+    }
+</style>
 
 <?= $this->pageTitle('#' . $escape($job->id()), 1, $translate('Jobs')) ?>
 <div id="page-actions">
@@ -52,6 +67,15 @@ if ($owner = $job->owner()) {
         <dt><?= $translate('Status') ?></dt>
         <dd class="value"><?= $job->statusLabel() ?></dd>
     </div>
+    <?php if ($state): ?>
+    <div class="meta-group">
+        <dt><?= $translate('System state') ?></dt>
+        <dd class="value job-state"<?= $stateWarning ?>>
+            <span class="system-state-label"><?= $translate(JobState::STATES[$state]['label']) ?></span>
+            <span class="system-state-icon <?= JobState::STATES[$state]['icon'] ?>" title="<?= $translate(JobState::STATES[$state]['label']) ?>" aria-label="<?= $translate(JobState::STATES[$state]['label']) ?>"></span>
+        </dd>
+    </div>
+    <?php endif; ?>
     <?php if ($hasProgress): ?>
     <div class="meta-group">
         <dt><?= $translate('Progress') ?></dt>
