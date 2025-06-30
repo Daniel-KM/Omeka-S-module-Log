@@ -16,8 +16,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         jobStates.forEach(jobState => {
             const jobId = jobState.getAttribute('data-job-id');
+            const jobDataState = jobState.getAttribute('data-job-state');
             const jobStateUrl = jobState.getAttribute('data-job-state-url');
-            if (!jobId || !jobStateUrl) return;
+            if (!jobId || !jobStateUrl || !jobDataState || jobDataState === '' || jobDataState === 'Zombie') return;
 
             const labelElement = jobState.querySelector('.system-state-label');
             const iconElement = jobState.querySelector('.system-state-icon');
@@ -51,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const updateDom = (jobId, data) => {
         if (data?.data?.['job']?.['o:system_state']) {
+            const state= data.data['job']['o:system_state'].state;
             const label= data.data['job']['o:system_state'].label;
             const icon = data.data['job']['o:system_state'].icon;
 
@@ -59,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
             matchingElements.forEach(jobState => {
                 const labelEl = jobState.querySelector('.system-state-label');
                 const iconEl = jobState.querySelector('.system-state-icon');
+                jobState.setAttribute('data-job-state', state);
                 if (labelEl) {
                     labelEl.textContent = label;
                 }
@@ -95,6 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
         matchingElements.forEach(jobState => {
             const labelEl = jobState.querySelector('.system-state-label');
             const iconEl = jobState.querySelector('.system-state-icon');
+            jobState.setAttribute('data-job-state', '');
             if (labelEl) {
                 labelEl.textContent = '';
             }

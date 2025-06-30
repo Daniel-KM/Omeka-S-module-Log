@@ -69,14 +69,14 @@ $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
 </div>
 
 <dl class="job-metadata">
-    <div class="meta-group job-status">
+    <div class="meta-group job-status" data-job-id="<?= $job->id() ?>">
         <dt><?= $translate('Status') ?></dt>
         <dd class="value job-status-label" data-job-id="<?= $job->id() ?>"><?= $translate($job->statusLabel()) ?></dd>
     </div>
     <?php if ($state): ?>
     <div class="meta-group log-job">
         <dt><?= $translate('System state') ?></dt>
-        <dd class="value job-state"<?php if (JobState::STATES[$state]['processing']): ?> data-job-state-url="<?= $escapeAttr($url('admin/job-state', ['id' => $job->id()])) ?>"<?php endif; ?> data-job-id="<?= $job->id() ?>"<?= $stateWarning ?>>
+        <dd class="value job-state" data-job-id="<?= $job->id() ?>" data-job-state="<?= $state ?>"<?php if ($state && $state !== 'Ended'): ?> data-job-state-url="<?= $escapeAttr($url('admin/job-state', ['id' => $job->id()])) ?>"<?php endif; ?><?= $stateWarning ?>>
             <span class="system-state-label"><?= $translate(JobState::STATES[$state]['label']) ?></span>
             <span class="system-state-icon <?= JobState::STATES[$state]['icon'] ?>" title="<?= $translate(JobState::STATES[$state]['label']) ?>" aria-label="<?= $translate(JobState::STATES[$state]['label']) ?>"></span>
         </dd>

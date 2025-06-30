@@ -63,7 +63,7 @@ $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
         </div>
         <?php if ($state): ?>
         <div class="value log-job">
-            <span class="job-state"<?php if (JobState::STATES[$state]['processing']): ?> data-job-state-url="<?= $escapeAttr($url('admin/job-state', ['id' => $job->id()])) ?>" <?php endif; ?> data-job-id="<?= $job->id() ?>"<?= $stateWarning ?>>
+            <span class="job-state" data-job-id="<?= $job->id() ?>" data-job-state="<?= $state ?>"<?php if ($state && $state !== 'Ended'): ?> data-job-state-url="<?= $escapeAttr($url('admin/job-state', ['id' => $job->id()])) ?>" <?php endif; ?><?= $stateWarning ?>>
                 <span class="system-state-title"><?= $translate('System state:') ?></span>
                 <span class="system-state-label"><?= $translate(JobState::STATES[$state]['label']) ?></span>
                 <span class="system-state-icon <?= JobState::STATES[$state]['icon'] ?>" title="<?= $translate(JobState::STATES[$state]['label']) ?>" aria-label="<?= $translate(JobState::STATES[$state]['label']) ?>"></span>

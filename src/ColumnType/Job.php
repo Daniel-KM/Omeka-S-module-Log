@@ -87,7 +87,7 @@ class Job implements ColumnTypeInterface
             $stateLabelEsc = $escape($stateLabel);
             $stateLabelEscAttr = $escapeAttr($stateLabel);
             $replace['__STATE__'] = <<<HTML
-                <span class="job-state" $jobStateUrlAttr data-job-id="$jobId"$stateWarning>
+                <span class="job-state" data-job-id="$jobId" data-job-state="$state" $jobStateUrlAttr $stateWarning>
                     <span class="system-state-label">$stateLabelEsc</span>
                     <span class="system-state-icon $stateIcon" title="$stateLabelEscAttr" aria-label="$stateLabelEscAttr"></span>
                 </span>
@@ -106,7 +106,7 @@ class Job implements ColumnTypeInterface
         }
 
         $html = <<<HTML
-            <div class="log-job job-status">
+            <div class="log-job job-status" data-job-id="$jobId">
                 <span class="log-job-status job-status-label">$linkStatus</span>
                 __STATE__
                 <span class="log-job-param">$linkParams</span>

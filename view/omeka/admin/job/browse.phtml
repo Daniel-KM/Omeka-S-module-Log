@@ -88,7 +88,7 @@ $jobStateUrlBase = strtr($url('admin/job-state', ['id' => '0000']), ['0000' => '
         $state = $jobState($job);
         ?>
         <tr>
-            <td class="job-state flex-between"<?php if ($state && JobState::STATES[$state]['processing']): ?> data-job-state-url="<?= strtr($jobStateUrlBase, ['{id}' => $jobId]) ?>" <?php endif; ?> data-job-id="<?= $jobId ?>">
+            <td class="job-state flex-between" data-job-id="<?= $jobId ?>" data-job-state="<?= $state ?>"<?php if ($state && $state !== 'Ended'): ?> data-job-state-url="<?= strtr($jobStateUrlBase, ['{id}' => $jobId]) ?>" <?php endif; ?>>
                 <span><?= $job->link($jobId) ?></span>
                 <?php if ($state): ?>
                 <span class="system-state-icon <?= JobState::STATES[$state]['icon'] ?>" title="<?= $stateLabels[$state] ?>" aria-label="<?= $stateLabels[$state] ?>"></span>
@@ -96,7 +96,7 @@ $jobStateUrlBase = strtr($url('admin/job-state', ['id' => '0000']), ['0000' => '
             </td>
             <td><?= $escape($i18n->dateFormat($job->started(), null, \Omeka\View\Helper\i18n::DATE_FORMAT_SHORT)) ?></td>
             <td><?= $escape($job->jobClass()) ?></td>
-            <td class="job-status" data-job-id="<?= $job->id() ?>">">
+            <td class="job-status" data-job-id="<?= $job->id() ?>">
                 <?php if ($totalLogs): ?>
                 <?= $hyperlink($translate($job->statusLabel()), $url('admin/log/default', [], ['query' => ['job_id' => $jobId]]), ['class' => 'status-link log-link job-status-label']) ?>
                 <?php else: ?>
