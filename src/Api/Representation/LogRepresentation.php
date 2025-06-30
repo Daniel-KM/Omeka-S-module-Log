@@ -127,6 +127,7 @@ class LogRepresentation extends AbstractEntityRepresentation
             'users' => 'user',
             'annotation' => 'annotation',
             'annotations' => 'annotation',
+            'customvocab' => 'custom-vocab',
             // For context.
             'itemid' => 'item',
             'itemsetid' => 'item-set',
@@ -145,6 +146,7 @@ class LogRepresentation extends AbstractEntityRepresentation
         $message = $this->resource->getMessage();
         $context = $this->resource->getContext() ?: [];
         $jobArgs = ($job = $this->resource->getJob()) ? $job->getArgs() : [];
+        $matches = [];
 
         // Messages that are more than 1000 characters are generally an
         // exception with an sql and long parameters, in particular the text
@@ -325,6 +327,13 @@ class LogRepresentation extends AbstractEntityRepresentation
                     case 'json':
                         $value = json_decode($value, true);
                         $context[$key] = $value ? json_encode($value, 448) : $value;
+                        break;
+
+                    case 'customvocab' && preg_match('~^customvocab:(?<id>\d+)$~', $value, $matches):
+                    case 'datatype' && preg_match('~^customvocab:(?<id>\d+)$~', $value, $matches):
+                        // There is no page "show" for custom vocab for now.
+                        $context[$key] = $hyperlink($value, "$baseUrl/custom-vocab?id=" . $matches['id']);
+                        $shouldEscapes[$key] = false;
                         break;
 
                     default:
