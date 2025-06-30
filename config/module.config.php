@@ -161,12 +161,16 @@ return [
         ],
     ],
     'controllers' => [
+        'invokables' => [
+            Controller\Admin\JobController::class => Controller\Admin\JobController::class,
+        ],
         'factories' => [
             Controller\Admin\LogController::class => Service\Controller\Admin\LogControllerFactory::class,
         ],
     ],
     'controller_plugins' => [
         'factories' => [
+            'jobState' => Service\ControllerPlugin\JobStateFactory::class,
             'loggerDb' => Service\ControllerPlugin\LoggerDbFactory::class,
         ],
     ],
@@ -231,6 +235,20 @@ return [
                                         'action' => 'show',
                                     ],
                                 ],
+                            ],
+                        ],
+                    ],
+                    'job-state' => [
+                        'type' => \Laminas\Router\Http\Segment::class,
+                        'options' => [
+                            'route' => '/job-state/:id',
+                            'constraints' => [
+                                'id' => '\d+',
+                            ],
+                            'defaults' => [
+                                '__NAMESPACE__' => 'Log\Controller\Admin',
+                                'controller' => Controller\Admin\JobController::class,
+                                'action' => 'system-state',
                             ],
                         ],
                     ],

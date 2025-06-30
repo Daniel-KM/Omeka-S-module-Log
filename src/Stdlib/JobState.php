@@ -83,7 +83,7 @@ class JobState
             return null;
         }
 
-        if (!$job || !is_object($job)) {
+        if (!is_object($job)) {
             return null;
         }
 

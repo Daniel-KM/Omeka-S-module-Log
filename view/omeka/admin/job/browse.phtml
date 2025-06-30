@@ -24,6 +24,8 @@ $stateLabels = array_map($translate, array_column(JobState::STATES, 'label', 's'
 
 $stateWarning = $escapeAttr($translate('Warning: The system state may not be reliable on some servers.'));
 $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
+
+$jobStateUrlBase = strtr($url('admin/job-state', ['id' => '0000']), ['0000' => '{id}']);
 ?>
 
 <?php // Display the state below the status. ?>
@@ -66,6 +68,7 @@ $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
     </thead>
     <tbody>
         <?php foreach ($jobs as $job):
+        $jobId = $job->id();
         if ($owner = $job->owner()) {
             $ownerText = $hyperlink($owner->email(), $url(
                 'admin/id',
@@ -74,13 +77,13 @@ $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
         } else {
             $ownerText = $translate('[no owner]');
         }
-        $totalLogs = $api->search('logs', ['job_id' => $job->id(), 'limit' => 0])->getTotalResults();
+        $totalLogs = $api->search('logs', ['job_id' => $jobId, 'limit' => 0])->getTotalResults();
         $step = method_exists($job, 'step') ? $job->step() : null;
         $state = $jobState($job);
         ?>
         <tr>
-            <td class="job-state flex-between">
-                <span><?= $job->link($escape($job->id())) ?></span>
+            <td class="job-state flex-between"<?php if ($state && JobState::STATES[$state]['processing']): ?> data-job-state-url="<?= strtr($jobStateUrlBase, ['{id}' => $jobId]) ?>" <?php endif; ?> data-job-id="<?= $jobId ?>">
+                <span><?= $job->link($jobId) ?></span>
                 <?php if ($state): ?>
                 <span class="system-state-icon <?= JobState::STATES[$state]['icon'] ?>" title="<?= $stateLabels[$state] ?>" aria-label="<?= $stateLabels[$state] ?>"></span>
                 <?php endif; ?>
@@ -89,7 +92,7 @@ $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
             <td><?= $escape($job->jobClass()) ?></td>
             <td>
                 <?php if ($totalLogs): ?>
-                <?= $hyperlink($translate($job->statusLabel()), $url('admin/log/default', [], ['query' => ['job_id' => $job->id()]]), ['class' => 'status-link link-log']) ?>
+                <?= $hyperlink($translate($job->statusLabel()), $url('admin/log/default', [], ['query' => ['job_id' => $jobId]]), ['class' => 'status-link link-log']) ?>
                 <?php else: ?>
                 <span class="status-label"><?= $escape($translate($job->statusLabel())) ?></span>
                 <?php endif; ?>

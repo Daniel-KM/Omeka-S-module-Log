@@ -68,9 +68,9 @@ $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
         <dd class="value"><?= $job->statusLabel() ?></dd>
     </div>
     <?php if ($state): ?>
-    <div class="meta-group">
+    <div class="meta-group log-job">
         <dt><?= $translate('System state') ?></dt>
-        <dd class="value job-state"<?= $stateWarning ?>>
+        <dd class="value job-state"<?php if (JobState::STATES[$state]['processing']): ?> data-job-state-url="<?= $escapeAttr($url('admin/job-state', ['id' => $job->id()])) ?>"<?php endif; ?> data-job-id="<?= $job->id() ?>"<?= $stateWarning ?>>
             <span class="system-state-label"><?= $translate(JobState::STATES[$state]['label']) ?></span>
             <span class="system-state-icon <?= JobState::STATES[$state]['icon'] ?>" title="<?= $translate(JobState::STATES[$state]['label']) ?>" aria-label="<?= $translate(JobState::STATES[$state]['label']) ?>"></span>
         </dd>

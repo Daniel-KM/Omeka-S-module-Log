@@ -155,6 +155,14 @@ class Module extends AbstractModule
 
         // Public users cannot see own logs.
         // TODO How to make a distinction between public and admin roles? Which new rule?
+        $roles = [
+            \Omeka\Permissions\Acl::ROLE_RESEARCHER,
+            \Omeka\Permissions\Acl::ROLE_AUTHOR,
+            \Omeka\Permissions\Acl::ROLE_REVIEWER,
+            \Omeka\Permissions\Acl::ROLE_EDITOR,
+            \Omeka\Permissions\Acl::ROLE_SITE_ADMIN,
+            \Omeka\Permissions\Acl::ROLE_GLOBAL_ADMIN,
+        ];
         $baseRoles = [
             \Omeka\Permissions\Acl::ROLE_RESEARCHER,
             \Omeka\Permissions\Acl::ROLE_AUTHOR,
@@ -178,6 +186,12 @@ class Module extends AbstractModule
                     \Log\Entity\Log::class,
                 ],
                 ['create']
+            )
+
+            ->allow(
+                $roles,
+                [\Log\Controller\Admin\JobController::class],
+                ['system-state']
             )
 
             // Everybody can see own logs, except guest user or visitors.

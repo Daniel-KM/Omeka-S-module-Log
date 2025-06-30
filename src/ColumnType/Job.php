@@ -68,6 +68,13 @@ class Job implements ColumnTypeInterface
         if ($state) {
             $escape = $plugins->get('escapeHtmlAttr');
             $escapeAttr = $plugins->get('escapeHtmlAttr');
+            $jobId = $job->id();
+            if (JobState::STATES[$state]['processing']) {
+                $jobStateUrl = $url('admin/job-state', ['id' => $jobId]);
+                $jobStateUrlAttr = 'data-job-state-url="' . $jobStateUrl . '"';
+            } else {
+                $jobStateUrlAttr = '';
+            }
             $stateWarning = $escapeAttr($translate('Warning: The system state may not be reliable on some servers.'));
             $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
             $stateIcon = JobState::STATES[$state]['icon'];
@@ -75,7 +82,7 @@ class Job implements ColumnTypeInterface
             $stateLabelEsc = $escape($stateLabel);
             $stateLabelEscAttr = $escapeAttr($stateLabel);
             $replace['__STATE__'] = <<<HTML
-                <span class="job-state"$stateWarning>
+                <span class="job-state" $jobStateUrlAttr data-job-id="$jobId"$stateWarning>
                     <span class="system-state-label">$stateLabelEsc</span>
                     <span class="system-state-icon $stateIcon" title="$stateLabelEscAttr" aria-label="$stateLabelEscAttr"></span>
                 </span>
