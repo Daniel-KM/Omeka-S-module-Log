@@ -128,6 +128,57 @@
             $('#confirm-delete-all input[type="submit"]').prop('disabled', this.checked ? false : true);
         });
 
+        /**
+         * Opt-in auto-refresh of the log list, useful to follow a running job.
+         *
+         * Only the table body is replaced, so batch controls, delegated row
+         * actions (popover, copy) and the sidebar are preserved. The button is
+         * rendered only on the first page. The preference is kept per browser.
+         */
+        const autoRefreshBtn = document.getElementById('log-auto-refresh');
+        if (autoRefreshBtn) {
+            const storageKey = 'logAutoRefresh';
+            const interval = 5000;
+            let timer = null;
+
+            const isEnabled = () => localStorage.getItem(storageKey) === '1';
+
+            const refreshList = function () {
+                if (document.hidden) return;
+                fetch(window.location.href, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                    .then(response => response.text())
+                    .then(html => {
+                        const fresh = new DOMParser().parseFromString(html, 'text/html')
+                            .querySelector('#batch-form table tbody');
+                        const current = document.querySelector('#batch-form table tbody');
+                        if (fresh && current) {
+                            current.innerHTML = fresh.innerHTML;
+                        }
+                    })
+                    .catch(() => {});
+            };
+
+            const render = function () {
+                const on = isEnabled();
+                autoRefreshBtn.classList.toggle('active', on);
+                autoRefreshBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+                autoRefreshBtn.textContent = on ? autoRefreshBtn.dataset.labelOn : autoRefreshBtn.dataset.labelOff;
+                if (on && !timer) {
+                    timer = setInterval(refreshList, interval);
+                } else if (!on && timer) {
+                    clearInterval(timer);
+                    timer = null;
+                }
+            };
+
+            autoRefreshBtn.addEventListener('click', function () {
+                localStorage.setItem(storageKey, isEnabled() ? '0' : '1');
+                render();
+            });
+
+            render();
+        }
+
     });
 
 })(jQuery);

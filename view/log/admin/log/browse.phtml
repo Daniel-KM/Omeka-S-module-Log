@@ -42,6 +42,9 @@ $userIsAllowedBatchDelete = $this->userIsAllowed(\Log\Api\Adapter\LogAdapter::cl
     <?= $this->pagination() ?>
     <button type="button" class="button search quick-search"><?= $escape($translate('Quick filter')) ?></button>
     <?= $this->browse()->renderSortSelector('logs') ?>
+    <?php if ((int) $this->params()->fromQuery('page', 1) <= 1): ?>
+    <button type="button" id="log-auto-refresh" class="button" aria-pressed="false" data-label-on="<?= $escapeAttr($translate('Auto refresh: on')) ?>" data-label-off="<?= $escapeAttr($translate('Auto refresh: off')) ?>" title="<?= $escapeAttr($translate('Automatically refresh the list, useful while a job is running (first page only).')) ?>"><?= $escape($translate('Auto refresh: off')) ?></button>
+    <?php endif; ?>
 </div>
 
 <div id="page-actions">
