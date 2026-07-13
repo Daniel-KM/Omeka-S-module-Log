@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-04 00:00+0000\n"
+"POT-Creation-Date: 2026-07-06 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,28 +17,28 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/scripts/upgrade.php:36 Module.php:100
+#: data/scripts/upgrade.php:36 Module.php:104
 #, php-format
 msgid "The module %1$s should be upgraded to version %2$s or later."
 msgstr ""
 
-#: Module.php:123
+#: Module.php:127
 msgid ""
 "Logging is not active by default in Omeka. This module overrides option "
 "[logger][log]."
 msgstr ""
 
-#: Module.php:124
+#: Module.php:128
 msgid ""
 "You may need to update the file config/local.config.php, in particular to "
 "set the default level of severity."
 msgstr ""
 
-#: Module.php:126
+#: Module.php:130
 msgid "See examples of config in the {link}readme{link_end}."
 msgstr ""
 
-#: src/ColumnType/Job.php:68 view/log/admin/log/show-details.phtml:82
+#: src/ColumnType/Job.php:69 view/log/admin/log/show-details.phtml:82
 msgid "Parameters"
 msgstr ""
 
@@ -73,7 +73,7 @@ msgid "Severity"
 msgstr ""
 
 #: src/Job/ArchiveLogsJob.php:360 src/Job/ArchiveLogsJob.php:377
-#: view/log/admin/log/browse.phtml:78 view/log/admin/log/show-details.phtml:116
+#: view/log/admin/log/browse.phtml:81 view/log/admin/log/show-details.phtml:116
 msgid "Message"
 msgstr ""
 
@@ -93,7 +93,7 @@ msgstr ""
 msgid "Job class"
 msgstr ""
 
-#: view/common/dialog/log.phtml:12
+#: view/common/dialog/log.phtml:22
 msgid "Log details"
 msgstr ""
 
@@ -109,36 +109,50 @@ msgstr ""
 msgid "Quick filter"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:107
+#: view/log/admin/log/browse.phtml:46
+msgid "Auto refresh: on"
+msgstr ""
+
+#: view/log/admin/log/browse.phtml:46
+msgid "Auto refresh: off"
+msgstr ""
+
+#: view/log/admin/log/browse.phtml:46
+msgid ""
+"Automatically refresh the list, useful while a job is running (first page "
+"only)."
+msgstr ""
+
+#: view/log/admin/log/browse.phtml:110
 msgid "Full log"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:111
+#: view/log/admin/log/browse.phtml:114
 msgid "Copy"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:161 view/log/admin/log/browse.phtml:180
+#: view/log/admin/log/browse.phtml:164 view/log/admin/log/browse.phtml:183
 msgid "Delete logs"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:162
+#: view/log/admin/log/browse.phtml:165
 msgid "Are you sure you would like to delete the selected logs?"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:164 view/log/admin/log/browse.phtml:183
+#: view/log/admin/log/browse.phtml:167 view/log/admin/log/browse.phtml:186
 #, php-format
 msgid "%s: this action will permanently delete %s logs and cannot be undone."
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:181
+#: view/log/admin/log/browse.phtml:184
 msgid "Are you sure you would like to delete all logs of this result?"
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:198
+#: view/log/admin/log/browse.phtml:201
 msgid "Omeka could not find any logs, or they are saved in another place."
 msgstr ""
 
-#: view/log/admin/log/browse.phtml:205
+#: view/log/admin/log/browse.phtml:208
 msgid "Filter logs"
 msgstr ""
 
@@ -223,7 +237,7 @@ msgstr ""
 msgid "A regular deletion of old logs is recommended to keep omeka fluid."
 msgstr ""
 
-#: data/scripts/upgrade.php:125 Module.php:110
+#: data/scripts/upgrade.php:125 Module.php:114
 msgid ""
 "The directory \"{directory}\" is not writeable, so old logs cannot be "
 "archived."
@@ -240,7 +254,7 @@ msgid ""
 "{list}."
 msgstr ""
 
-#: Module.php:263
+#: Module.php:267
 msgid ""
 "Last cron occurred on {date_time}. Next cron will occur after {date_time_2}."
 msgstr ""
@@ -356,23 +370,23 @@ msgstr ""
 msgid "The directory \"{path}\" is not writeable: {error}."
 msgstr ""
 
-#: src/Form/ConfigForm.php:15 src/Form/QuickSearchForm.php:26
+#: src/Form/ConfigForm.php:15 src/Form/QuickSearchForm.php:20
 msgid "Emergency"
 msgstr ""
 
-#: src/Form/ConfigForm.php:16 src/Form/QuickSearchForm.php:27
+#: src/Form/ConfigForm.php:16 src/Form/QuickSearchForm.php:21
 msgid "Alert"
 msgstr ""
 
-#: src/Form/ConfigForm.php:17 src/Form/QuickSearchForm.php:28
+#: src/Form/ConfigForm.php:17 src/Form/QuickSearchForm.php:22
 msgid "Critical"
 msgstr ""
 
-#: src/Form/ConfigForm.php:20 src/Form/QuickSearchForm.php:31
+#: src/Form/ConfigForm.php:20 src/Form/QuickSearchForm.php:25
 msgid "Notice"
 msgstr ""
 
-#: src/Form/ConfigForm.php:22 src/Form/QuickSearchForm.php:33
+#: src/Form/ConfigForm.php:22 src/Form/QuickSearchForm.php:27
 msgid "Debug"
 msgstr ""
 
@@ -388,7 +402,7 @@ msgstr ""
 msgid "Minimum severity to keep"
 msgstr ""
 
-#: src/Form/ConfigForm.php:67 src/Form/QuickSearchForm.php:48
+#: src/Form/ConfigForm.php:67 src/Form/QuickSearchForm.php:42
 msgid "Select minimum severity…"
 msgstr ""
 
@@ -449,47 +463,47 @@ msgstr ""
 msgid "Delete old logs"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:41
+#: src/Form/QuickSearchForm.php:35
 msgid "Minimum severity"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:55
+#: src/Form/QuickSearchForm.php:49
 msgid "Maximum severity"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:62
+#: src/Form/QuickSearchForm.php:56
 msgid "Select maximum severity…"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:74
+#: src/Form/QuickSearchForm.php:68
 msgid "Set a date with optional comparator…"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:86
+#: src/Form/QuickSearchForm.php:80
 msgid "Set a reference…"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:98
+#: src/Form/QuickSearchForm.php:92
 msgid "Set a job id…"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:110
+#: src/Form/QuickSearchForm.php:104
 msgid "Set a job class…"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:118
+#: src/Form/QuickSearchForm.php:114
 msgid "User by id"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:130
+#: src/Form/QuickSearchForm.php:126
 msgid "Untranslated message"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:134 src/Form/QuickSearchForm.php:146
+#: src/Form/QuickSearchForm.php:130 src/Form/QuickSearchForm.php:142
 msgid "Set an untranslated string…"
 msgstr ""
 
-#: src/Form/QuickSearchForm.php:142
+#: src/Form/QuickSearchForm.php:138
 msgid "Not in untranslated message"
 msgstr ""
 

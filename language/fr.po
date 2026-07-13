@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-05-04 00:00+0000\n"
-"PO-Revision-Date: 2026-05-04 00:00+0000\n"
+"POT-Creation-Date: 2026-07-06 00:00+0000\n"
+"PO-Revision-Date: 2026-07-06 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr\n"
@@ -15,12 +15,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.6\n"
 
-#: data/scripts/upgrade.php:36 Module.php:100
+#: data/scripts/upgrade.php:36 Module.php:104
 #, php-format
 msgid "The module %1$s should be upgraded to version %2$s or later."
 msgstr "Le module %1$s doit être mis à niveau à la version %2$s ou supérieure."
 
-#: Module.php:123
+#: Module.php:127
 msgid ""
 "Logging is not active by default in Omeka. This module overrides option "
 "[logger][log]."
@@ -28,7 +28,7 @@ msgstr ""
 "La journalisation n’est pas active par défaut dans Omeka. Ce module la "
 "définit en outrepassant l’option [logger][log]."
 
-#: Module.php:124
+#: Module.php:128
 msgid ""
 "You may need to update the file config/local.config.php, in particular to "
 "set the default level of severity."
@@ -36,11 +36,11 @@ msgstr ""
 "Il peut être nécessaire de mettre à jour le fichier config/local.config.php, "
 "en particulier pour définir le niveau de gravité par défaut."
 
-#: Module.php:126
+#: Module.php:130
 msgid "See examples of config in the {link}readme{link_end}."
 msgstr "Cf. les exemples de configuration dans le {link}lisez-moi{link_end}."
 
-#: src/ColumnType/Job.php:68 view/log/admin/log/show-details.phtml:82
+#: src/ColumnType/Job.php:69 view/log/admin/log/show-details.phtml:82
 msgid "Parameters"
 msgstr "Paramètres"
 
@@ -75,7 +75,7 @@ msgid "Severity"
 msgstr "Gravité"
 
 #: src/Job/ArchiveLogsJob.php:360 src/Job/ArchiveLogsJob.php:377
-#: view/log/admin/log/browse.phtml:78 view/log/admin/log/show-details.phtml:116
+#: view/log/admin/log/browse.phtml:81 view/log/admin/log/show-details.phtml:116
 msgid "Message"
 msgstr "Message"
 
@@ -95,7 +95,7 @@ msgstr "Tâche inconnue"
 msgid "Job class"
 msgstr "Classe de tâche"
 
-#: view/common/dialog/log.phtml:12
+#: view/common/dialog/log.phtml:22
 msgid "Log details"
 msgstr "Détails du journal"
 
@@ -111,38 +111,54 @@ msgstr "Journaux"
 msgid "Quick filter"
 msgstr "Filtre rapide"
 
-#: view/log/admin/log/browse.phtml:107
+#: view/log/admin/log/browse.phtml:46
+msgid "Auto refresh: on"
+msgstr "Rafraîchir : oui"
+
+#: view/log/admin/log/browse.phtml:46
+msgid "Auto refresh: off"
+msgstr "Auto-rafraîchir : non"
+
+#: view/log/admin/log/browse.phtml:46
+msgid ""
+"Automatically refresh the list, useful while a job is running (first page "
+"only)."
+msgstr ""
+"Rafraîchir la liste automatiquement, notamment quand une tâche est en cours "
+"(seulement sur la première page)"
+
+#: view/log/admin/log/browse.phtml:110
 msgid "Full log"
 msgstr "Message complet"
 
-#: view/log/admin/log/browse.phtml:111
+#: view/log/admin/log/browse.phtml:114
 msgid "Copy"
 msgstr "Copier"
 
-#: view/log/admin/log/browse.phtml:161 view/log/admin/log/browse.phtml:180
+#: view/log/admin/log/browse.phtml:164 view/log/admin/log/browse.phtml:183
 msgid "Delete logs"
 msgstr "Supprimer les journaux"
 
-#: view/log/admin/log/browse.phtml:162
+#: view/log/admin/log/browse.phtml:165
 msgid "Are you sure you would like to delete the selected logs?"
 msgstr "Êtes-vous sûr de vouloir supprimer les journaux sélectionnés ?"
 
-#: view/log/admin/log/browse.phtml:164 view/log/admin/log/browse.phtml:183
+#: view/log/admin/log/browse.phtml:167 view/log/admin/log/browse.phtml:186
 #, php-format
 msgid "%s: this action will permanently delete %s logs and cannot be undone."
 msgstr ""
 "%s : cette action supprimera les %s journaux de manière définitive et ne "
 "pourra pas être annulée."
 
-#: view/log/admin/log/browse.phtml:181
+#: view/log/admin/log/browse.phtml:184
 msgid "Are you sure you would like to delete all logs of this result?"
 msgstr "Êtes-vous sûr de vouloir supprimer tous les journaux du résultat ?"
 
-#: view/log/admin/log/browse.phtml:198
+#: view/log/admin/log/browse.phtml:201
 msgid "Omeka could not find any logs, or they are saved in another place."
 msgstr "Omeka ne trouve pas de journal, ou ils sont enregistrés ailleurs."
 
-#: view/log/admin/log/browse.phtml:205
+#: view/log/admin/log/browse.phtml:208
 msgid "Filter logs"
 msgstr "Filtrer les journaux"
 
@@ -233,7 +249,7 @@ msgstr ""
 "Il est recommandé de supprimer régulièrement les anciens journaux afin de "
 "préserver la fluidité d'omeka."
 
-#: data/scripts/upgrade.php:125 Module.php:110
+#: data/scripts/upgrade.php:125 Module.php:114
 msgid ""
 "The directory \"{directory}\" is not writeable, so old logs cannot be "
 "archived."
@@ -256,7 +272,7 @@ msgstr ""
 "Une tâche d'arrière-plan a été lancée pour ajouter des index à la base de "
 "données. Index manquants : {list}."
 
-#: Module.php:263
+#: Module.php:267
 msgid ""
 "Last cron occurred on {date_time}. Next cron will occur after {date_time_2}."
 msgstr ""
@@ -387,23 +403,23 @@ msgstr "Le dossier « {path} » n’est pas accessible en écriture."
 msgid "The directory \"{path}\" is not writeable: {error}."
 msgstr "Le dossier « {path} » n’est pas accessible en écriture : {error}."
 
-#: src/Form/ConfigForm.php:15 src/Form/QuickSearchForm.php:26
+#: src/Form/ConfigForm.php:15 src/Form/QuickSearchForm.php:20
 msgid "Emergency"
 msgstr "Urgence"
 
-#: src/Form/ConfigForm.php:16 src/Form/QuickSearchForm.php:27
+#: src/Form/ConfigForm.php:16 src/Form/QuickSearchForm.php:21
 msgid "Alert"
 msgstr "Alerte"
 
-#: src/Form/ConfigForm.php:17 src/Form/QuickSearchForm.php:28
+#: src/Form/ConfigForm.php:17 src/Form/QuickSearchForm.php:22
 msgid "Critical"
 msgstr "Critique"
 
-#: src/Form/ConfigForm.php:20 src/Form/QuickSearchForm.php:31
+#: src/Form/ConfigForm.php:20 src/Form/QuickSearchForm.php:25
 msgid "Notice"
 msgstr "Avis"
 
-#: src/Form/ConfigForm.php:22 src/Form/QuickSearchForm.php:33
+#: src/Form/ConfigForm.php:22 src/Form/QuickSearchForm.php:27
 msgid "Debug"
 msgstr "Débogage"
 
@@ -421,7 +437,7 @@ msgstr "Âge des journaux à archiver et/ou à supprimer (jours)"
 msgid "Minimum severity to keep"
 msgstr "Gravité minimale à conserver"
 
-#: src/Form/ConfigForm.php:67 src/Form/QuickSearchForm.php:48
+#: src/Form/ConfigForm.php:67 src/Form/QuickSearchForm.php:42
 msgid "Select minimum severity…"
 msgstr "Choisir la gravité minimale…"
 
@@ -488,47 +504,47 @@ msgstr "Traduire les messages (tsv)"
 msgid "Delete old logs"
 msgstr "Supprimer les anciens journaux"
 
-#: src/Form/QuickSearchForm.php:41
+#: src/Form/QuickSearchForm.php:35
 msgid "Minimum severity"
 msgstr "Gravité minimale"
 
-#: src/Form/QuickSearchForm.php:55
+#: src/Form/QuickSearchForm.php:49
 msgid "Maximum severity"
 msgstr "Gravité maximale"
 
-#: src/Form/QuickSearchForm.php:62
+#: src/Form/QuickSearchForm.php:56
 msgid "Select maximum severity…"
 msgstr "Choisir la gravité maximale…"
 
-#: src/Form/QuickSearchForm.php:74
+#: src/Form/QuickSearchForm.php:68
 msgid "Set a date with optional comparator…"
 msgstr "Indiquer une date avec un signe éventuel de comparaison…"
 
-#: src/Form/QuickSearchForm.php:86
+#: src/Form/QuickSearchForm.php:80
 msgid "Set a reference…"
 msgstr "Indiquer une référence…"
 
-#: src/Form/QuickSearchForm.php:98
+#: src/Form/QuickSearchForm.php:92
 msgid "Set a job id…"
 msgstr "Indiquer un id de tâche…"
 
-#: src/Form/QuickSearchForm.php:110
+#: src/Form/QuickSearchForm.php:104
 msgid "Set a job class…"
 msgstr "Indiquer une classe de tâche…"
 
-#: src/Form/QuickSearchForm.php:118
+#: src/Form/QuickSearchForm.php:114
 msgid "User by id"
 msgstr "Utilisateur par id"
 
-#: src/Form/QuickSearchForm.php:130
+#: src/Form/QuickSearchForm.php:126
 msgid "Untranslated message"
 msgstr "Message non traduit"
 
-#: src/Form/QuickSearchForm.php:134 src/Form/QuickSearchForm.php:146
+#: src/Form/QuickSearchForm.php:130 src/Form/QuickSearchForm.php:142
 msgid "Set an untranslated string…"
 msgstr "Indiquer une chaîne non traduite…"
 
-#: src/Form/QuickSearchForm.php:142
+#: src/Form/QuickSearchForm.php:138
 msgid "Not in untranslated message"
 msgstr "Absent du message non traduit"
 
