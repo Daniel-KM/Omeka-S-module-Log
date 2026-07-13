@@ -117,7 +117,9 @@ document.addEventListener('DOMContentLoaded', function () {
         uniqueJobIds.add(jobState.getAttribute('data-job-id'));
     }
 
-    // Update each system state every 1 to 10 seconds.
+    // Update once immediately on load so the spinner shows at once (not after
+    // the first interval), then every 1 to 10 seconds.
+    updateJobStates();
     setInterval(updateJobStates, uniqueJobIds.size < 5 ? 1000 : 10000);
 
 });
