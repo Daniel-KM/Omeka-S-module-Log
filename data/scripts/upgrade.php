@@ -95,7 +95,7 @@ if (version_compare($oldVersion, '3.4.33', '<')) {
 
     $message = new PsrMessage(
         'Logs can be archived and purged regularly. Go to {link}config form{link_end} for params.', // @translate
-        ['link' => sprintf('<a href="%s">', $url->fromRoute('admin/default', ['controler' => 'module', 'action' => 'configure'], ['query' => ['id' => 'Log']], true)), 'link_end' => '</a>']
+        ['link' => sprintf('<a href="%s">', htmlspecialchars($url->fromRoute('admin/default', ['controler' => 'module', 'action' => 'configure'], ['query' => ['id' => 'Log']], true))), 'link_end' => '</a>']
     );
     $message->setEscapeHtml(false);
     $messenger->addWarning($message);
