@@ -5,21 +5,15 @@ namespace Log\Form;
 use Common\Form\Element as CommonElement;
 use Laminas\Form\Element;
 use Laminas\Form\Form;
-use Laminas\View\Helper\Url;
 
 class QuickSearchForm extends Form
 {
-    /**
-     * @var Url
-     */
-    protected $urlHelper;
-
     public function init(): void
     {
         $this->setAttribute('method', 'get');
         $this->setAttribute('id', 'quick-search-form');
 
-        // No csrf: see main search form.
+        // GET form: no csrf token in the query string.
         $this->remove('csrf');
 
         $severityValueOptions = [
@@ -111,6 +105,8 @@ class QuickSearchForm extends Form
                 ],
             ])
 
+            // TODO Switch to a ResourceSelect when the number of users is
+            // small enough to render without pagination.
             ->add([
                 'name' => 'owner_id',
                 'type' => CommonElement\OptionalNumber::class,
@@ -160,22 +156,5 @@ class QuickSearchForm extends Form
                 ],
             ]);
 
-        $inputFilter = $this->getInputFilter();
-        $inputFilter
-            ->add([
-                'name' => 'severity',
-                'required' => false,
-            ]);
-    }
-
-    public function setUrlHelper(Url $urlHelper): self
-    {
-        $this->urlHelper = $urlHelper;
-        return $this;
-    }
-
-    public function getUrlHelper(): Url
-    {
-        return $this->urlHelper;
     }
 }
