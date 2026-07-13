@@ -43,7 +43,8 @@ class Job implements ColumnTypeInterface
 
     public function renderContent(PhpRenderer $view, AbstractEntityRepresentation $resource, array $data): ?string
     {
-        // Avoid to recall job states when multiple logs has the same job.
+        // Cache states per job: multiple logs may share the same job, and the
+        // live spinner of a running job must be rendered only once (see below).
         static $jobStates = [];
 
         /** @var \Log\Api\Representation\LogRepresentation $log */
@@ -68,31 +69,50 @@ class Job implements ColumnTypeInterface
         $linkParams = $hyperlink($translate('Parameters'), $url('admin/id', ['controller' => 'job', 'action' => 'show', 'id' => $job->id()]));
 
         $jobId = $job->id();
-        $state = null;
-        if (isset($jobStates[$jobId]['state'])) {
-            $replace['__STATE__'] = $jobStates[$jobId]['state'];
-        } elseif ($state = $jobState($job)) {
+        if (!array_key_exists($jobId, $jobStates)) {
+            $jobStates[$jobId] = ['state' => $jobState($job), 'spinnerDone' => false, 'icon' => null];
+        }
+        $state = $jobStates[$jobId]['state'];
+
+        $buildState = function () use ($plugins, $url, $translate, $jobId, $state): string {
             $escape = $plugins->get('escapeHtml');
             $escapeAttr = $plugins->get('escapeHtmlAttr');
-            if (JobState::STATES[$state]['processing']) {
-                $jobStateUrl = $url('admin/job-state', ['id' => $jobId]);
-                $jobStateUrlAttr = 'data-job-state-url="' . $jobStateUrl . '"';
-            } else {
-                $jobStateUrlAttr = '';
-            }
+            $jobStateUrlAttr = JobState::STATES[$state]['processing']
+                ? 'data-job-state-url="' . $url('admin/job-state', ['id' => $jobId]) . '"'
+                : '';
             $stateWarning = $escapeAttr($translate('Warning: The system state may not be reliable on some servers.'));
             $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
             $stateIcon = JobState::STATES[$state]['icon'];
             $stateLabel = $translate(JobState::STATES[$state]['label']);
             $stateLabelEsc = $escape($stateLabel);
             $stateLabelEscAttr = $escapeAttr($stateLabel);
-            $replace['__STATE__'] = <<<HTML
+            return <<<HTML
                 <span class="job-state" data-job-id="$jobId" data-job-state="$state" $jobStateUrlAttr $stateWarning>
                     <span class="system-state-label">$stateLabelEsc</span>
                     <span class="system-state-icon $stateIcon" title="$stateLabelEscAttr" aria-label="$stateLabelEscAttr"></span>
                 </span>
                 HTML;
-            $jobStates[$jobId]['state'] = $replace['__STATE__'];
+        };
+
+        if ($state) {
+            if (JobState::STATES[$state]['processing']) {
+                // A running job with several logs would show one animated
+                // spinner per row, looking like several parallel tasks. So the
+                // live spinner is rendered only on the first log of the job;
+                // the other rows keep the textual status only, which is still
+                // updated live by job.js.
+                if (!$jobStates[$jobId]['spinnerDone']) {
+                    $replace['__STATE__'] = $buildState();
+                    $jobStates[$jobId]['spinnerDone'] = true;
+                }
+            } else {
+                // A static status icon (finished job) is not misleading, so it
+                // is repeated on every row.
+                if ($jobStates[$jobId]['icon'] === null) {
+                    $jobStates[$jobId]['icon'] = $buildState();
+                }
+                $replace['__STATE__'] = $jobStates[$jobId]['icon'];
+            }
         }
 
         if (isset($jobStates[$jobId]['log'])) {
