@@ -17,7 +17,7 @@
                         <span class="dialog-close" aria-hidden="true">🗙</span>
                         <span class="dialog-close-label">${Omeka.jsTranslate('Close')}</span>
                     </button>
-                    <button type="button" class="o-icon- far fa-copy log-copy-dialog" title="Copy"></button>
+                    <button type="button" class="o-icon- far fa-copy log-copy-dialog" title="${Omeka.jsTranslate('Copy')}" aria-label="${Omeka.jsTranslate('Copy')}"></button>
                 </div>
                 <div class="dialog-contents">
                     {{ message }}

@@ -9,7 +9,7 @@ $translate = $plugins->get('translate');
 $escapeAttr = $plugins->get('escapeHtmlAttr');
 ?>
 
-<dialog class="popup popup-dialog dialog-log" aria-label="<?= $escapeAttr($translate('Log details')) ?>">
+<dialog class="popup popup-dialog dialog-log" aria-labelledby="dialog-log-heading">
     <div class="dialog-background">
         <div class="dialog-panel">
             <div class="dialog-header">
@@ -19,6 +19,7 @@ $escapeAttr = $plugins->get('escapeHtmlAttr');
                 </button>
             </div>
             <div class="dialog-contents">
+                <h2 id="dialog-log-heading" class="dialog-heading"><?= $translate('Log details') ?></h2>
                 <?= $html ?? '' ?>
             </div>
             <div class="dialog-footer"></div>
