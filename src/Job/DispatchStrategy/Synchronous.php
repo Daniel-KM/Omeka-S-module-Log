@@ -19,8 +19,8 @@ class Synchronous extends \Omeka\Job\DispatchStrategy\Synchronous
     {
         $lastError = error_get_last();
         if ($lastError) {
-            $errors = [E_ERROR, E_USER_ERROR, E_RECOVERABLE_ERROR];
-            if (in_array($lastError['type'], $errors)) {
+            $fatals = E_ERROR | E_PARSE | E_CORE_ERROR | E_COMPILE_ERROR | E_USER_ERROR | E_RECOVERABLE_ERROR;
+            if ($lastError['type'] & $fatals) {
                 // Make sure we only flush this Job and nothing else
                 $entityManager->clear();
 
