@@ -196,6 +196,15 @@ class LogRepresentation extends AbstractEntityRepresentation
                 $value = trim((string) $value);
                 $lowerKey = strtolower((string) $key);
                 $cleanKey = preg_replace('~[^a-z]~', '', $lowerKey);
+
+                // An html anchor fragment ({link}, {link_end}, {link_job},
+                // {link_log}, {link_close}, etc.) is html that must not be
+                // escaped, whatever the exact name of the context key.
+                if ($value !== '' && preg_match('~^(?:<a\s|</a>)~i', $value)) {
+                    $shouldEscapes[$key] = false;
+                    continue;
+                }
+
                 switch ($cleanKey) {
                     // Single id.
                     case 'itemid':
