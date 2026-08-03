@@ -197,10 +197,18 @@ class LogRepresentation extends AbstractEntityRepresentation
                 $lowerKey = strtolower((string) $key);
                 $cleanKey = preg_replace('~[^a-z]~', '', $lowerKey);
 
-                // An html anchor fragment ({link}, {link_end}, {link_job},
-                // {link_log}, {link_close}, etc.) is html that must not be
-                // escaped, whatever the exact name of the context key.
-                if ($value !== '' && preg_match('~^(?:<a\s|</a>)~i', $value)) {
+                // A message can pass small html fragments in its context: an
+                // anchor with its attributes ({link}, {link_end}, {link_job},
+                // etc.) or common simple tags without attributes ({line_break}
+                // = "<br>", "<strong>", "<pre>", etc.).
+                // Such html must not be escaped, whatever the exact name of the
+                // context key. Anything else (unknown tag, tag with attributes
+                // except the anchor, or a dangerous fragment) stays escaped.
+                $safeHtml = '~^(?:<a\s|</a>|</?(?:br|hr|p|ul|ol|li|strong|b|em|i|u|s|code|pre|span|div|sub|sup|small|blockquote)\s*/?>)~i';
+                if ($value !== ''
+                    && preg_match($safeHtml, $value)
+                    && !preg_match('~<script|<iframe|<style|javascript:|\son\w+\s*=~i', $value)
+                ) {
                     $shouldEscapes[$key] = false;
                     continue;
                 }
