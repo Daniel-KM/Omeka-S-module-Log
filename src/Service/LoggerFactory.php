@@ -46,7 +46,7 @@ class LoggerFactory implements FactoryInterface
             return $logger;
         }
 
-        // Handle Omeka's default stream writer (for compatibility).
+        // Handle Omeka default stream writer (for compatibility).
         if (!empty($writers['stream'])) {
             $streamWriter = $this->createStreamWriter($config, $writers['stream']);
             if ($streamWriter) {
@@ -74,8 +74,8 @@ class LoggerFactory implements FactoryInterface
         }
 
         // Add HTTP request processor if configured.
-        // This adds url, ip, referer and user agent to the context for all
-        // HTTP log entries. Skipped in cli jobs.
+        // This adds url, ip, referer and user agent to the context for all HTTP
+        // log entries. Skipped in cli jobs.
         if (!empty($config['logger']['options']['processors']['httprequest']['name'])) {
             try {
                 $logger->addProcessor($this->addHttpRequestProcessor($services));
@@ -84,16 +84,26 @@ class LoggerFactory implements FactoryInterface
             }
         }
 
-        // Processors are handled manually above, so remove
-        // them to avoid double-instantiation via
-        // InvokableFactory when preparing remaining writers.
+        // Processors are handled manually above, so remove them to avoid
+        // double-instantiation via InvokableFactory when preparing remaining
+        // writers.
         unset(
             $config['logger']['options']['processors']['userid'],
             $config['logger']['options']['processors']['httprequest']
         );
 
-        // Handle any remaining writers from config.
+        // Handle any remaining writers from config (like Sentry writer in
+        // module LogSentry).
         if (!empty($writers)) {
+            // Apply the psr-3 formatter to writers that dont set any.
+            $psrFormatter = new PsrLogSimple('%timestamp% %priorityName% (%priority%): %message% %extra%');
+            foreach ($writers as &$writerConfig) {
+                if (empty($writerConfig['options']['formatter'])) {
+                    $writerConfig['options']['formatter'] = $psrFormatter;
+                }
+            }
+            unset($writerConfig);
+
             $config['logger']['options']['writers'] = $writers;
             $tempLogger = new Logger($config['logger']['options']);
             foreach ($tempLogger->getWriters() as $writer) {
@@ -272,8 +282,8 @@ class LoggerFactory implements FactoryInterface
      * @deprecated No longer used. Kept for backwards compatibility.
      * To disable the database, set `"db" => false` in the module config.
      *
-     * For performance, flexibility and stability reasons, the write process
-     * now uses Doctrine DBAL instead of a specific Laminas Db adapter.
+     * For performance, flexibility and stability reasons, the write process now
+     * uses Doctrine DBAL instead of a specific Laminas Db adapter.
      * The read/delete process in api or ui uses the default doctrine entity manager.
      *
      * @param ContainerInterface $services
