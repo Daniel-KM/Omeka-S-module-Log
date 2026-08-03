@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-06 00:00+0000\n"
+"POT-Creation-Date: 2026-08-03 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,24 +17,24 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: data/scripts/upgrade.php:36 Module.php:104
+#: data/scripts/upgrade.php:36 Module.php:117
 #, php-format
 msgid "The module %1$s should be upgraded to version %2$s or later."
 msgstr ""
 
-#: Module.php:127
+#: Module.php:140
 msgid ""
 "Logging is not active by default in Omeka. This module overrides option "
 "[logger][log]."
 msgstr ""
 
-#: Module.php:128
+#: Module.php:141
 msgid ""
 "You may need to update the file config/local.config.php, in particular to "
 "set the default level of severity."
 msgstr ""
 
-#: Module.php:130
+#: Module.php:143
 msgid "See examples of config in the {link}readme{link_end}."
 msgstr ""
 
@@ -48,23 +48,23 @@ msgstr ""
 msgid "Warning: The system state may not be reliable on some servers."
 msgstr ""
 
-#: src/Job/ArchiveLogsJob.php:354 src/Job/ArchiveLogsJob.php:371
+#: src/Job/ArchiveLogsJob.php:355 src/Job/ArchiveLogsJob.php:372
 msgid "Id"
 msgstr ""
 
-#: src/Job/ArchiveLogsJob.php:357 src/Job/ArchiveLogsJob.php:374
+#: src/Job/ArchiveLogsJob.php:358 src/Job/ArchiveLogsJob.php:375
 #: src/View/Helper/LogSearchFilters.php:95
 #: view/log/admin/log/show-details.phtml:90
 msgid "Job"
 msgstr ""
 
-#: src/Job/ArchiveLogsJob.php:358 src/Job/ArchiveLogsJob.php:375
+#: src/Job/ArchiveLogsJob.php:359 src/Job/ArchiveLogsJob.php:376
 #: src/View/Helper/LogSearchFilters.php:61
 #: view/log/admin/log/show-details.phtml:46
 msgid "Reference"
 msgstr ""
 
-#: src/Job/ArchiveLogsJob.php:359 src/Job/ArchiveLogsJob.php:376
+#: src/Job/ArchiveLogsJob.php:360 src/Job/ArchiveLogsJob.php:377
 #: src/View/Helper/LogSearchFilters.php:67
 #: src/View/Helper/LogSearchFilters.php:72
 #: src/View/Helper/LogSearchFilters.php:78
@@ -72,12 +72,12 @@ msgstr ""
 msgid "Severity"
 msgstr ""
 
-#: src/Job/ArchiveLogsJob.php:360 src/Job/ArchiveLogsJob.php:377
+#: src/Job/ArchiveLogsJob.php:361 src/Job/ArchiveLogsJob.php:378
 #: view/log/admin/log/browse.phtml:81 view/log/admin/log/show-details.phtml:116
 msgid "Message"
 msgstr ""
 
-#: src/Job/ArchiveLogsJob.php:378
+#: src/Job/ArchiveLogsJob.php:379
 msgid "Context"
 msgstr ""
 
@@ -237,7 +237,7 @@ msgstr ""
 msgid "A regular deletion of old logs is recommended to keep omeka fluid."
 msgstr ""
 
-#: data/scripts/upgrade.php:125 Module.php:114
+#: data/scripts/upgrade.php:125 Module.php:127
 msgid ""
 "The directory \"{directory}\" is not writeable, so old logs cannot be "
 "archived."
@@ -254,7 +254,7 @@ msgid ""
 "{list}."
 msgstr ""
 
-#: Module.php:267
+#: Module.php:280
 msgid ""
 "Last cron occurred on {date_time}. Next cron will occur after {date_time_2}."
 msgstr ""
@@ -350,23 +350,23 @@ msgstr ""
 msgid "Found {count} logs to process."
 msgstr ""
 
-#: src/Job/ArchiveLogsJob.php:271
+#: src/Job/ArchiveLogsJob.php:272
 msgid "The backup is available at {link} (size: {size} bytes)."
 msgstr ""
 
-#: src/Job/ArchiveLogsJob.php:283
+#: src/Job/ArchiveLogsJob.php:284
 msgid "Deleted {count} logs from database."
 msgstr ""
 
-#: src/Job/ArchiveLogsJob.php:336
+#: src/Job/ArchiveLogsJob.php:337
 msgid "Cannot open file {file} for writing. Process is stopped."
 msgstr ""
 
-#: src/Job/ArchiveLogsJob.php:516
+#: src/Job/ArchiveLogsJob.php:517
 msgid "The directory \"{path}\" is not writeable."
 msgstr ""
 
-#: src/Job/ArchiveLogsJob.php:527
+#: src/Job/ArchiveLogsJob.php:528
 msgid "The directory \"{path}\" is not writeable: {error}."
 msgstr ""
 
@@ -543,7 +543,7 @@ msgstr ""
 msgid "[Omeka S] Database logging disabled: connection unavailable."
 msgstr ""
 
-#: src/Service/LoggerFactory.php:133
+#: src/Service/LoggerFactory.php:143
 msgid "[Omeka S] File logging disabled: not writeable."
 msgstr ""
 

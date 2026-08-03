@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-06 00:00+0000\n"
-"PO-Revision-Date: 2026-07-06 00:00+0000\n"
+"POT-Creation-Date: 2026-08-03 00:00+0000\n"
+"PO-Revision-Date: 2026-08-03 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr\n"
@@ -15,12 +15,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.6\n"
 
-#: data/scripts/upgrade.php:36 Module.php:104
+#: data/scripts/upgrade.php:36 Module.php:117
 #, php-format
 msgid "The module %1$s should be upgraded to version %2$s or later."
 msgstr "Le module %1$s doit être mis à niveau à la version %2$s ou supérieure."
 
-#: Module.php:127
+#: Module.php:140
 msgid ""
 "Logging is not active by default in Omeka. This module overrides option "
 "[logger][log]."
@@ -28,7 +28,7 @@ msgstr ""
 "La journalisation n’est pas active par défaut dans Omeka. Ce module la "
 "définit en outrepassant l’option [logger][log]."
 
-#: Module.php:128
+#: Module.php:141
 msgid ""
 "You may need to update the file config/local.config.php, in particular to "
 "set the default level of severity."
@@ -36,7 +36,7 @@ msgstr ""
 "Il peut être nécessaire de mettre à jour le fichier config/local.config.php, "
 "en particulier pour définir le niveau de gravité par défaut."
 
-#: Module.php:130
+#: Module.php:143
 msgid "See examples of config in the {link}readme{link_end}."
 msgstr "Cf. les exemples de configuration dans le {link}lisez-moi{link_end}."
 
@@ -50,23 +50,23 @@ msgstr "Paramètres"
 msgid "Warning: The system state may not be reliable on some servers."
 msgstr "Attention : l’état système peut être incorrect sur certains serveurs."
 
-#: src/Job/ArchiveLogsJob.php:354 src/Job/ArchiveLogsJob.php:371
+#: src/Job/ArchiveLogsJob.php:355 src/Job/ArchiveLogsJob.php:372
 msgid "Id"
 msgstr "Id"
 
-#: src/Job/ArchiveLogsJob.php:357 src/Job/ArchiveLogsJob.php:374
+#: src/Job/ArchiveLogsJob.php:358 src/Job/ArchiveLogsJob.php:375
 #: src/View/Helper/LogSearchFilters.php:95
 #: view/log/admin/log/show-details.phtml:90
 msgid "Job"
 msgstr "Tâche"
 
-#: src/Job/ArchiveLogsJob.php:358 src/Job/ArchiveLogsJob.php:375
+#: src/Job/ArchiveLogsJob.php:359 src/Job/ArchiveLogsJob.php:376
 #: src/View/Helper/LogSearchFilters.php:61
 #: view/log/admin/log/show-details.phtml:46
 msgid "Reference"
 msgstr "Référence"
 
-#: src/Job/ArchiveLogsJob.php:359 src/Job/ArchiveLogsJob.php:376
+#: src/Job/ArchiveLogsJob.php:360 src/Job/ArchiveLogsJob.php:377
 #: src/View/Helper/LogSearchFilters.php:67
 #: src/View/Helper/LogSearchFilters.php:72
 #: src/View/Helper/LogSearchFilters.php:78
@@ -74,12 +74,12 @@ msgstr "Référence"
 msgid "Severity"
 msgstr "Gravité"
 
-#: src/Job/ArchiveLogsJob.php:360 src/Job/ArchiveLogsJob.php:377
+#: src/Job/ArchiveLogsJob.php:361 src/Job/ArchiveLogsJob.php:378
 #: view/log/admin/log/browse.phtml:81 view/log/admin/log/show-details.phtml:116
 msgid "Message"
 msgstr "Message"
 
-#: src/Job/ArchiveLogsJob.php:378
+#: src/Job/ArchiveLogsJob.php:379
 msgid "Context"
 msgstr "Contexte"
 
@@ -249,7 +249,7 @@ msgstr ""
 "Il est recommandé de supprimer régulièrement les anciens journaux afin de "
 "préserver la fluidité d'omeka."
 
-#: data/scripts/upgrade.php:125 Module.php:114
+#: data/scripts/upgrade.php:125 Module.php:127
 msgid ""
 "The directory \"{directory}\" is not writeable, so old logs cannot be "
 "archived."
@@ -272,7 +272,7 @@ msgstr ""
 "Une tâche d'arrière-plan a été lancée pour ajouter des index à la base de "
 "données. Index manquants : {list}."
 
-#: Module.php:267
+#: Module.php:280
 msgid ""
 "Last cron occurred on {date_time}. Next cron will occur after {date_time_2}."
 msgstr ""
@@ -382,24 +382,24 @@ msgstr "Aucun journal n'a été trouvé correspondant aux critères."
 msgid "Found {count} logs to process."
 msgstr "Trouvé {count} journaux à traiter."
 
-#: src/Job/ArchiveLogsJob.php:271
+#: src/Job/ArchiveLogsJob.php:272
 msgid "The backup is available at {link} (size: {size} bytes)."
 msgstr "La sauvegarde est disponible à {link} (taille : {size} octets)."
 
-#: src/Job/ArchiveLogsJob.php:283
+#: src/Job/ArchiveLogsJob.php:284
 msgid "Deleted {count} logs from database."
 msgstr "Suppression de {count} journaux de la base de données."
 
-#: src/Job/ArchiveLogsJob.php:336
+#: src/Job/ArchiveLogsJob.php:337
 msgid "Cannot open file {file} for writing. Process is stopped."
 msgstr ""
 "Impossible d'ouvrir le fichier {file} en écriture. Le processus est arrêté."
 
-#: src/Job/ArchiveLogsJob.php:516
+#: src/Job/ArchiveLogsJob.php:517
 msgid "The directory \"{path}\" is not writeable."
 msgstr "Le dossier « {path} » n’est pas accessible en écriture."
 
-#: src/Job/ArchiveLogsJob.php:527
+#: src/Job/ArchiveLogsJob.php:528
 msgid "The directory \"{path}\" is not writeable: {error}."
 msgstr "Le dossier « {path} » n’est pas accessible en écriture : {error}."
 
@@ -590,7 +590,7 @@ msgstr ""
 "[Omeka S] Enregistrement des journaux en base de données désactivée : "
 "connexion indisponible."
 
-#: src/Service/LoggerFactory.php:133
+#: src/Service/LoggerFactory.php:143
 msgid "[Omeka S] File logging disabled: not writeable."
 msgstr ""
 "[Omeka S] Enregistrement des journaux dans le fichier désactivée : "
