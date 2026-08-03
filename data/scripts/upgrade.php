@@ -120,7 +120,7 @@ if (version_compare($oldVersion, '3.4.35', '<')) {
 // Create but not forbid install, because storing is not required.
 $config = $this->getServiceLocator()->get('Config');
 $basePath = $config['file_store']['local']['base_path'] ?: (OMEKA_PATH . '/files');
-if (!$this->checkDestinationDir($basePath . '/backup/log')) {
+if (!$this->checkDestinationDir($basePath . '/backup/log', true)) {
     $message = new PsrMessage(
         'The directory "{directory}" is not writeable, so old logs cannot be archived.', // @translate
         ['directory' => $basePath . '/backup/log']
