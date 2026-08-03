@@ -264,9 +264,10 @@ class ArchiveLogsJob extends AbstractJob
             $dir = pathinfo($filepath, PATHINFO_DIRNAME);
             $filename = pathinfo($filepath, PATHINFO_FILENAME);
             $extension = pathinfo($filepath, PATHINFO_EXTENSION);
-            $storagePath = sprintf('%s/%s.%s', mb_substr($dir, mb_strlen($basePath) + 1), $filename, $extension);
-            $fileStore = $services->get('Omeka\File\Store');
-            $fileUrl = $fileStore->getUri($storagePath);
+            // Stream the archive through the admin controller (the directory is
+            // protected by a .htaccess denying direct web access).
+            $url = $services->get('ViewHelperManager')->get('url');
+            $fileUrl = $url('admin/log/default', ['action' => 'download'], ['query' => ['file' => basename($filepath)]]);
             $this->logger->notice(
                 'The backup is available at {link} (size: {size} bytes).', // @translate
                 [

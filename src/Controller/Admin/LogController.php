@@ -198,4 +198,27 @@ class LogController extends AbstractActionController
         }
         return $this->redirect()->toRoute(null, ['action' => 'browse'], true);
     }
+
+    /**
+     * Download a log archive, confined to the protected directory.
+     *
+     * Access is limited to administrators by the ACL of this controller: the
+     * archive is a full dump of the logs, so it must not be reachable through a
+     * public url.
+     */
+    public function downloadAction()
+    {
+        $filename = basename((string) $this->params()->fromQuery('file'));
+        $services = $this->getEvent()->getApplication()->getServiceManager();
+        $config = $services->get('Config');
+        $basePath = $config['file_store']['local']['base_path'] ?: (OMEKA_PATH . '/files');
+        $baseDir = $basePath . '/backup/log';
+
+        $response = $this->sendFilePrivate($baseDir . '/' . $filename, $baseDir);
+        if (!$response) {
+            throw new \Omeka\Mvc\Exception\NotFoundException();
+        }
+
+        return $response;
+    }
 }
