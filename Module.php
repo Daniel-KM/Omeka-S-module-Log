@@ -109,7 +109,7 @@ class Module extends AbstractModule
 
         $config = $services->get('Config');
         $basePath = $config['file_store']['local']['base_path'] ?: (OMEKA_PATH . '/files');
-        if (!$this->checkDestinationDir($basePath . '/backup/log')) {
+        if (!$this->checkDestinationDir($basePath . '/backup/log', true)) {
             $message = new PsrMessage(
                 'The directory "{directory}" is not writeable, so old logs cannot be archived.', // @translate
                 ['directory' => $basePath . '/backup/log']
