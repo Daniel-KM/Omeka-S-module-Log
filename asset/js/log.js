@@ -116,6 +116,23 @@
                 });
             }
         });
+        /**
+         * Open the sidebar of the batch actions.
+         *
+         * The core binds this behavior on "a.sidebar-content" only, so the
+         * buttons, that are used here for accessibility, need their own
+         * handler. The core may bind buttons too in a future version: opening
+         * an already open sidebar is a no-op, so it is harmless.
+         */
+        $('#content').on('click', 'button.sidebar-content', function (e) {
+            e.preventDefault();
+            const sidebar = $($(this).data('sidebar-selector') || '#content > .sidebar');
+            if ($(this).data('sidebar-content-url')) {
+                Omeka.populateSidebarContent(sidebar, $(this).data('sidebar-content-url'));
+            }
+            Omeka.openSidebar(sidebar);
+        });
+
         $('.delete-all').on('click', function() {
             Omeka.closeSidebar($('#sidebar-delete-selected'));
         });
