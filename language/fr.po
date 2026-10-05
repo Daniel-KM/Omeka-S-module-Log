@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-03 00:00+0000\n"
-"PO-Revision-Date: 2026-08-03 00:00+0000\n"
+"POT-Creation-Date: 2026-10-05 00:00+0000\n"
+"PO-Revision-Date: 2026-10-05 00:00+0000\n"
 "Last-Translator: Daniel Berthereau <Daniel.fr@Berthereau.net>\n"
 "Language-Team: French <kde-i18n-doc@kde.org>\n"
 "Language: fr\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 3.6\n"
 
-#: data/scripts/upgrade.php:36 Module.php:117
+#: data/scripts/upgrade.php:39 Module.php:117
 #, php-format
 msgid "The module %1$s should be upgraded to version %2$s or later."
 msgstr "Le module %1$s doit être mis à niveau à la version %2$s ou supérieure."
@@ -223,11 +223,11 @@ msgstr "Journal (base de données)"
 msgid "View log (%d results)"
 msgstr "Voir les journaux (%d resultats)"
 
-#: data/scripts/upgrade.php:40
+#: data/scripts/upgrade.php:43
 msgid "Missing requirement. Unable to upgrade."
 msgstr "Pré-requis absent. Impossible de mettre à jour."
 
-#: data/scripts/upgrade.php:73
+#: data/scripts/upgrade.php:76
 msgid ""
 "Support of the third party service Sentry was moved to a separate module, "
 "{link}Log Sentry{link_end}."
@@ -235,7 +235,7 @@ msgstr ""
 "La prise en charge du service tiers Sentry a été déplacée dans un module "
 "séparé, {link}Log Sentry{link_end}."
 
-#: data/scripts/upgrade.php:97
+#: data/scripts/upgrade.php:109
 msgid ""
 "Logs can be archived and purged regularly. Go to {link}config form{link_end} "
 "for params."
@@ -243,13 +243,21 @@ msgstr ""
 "Les journaux peuvent être archivés et purgés régulièrement. Voir {link}"
 "config form{link_end} pour les paramètres."
 
-#: data/scripts/upgrade.php:104
+#: data/scripts/upgrade.php:115
+msgid ""
+"Logs can be archived and purged regularly. See the config form of the module "
+"for params."
+msgstr ""
+"Les journaux peuvent être archivés et purgés régulièrement. Voir le "
+"formulaire de configuration du module pour les paramètres."
+
+#: data/scripts/upgrade.php:121
 msgid "A regular deletion of old logs is recommended to keep omeka fluid."
 msgstr ""
 "Il est recommandé de supprimer régulièrement les anciens journaux afin de "
 "préserver la fluidité d'omeka."
 
-#: data/scripts/upgrade.php:125 Module.php:127
+#: data/scripts/upgrade.php:142 Module.php:127
 msgid ""
 "The directory \"{directory}\" is not writeable, so old logs cannot be "
 "archived."
@@ -257,14 +265,14 @@ msgstr ""
 "Le répertoire « {directory} » n’est pas accessible en écriture, les anciens "
 "journaux ne peuvent donc pas être archivés."
 
-#: data/scripts/upgrade.php:202
+#: data/scripts/upgrade.php:219
 msgid ""
 "The job #{job_id} is still starting. It may need to be relaunched manually."
 msgstr ""
 "La tâche #{job_id} est encore en démarrage. Il peut être nécessaire de la "
 "relancer manuellement."
 
-#: data/scripts/upgrade.php:215
+#: data/scripts/upgrade.php:232
 msgid ""
 "A background job has been started to fix database indexes. Missing indexes: "
 "{list}."
@@ -548,35 +556,35 @@ msgstr "Indiquer une chaîne non traduite…"
 msgid "Not in untranslated message"
 msgstr "Absent du message non traduit"
 
-#: src/Controller/Admin/LogController.php:64
+#: src/Controller/Admin/LogController.php:66
 msgid ""
 "The logger is currently disabled for database. Check config/local.config.php."
 msgstr ""
 "Le journal en base de données est actuellement désactivé. Vérifier config/"
 "local.config.php."
 
-#: src/Controller/Admin/LogController.php:99
+#: src/Controller/Admin/LogController.php:101
 msgid "log"
 msgstr "journal"
 
-#: src/Controller/Admin/LogController.php:117
+#: src/Controller/Admin/LogController.php:119
 msgid "Log successfully deleted"
 msgstr "Journal supprimé avec succès"
 
-#: src/Controller/Admin/LogController.php:119
-#: src/Controller/Admin/LogController.php:151
+#: src/Controller/Admin/LogController.php:121
+#: src/Controller/Admin/LogController.php:153
 msgid "An error occured during deletion of logs"
 msgstr "Une erreur est survenue lors de la suppression des journaux"
 
-#: src/Controller/Admin/LogController.php:140
+#: src/Controller/Admin/LogController.php:142
 msgid "You must select at least one log to batch delete."
 msgstr "Vous devez choisir au moins un journal à supprimer."
 
-#: src/Controller/Admin/LogController.php:149
+#: src/Controller/Admin/LogController.php:151
 msgid "Logs successfully deleted"
 msgstr "Journaux supprimés avec succès"
 
-#: src/Controller/Admin/LogController.php:188
+#: src/Controller/Admin/LogController.php:190
 msgid ""
 "Deleting logs in background (<a href=\"{job_url}\">job #{job_id}</a>). This "
 "may take a while."
