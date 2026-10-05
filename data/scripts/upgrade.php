@@ -21,7 +21,8 @@ use Common\Stdlib\PsrMessage;
  * @var \Omeka\Mvc\Controller\Plugin\Messenger $messenger
  */
 $plugins = $services->get('ControllerPluginManager');
-$url = $plugins->get('url');
+$helpers = $services->get('ViewHelperManager');
+$url = $helpers->get('url');
 $api = $plugins->get('api');
 $logger = $services->get('Omeka\Logger');
 $settings = $services->get('Omeka\Settings');
@@ -93,11 +94,25 @@ if (version_compare($oldVersion, '3.4.33', '<')) {
     $settings->set('log_archive_delete', false);
     $settings->set('log_cron_last', 0);
 
-    $message = new PsrMessage(
-        'Logs can be archived and purged regularly. Go to {link}config form{link_end} for params.', // @translate
-        ['link' => sprintf('<a href="%s">', htmlspecialchars($url->fromRoute('admin/default', ['controler' => 'module', 'action' => 'configure'], ['query' => ['id' => 'Log']], true))), 'link_end' => '</a>']
-    );
-    $message->setEscapeHtml(false);
+    // The params of the matched route are not reused: there is no matched
+    // route outside of a web request.
+    try {
+        $urlConfig = $url('admin/default', ['controller' => 'module', 'action' => 'configure'], ['query' => ['id' => 'Log']]);
+    } catch (\Throwable $e) {
+        $urlConfig = null;
+    }
+
+    if ($urlConfig) {
+        $message = new PsrMessage(
+            'Logs can be archived and purged regularly. Go to {link}config form{link_end} for params.', // @translate
+            ['link' => sprintf('<a href="%s">', htmlspecialchars($urlConfig)), 'link_end' => '</a>']
+        );
+        $message->setEscapeHtml(false);
+    } else {
+        $message = new PsrMessage(
+            'Logs can be archived and purged regularly. See the config form of the module for params.' // @translate
+        );
+    }
     $messenger->addWarning($message);
 
     $message = new PsrMessage(
