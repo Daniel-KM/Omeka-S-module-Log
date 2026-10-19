@@ -88,8 +88,14 @@
     #content dialog.popup-dialog {
         margin: auto;
     }
-    dialog .dialog-header-close-button {
-        float: right;
+    dialog.popup-message .dialog-header {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
+        gap: 8px;
+    }
+    dialog.popup-message .dialog-header-close-button {
+        position: static;
     }
     .logs .log-popover-current {
         display: none;
@@ -111,8 +117,6 @@
         color: green;
     }
     dialog .dialog-header button.log-copy-dialog {
-        float: right;
-        margin-right: 8px;
         padding: 6px 10px;
     }
     .logs .log-message {
