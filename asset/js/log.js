@@ -44,25 +44,41 @@
             dialogMessage(message, true);
         });
 
-        $(document).on('click', '.log-copy-dialog', function(ev) {
-            var btn = $(this);
-            var text = btn.closest('.dialog-panel').find('.dialog-contents').text().trim();
-            var copied = function() {
-                btn.removeClass('far fa-copy').addClass('fa fa-check log-copied').attr('title', Omeka.jsTranslate('Message copied'));
-            };
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(copied);
-            } else {
-                var ta = document.createElement('textarea');
+        /**
+         * Copy a text to the clipboard, then call the callback on success.
+         *
+         * Without secure context (http), the clipboard api is unavailable, so
+         * a temporary textarea is used. It is appended to the open dialog, if
+         * any, because the rest of the page is inert with a modal dialog.
+         */
+        const copyText = function (text, button, onSuccess) {
+            const fallback = function () {
+                const container = button.closest('dialog') || document.body;
+                const ta = document.createElement('textarea');
                 ta.value = text;
                 ta.style.position = 'fixed';
                 ta.style.opacity = '0';
-                document.body.appendChild(ta);
+                container.appendChild(ta);
                 ta.select();
-                document.execCommand('copy');
-                document.body.removeChild(ta);
-                copied();
+                const isCopied = document.execCommand('copy');
+                container.removeChild(ta);
+                if (isCopied) {
+                    onSuccess();
+                }
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(onSuccess, fallback);
+            } else {
+                fallback();
             }
+        };
+
+        $(document).on('click', '.log-copy-dialog', function(ev) {
+            const btn = $(this);
+            const text = btn.closest('.dialog-panel').find('.dialog-contents').text().trim();
+            copyText(text, this, function () {
+                btn.removeClass('far fa-copy').addClass('fa fa-check log-copied').attr('title', Omeka.jsTranslate('Message copied'));
+            });
         });
 
         $(document).on('click', '.dialog-header-close-button', function() {
@@ -84,24 +100,11 @@
             const row = $(this).closest('.log-popover-parent');
             const full = row.find('.log-message-full');
             const text = full.length ? full.text() : row.find('.log-message').text();
-            var btn = $(this);
-            var copied = function() {
+            const btn = $(this);
+            copyText(text.trim(), this, function () {
                 $('.log-copy').removeClass('fa fa-check log-copied').addClass('far fa-copy').attr('title', Omeka.jsTranslate('Copy'));
                 btn.removeClass('far fa-copy').addClass('fa fa-check log-copied').attr('title', Omeka.jsTranslate('Message copied'));
-            };
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text.trim()).then(copied);
-            } else {
-                var ta = document.createElement('textarea');
-                ta.value = text.trim();
-                ta.style.position = 'fixed';
-                ta.style.opacity = '0';
-                document.body.appendChild(ta);
-                ta.select();
-                document.execCommand('copy');
-                document.body.removeChild(ta);
-                copied();
-            }
+            });
         });
 
         // Complete the batch delete form after confirmation.
