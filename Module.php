@@ -53,7 +53,7 @@ if (!defined('COMMON_PSR4_FALLBACK')) {
 }
 
 // Required during migration from Generic to Common.
-if (!class_exists(\Common\Log\Formatter\PsrLogAwareTrait::class)) {
+if (!trait_exists(\Common\Log\Formatter\PsrLogAwareTrait::class)) {
     require_once dirname(__DIR__) . '/Common/src/Stdlib/PsrInterpolateInterface.php';
     require_once dirname(__DIR__) . '/Common/src/Stdlib/PsrInterpolateTrait.php';
     require_once dirname(__DIR__) . '/Common/src/Log/Formatter/PsrLogAwareTrait.php';
