@@ -1,129 +1,137 @@
 @media all {
-
-    [hidden],
-    .hidden {
-        display: none;
-    }
-
-    .logs.browse .browse-controls .quick-search {
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .logs.browse .browse-controls .sorting:not(:last-child) {
-        margin-left: 0;
-    }
-
-    [class*="o-icon-"].far::before {
-        font-weight: 400;
-    }
-
-    header nav .jobs::before,
-    .jobs .subhead::before,
-    .jobs .no-resources::before {
-        content:"";
+	[hidden],
+	.hidden {
+	    display: none;
 	}
 
-    header nav .logs::before,
-    .logs .subhead::before,
-    .logs .no-resources:before {
-        content:"";
-    }
+	.logs.browse {
+		& .browse-controls {
+			& .quick-search {
+				margin-left: auto;
+				margin-right: auto;
+			}
+			& .sorting:not(:last-child) {
+				margin-left: 0;
+			}
+		}
+	}
 
-    /* Log browse */
-    .logs .log-job {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
+	[class*="o-icon-"].far::before {
+	    font-weight: 400;
+	}
 
-    .logs .sidebar.search .advanced-search::before {
-        display: inline-block;
-        font-style: normal;
-        font-variant: normal;
-        font-weight: normal;
-        line-height: 1;
-        vertical-align: -.125em;
-        font-family: "Font Awesome 5 Free";
-        content: "\f002";
-        padding: .25em;
-    }
-    .logs .sidebar.search .advanced-search {
-        font-size: 0.9em;
-        text-align: right;
-        display: block;
-        margin-top: -12px;
-        margin-bottom: 12px;
-    }
-    .logs .sidebar.search .field-meta {
-        width: auto;
-        max-width: 100%;
-    }
-    .logs .sidebar.search label,
-    .logs .sidebar.search .label,
-    .logs .sidebar.search .inputs {
-        width: 100%;
-        max-width: 100%;
-        margin: 0 0 0 6px;
-        padding: 0;
-        position: inherit;
-    }
-    .logs .sidebar.search label::after,
-    .logs .sidebar.search .label::after {
-        position: inherit;
-    }
-    .logs .sidebar .resource-details .no-resources {
-        text-align: inherit;
-        position: inherit;
-        margin-top: inherit;
-    }
+	header nav .jobs::before,
+	.jobs .subhead::before,
+	.jobs .no-resources::before {
+	    content:"";
+	}
 
-    /* Show details  */
-    .logs .log-job-param,
-    .logs .log-job-log {
-        font-size: smaller;
-        font-style: italic;
-    }
+	header nav .logs::before,
+	.logs .subhead::before,
+	.logs .no-resources:before {
+	    content:"";
+	}
 
-    /** Dialog. */
-    #content dialog.popup-dialog {
-        margin: auto;
-    }
-    dialog.popup-message .dialog-header {
-        display: flex;
-        flex-direction: row-reverse;
-        align-items: center;
-        gap: 8px;
-    }
-    dialog.popup-message .dialog-header-close-button {
-        position: static;
-    }
-    .logs .log-popover-current {
-        display: none;
-    }
-    .logs .actions button,
-    dialog .dialog-header button.log-copy-dialog {
-        background: none;
-        border: none;
-        padding: 0;
-        cursor: pointer;
-        color: #a91919;
-    }
-    .logs .actions button:hover,
-    dialog .dialog-header button.log-copy-dialog:hover {
-        color: #e11717;
-    }
-    .logs .actions button.log-copied,
-    dialog .dialog-header button.log-copy-dialog.log-copied {
-        color: green;
-    }
-    dialog .dialog-header button.log-copy-dialog {
-        padding: 6px 10px;
-    }
-    .logs .log-message {
-        white-space: normal;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        word-break: break-word;
-    }
+	/* Log browse */
+	.logs {
+		& .log-job {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+		}
 
+		& .sidebar.search {
+			& .advanced-search::before {
+				display: inline-block;
+				font-style: normal;
+				font-variant: normal;
+				font-weight: normal;
+				line-height: 1;
+				vertical-align: -.125em;
+				font-family: "Font Awesome 5 Free";
+				content: "\f002";
+				padding: .25em;
+			}
+			& .advanced-search {
+				font-size: 0.9em;
+				text-align: right;
+				display: block;
+				margin-top: -12px;
+				margin-bottom: 12px;
+			}
+			& .field-meta {
+				width: auto;
+				max-width: 100%;
+			}
+			& label,
+			& .label,
+			& .inputs {
+				width: 100%;
+				max-width: 100%;
+				margin: 0 0 0 6px;
+				padding: 0;
+				position: inherit;
+			}
+			& label::after,
+			& .label::after {
+				position: inherit;
+			}
+		}
+		& .sidebar .resource-details .no-resources {
+			text-align: inherit;
+			position: inherit;
+			margin-top: inherit;
+		}
+
+		/* Show details  */
+		& .log-job-param,
+		& .log-job-log {
+			font-size: smaller;
+			font-style: italic;
+		}
+	}
+
+	/** Dialog. */
+	#content dialog.popup-dialog {
+	    margin: auto;
+	}
+	dialog.popup-message {
+		& .dialog-header {
+			display: flex;
+			flex-direction: row-reverse;
+			align-items: center;
+			gap: 8px;
+		}
+		& .dialog-header-close-button {
+			position: static;
+		}
+	}
+	.logs .log-popover-current {
+	    display: none;
+	}
+	.logs .actions button,
+	dialog .dialog-header button.log-copy-dialog {
+	    background: none;
+	    border: none;
+	    padding: 0;
+	    cursor: pointer;
+	    color: #a91919;
+	}
+	.logs .actions button:hover,
+	dialog .dialog-header button.log-copy-dialog:hover {
+	    color: #e11717;
+	}
+	.logs .actions button.log-copied,
+	dialog .dialog-header button.log-copy-dialog.log-copied {
+	    color: green;
+	}
+	dialog .dialog-header button.log-copy-dialog {
+	    padding: 6px 10px;
+	}
+	.logs .log-message {
+	    white-space: normal;
+	    word-wrap: break-word;
+	    overflow-wrap: break-word;
+	    word-break: break-word;
+	}
 }
