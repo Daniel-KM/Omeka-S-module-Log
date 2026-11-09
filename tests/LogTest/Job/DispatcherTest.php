@@ -3,13 +3,13 @@
 namespace LogTest\Job;
 
 use CommonTest\AbstractHttpControllerTestCase;
-use Log\Job\Dispatcher;
+use Common\Job\Dispatcher;
 use LogTest\LogTestTrait;
 use Omeka\Entity\Job;
 use Omeka\Job\DispatchStrategy\StrategyInterface;
 
 /**
- * Tests of the job dispatcher of the module.
+ * Tests of the job dispatcher of Common with the listener of the module.
  */
 class DispatcherTest extends AbstractHttpControllerTestCase
 {
@@ -57,4 +57,43 @@ class DispatcherTest extends AbstractHttpControllerTestCase
             $entityManager->getConnection()->executeStatement('DELETE FROM job WHERE id = ?', [$job->getId()]);
         }
     }
+
+    /**
+     * The logs of a job are stored with the job id and the user id, and the job
+     * writer is disabled by default.
+     */
+    public function testLogsOfTheJobHaveTheJobAndTheUser(): void
+    {
+        $services = $this->getServiceLocator();
+        $logger = $services->get('Omeka\Logger');
+        $writer = new \Laminas\Log\Writer\Mock();
+        $logger->addWriter($writer);
+
+        $strategy = new class($logger) implements StrategyInterface {
+            protected $logger;
+
+            public function __construct($logger)
+            {
+                $this->logger = $logger;
+            }
+
+            public function send(Job $job): void
+            {
+                $this->logger->notice('Message of the job.'); // @translate
+            }
+        };
+
+        $job = $services->get(\Omeka\Job\Dispatcher::class)
+            ->dispatch(\Omeka\Job\BatchDelete::class, ['resource' => 'items', 'ids' => []], $strategy);
+        try {
+            $event = end($writer->events);
+            $this->assertSame($job->getId(), $event['extra']['jobId']);
+            $this->assertSame($job->getOwner()->getId(), $event['extra']['userId']);
+            $this->assertEmpty($job->getLog());
+        } finally {
+            $services->get('Omeka\EntityManager')->getConnection()
+                ->executeStatement('DELETE FROM job WHERE id = ?', [$job->getId()]);
+        }
+    }
+
 }
