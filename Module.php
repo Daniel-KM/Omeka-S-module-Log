@@ -256,12 +256,31 @@ class Module extends AbstractModule
 
     public function attachListeners(SharedEventManagerInterface $sharedEventManager): void
     {
+        $sharedEventManager->attach(
+            \Omeka\Job\Dispatcher::class,
+            'job.send.pre',
+            [$this, 'handleJobSendPre']
+        );
+
         // TODO What is the better event to handle a cron? None: use server cron or systemd timer or webcron.
         $sharedEventManager->attach(
             '*',
             'view.layout',
             [$this, 'handleCron']
         );
+    }
+
+    /**
+     * Add the user and the job to the logs of the job, and keep the job writer
+     * only when wanted.
+     */
+    public function handleJobSendPre(Event $event): void
+    {
+        $services = $this->getServiceLocator();
+        $event->setParam('job_writer', (bool) $services->get('Config')['logger']['writers']['job']);
+        // The priority "0" fixes a precedency issue with the processor UserId.
+        $services->get('Omeka\Logger')
+            ->addProcessor(new \Log\Log\Processor\UserJobId($event->getParam('job')), 0);
     }
 
     public function getConfigForm(PhpRenderer $renderer)
