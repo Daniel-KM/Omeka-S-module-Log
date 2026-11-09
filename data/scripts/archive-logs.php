@@ -6,7 +6,35 @@
  * Adapted from omeka perform-job.php.
  */
 
-require dirname(__DIR__, 4) . '/bootstrap.php';
+// Find the root of Omeka. The directory of the module may be a symbolic link,
+// for example when modules are shared between instances, and php resolves it in
+// __DIR__, so the path used to call the script is checked first, without
+// resolving it. The module may be installed in "modules/" or in
+// "composer-addons/modules/".
+$scriptPath = $_SERVER['SCRIPT_FILENAME'] ?? '';
+if ($scriptPath !== '' && $scriptPath[0] !== '/') {
+    // The variable PWD of the shell keeps the symbolic links, unlike getcwd().
+    $scriptPath = (getenv('PWD') ?: getcwd()) . '/' . $scriptPath;
+}
+$scriptPath = preg_replace('~/(?:\./)+~', '/', $scriptPath);
+$omekaPath = null;
+foreach ([
+    $scriptPath ? dirname($scriptPath, 4) : null,
+    $scriptPath ? dirname($scriptPath, 5) : null,
+    dirname(__DIR__, 4),
+    dirname(__DIR__, 5),
+] as $path) {
+    if ($path && is_file($path . '/bootstrap.php') && is_file($path . '/application/Module.php')) {
+        $omekaPath = $path;
+        break;
+    }
+}
+if (!$omekaPath) {
+    fwrite(STDERR, 'The root of Omeka cannot be found from the path of this script.' . PHP_EOL);
+    exit(1);
+}
+unset($scriptPath, $path);
+require $omekaPath . '/bootstrap.php';
 
 /**
  * @var \Omeka\Job\Dispatcher $dispatcher
