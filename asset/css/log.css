@@ -91,21 +91,6 @@
 		}
 	}
 
-	/** Dialog. */
-	#content dialog.popup-dialog {
-	    margin: auto;
-	}
-	dialog.popup-message {
-		& .dialog-header {
-			display: flex;
-			flex-direction: row-reverse;
-			align-items: center;
-			gap: 8px;
-		}
-		& .dialog-header-close-button {
-			position: static;
-		}
-	}
 	.logs .log-popover-current {
 	    display: none;
 	}
