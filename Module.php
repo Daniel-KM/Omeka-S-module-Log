@@ -99,10 +99,38 @@ class Module extends AbstractModule
         $configListener->setMergedConfig($config);
     }
 
+    /**
+     * @var int|null
+     */
+    protected $processedJobId;
+
     public function onBootstrap(MvcEvent $event): void
     {
         parent::onBootstrap($event);
         $this->addAclRules();
+        $this->addJobProcessorInJobProcess();
+    }
+
+    /**
+     * Add the job to the logs in the process of a job.
+     *
+     * The event "job.send.pre" is missing when the dispatcher of Common is not
+     * loaded, for example when Common needs an upgrade.
+     */
+    protected function addJobProcessorInJobProcess(): void
+    {
+        if (PHP_SAPI !== 'cli'
+            || basename((string) ($_SERVER['SCRIPT_FILENAME'] ?? '')) !== 'perform-job.php'
+        ) {
+            return;
+        }
+        $jobId = (int) (getopt('', ['job-id:'])['job-id'] ?? 0);
+        $job = $jobId
+            ? $this->getServiceLocator()->get('Omeka\EntityManager')->find(\Omeka\Entity\Job::class, $jobId)
+            : null;
+        if ($job) {
+            $this->addJobProcessor($job);
+        }
     }
 
     protected function preInstall(): void
@@ -279,9 +307,18 @@ class Module extends AbstractModule
     {
         $services = $this->getServiceLocator();
         $event->setParam('job_writer', (bool) $services->get('Config')['logger']['writers']['job']);
+        $this->addJobProcessor($event->getParam('job'));
+    }
+
+    protected function addJobProcessor(\Omeka\Entity\Job $job): void
+    {
+        if ($this->processedJobId === $job->getId()) {
+            return;
+        }
+        $this->processedJobId = $job->getId();
         // The priority "0" fixes a precedency issue with the processor UserId.
-        $services->get('Omeka\Logger')
-            ->addProcessor(new \Log\Log\Processor\UserJobId($event->getParam('job')), 0);
+        $this->getServiceLocator()->get('Omeka\Logger')
+            ->addProcessor(new \Log\Log\Processor\UserJobId($job), 0);
     }
 
     public function getConfigForm(PhpRenderer $renderer)
