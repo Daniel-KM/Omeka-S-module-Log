@@ -6,7 +6,8 @@
 
 // Copy of Omeka application/view/omeka/admin/job/browse.phtml, with added links.
 
-use \Log\Stdlib\JobState;
+use Log\Stdlib\JobLogCounter;
+use Log\Stdlib\JobState;
 
 $plugins = $this->getHelperPluginManager();
 $url = $this->plugin('url');
@@ -32,22 +33,37 @@ $stateWarning = sprintf(' title="%1$s" aria-label="%1$s"', $stateWarning);
 
 $jobStateUrlBase = strtr($url('admin/job-state', ['id' => '0000']), ['0000' => '{id}']);
 
-// Fetch log counts for all displayed jobs in a single query early.
-$jobIds = array_map(fn ($job) => $job->id(), $jobs);
-$logCountsByJob = [];
-if ($jobIds) {
-    /** @var \Doctrine\DBAL\Connection $connection */
-    $connection = $plugins->get('api')->read('vocabularies', 1)->getContent()->getServiceLocator()->get('Omeka\Connection');
-    $qb = $connection->createQueryBuilder();
-    $qb->select('job_id', 'COUNT(id) AS total')
-        ->from('log')
-        ->where($qb->expr()->in('job_id', ':job_ids'))
-        ->setParameter('job_ids', $jobIds, \Doctrine\DBAL\Connection::PARAM_INT_ARRAY)
-        ->groupBy('job_id');
-    foreach ($qb->execute()->fetchAllAssociative() as $row) {
-        $logCountsByJob[(int) $row['job_id']] = (int) $row['total'];
-    }
+/** @var \Log\Stdlib\JobLogCounter $jobLogCounter */
+$jobLogCounter = $plugins->get('api')->read('vocabularies', 1)->getContent()->getServiceLocator()->get('Log\JobLogCounter');
+$logCountsByJob = $jobLogCounter->count(array_map(fn ($job) => $job->id(), $jobs));
+$levelLabels = [
+    JobLogCounter::ERRORS => $translate('Errors: %d'),
+    JobLogCounter::WARNINGS => $translate('Warnings: %d'),
+];
+$levelQueries = [
+    JobLogCounter::ERRORS => ['severity_min' => 3],
+    JobLogCounter::WARNINGS => ['severity' => 4],
+];
+
+$filterQuery = $this->params()->fromQuery();
+unset($filterQuery['page'], $filterQuery['status'], $filterQuery['log_level']);
+$currentFilter = $this->params()->fromQuery('log_level') ?: ($this->params()->fromQuery('status') === 'error' ? 'failed' : 'all');
+$filters = [
+    'all' => [$translate('All'), $filterQuery],
+    'failed' => [$translate('Failed'), ['status' => 'error'] + $filterQuery],
+    JobLogCounter::ERRORS => [$translate('With errors'), ['log_level' => JobLogCounter::ERRORS] + $filterQuery],
+    JobLogCounter::WARNINGS => [$translate('With warnings'), ['log_level' => JobLogCounter::WARNINGS] + $filterQuery],
+];
+$filterOptions = '';
+foreach ($filters as $key => [$label, $query]) {
+    $filterOptions .= sprintf(
+        '<option value="%s"%s>%s</option>',
+        $escapeAttr($url(null, [], ['query' => $query], true)),
+        $key === $currentFilter ? ' selected="selected"' : '',
+        $escape($label)
+    );
 }
+$filterSelect = '<select class="job-filter" aria-label="' . $escapeAttr($translate('Filter jobs')) . '">' . $filterOptions . '</select>';
 ?>
 
 <?php // Display the state below the status. ?>
@@ -84,7 +100,10 @@ if ($jobIds) {
             </th>
             <th><?= $escape($translate('Date')) ?></th>
             <th><?= $escape($translate('Class')) ?></th>
-            <th><?= $escape($translate('Status (Log)')) ?></th>
+            <th>
+                <span><?= $escape($translate('Status (Log)')) ?></span>
+                <?= $filterSelect ?>
+            </th>
             <th><?= $escape($translate('Owner')) ?></th>
         </tr>
     </thead>
@@ -99,7 +118,8 @@ if ($jobIds) {
         } else {
             $ownerText = $escape($translate('[No owner]'));
         }
-        $totalLogs = $logCountsByJob[$jobId] ?? 0;
+        $logCounts = $logCountsByJob[$jobId] ?? [];
+        $totalLogs = $logCounts['total'] ?? 0;
         $step = method_exists($job, 'step') ? $job->step() : null;
         $state = $jobState($job);
         ?>
@@ -124,6 +144,15 @@ if ($jobIds) {
                 <span> / </span>
                 <span class="job-status-steps"><?= $job->totalSteps() ?></span>
                 <?php endif; ?>
+                <?php if (!empty($logCounts[JobLogCounter::ERRORS]) || !empty($logCounts[JobLogCounter::WARNINGS])): ?>
+                <div class="job-log-counts">
+                    <?php foreach ($levelLabels as $level => $levelLabel): if (empty($logCounts[$level])) continue; ?>
+                    <?= $hyperlink(sprintf($levelLabel, $logCounts[$level]), $totalLogs
+                        ? $url('admin/log/default', [], ['query' => ['job_id' => $jobId] + $levelQueries[$level]])
+                        : $url('admin/id', ['controller' => 'job', 'action' => 'log', 'id' => $jobId]), ['class' => 'job-log-count job-log-' . $level]) ?>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
             </td>
             <td><?= $ownerText ?></td>
         </tr>
@@ -139,6 +168,9 @@ if ($jobIds) {
 
 <div class="no-resources">
     <p><?= $escape($translate('Omeka could not find any jobs.')) ?></p>
+    <?php if ($currentFilter !== 'all'): ?>
+    <p><?= $filterSelect ?></p>
+    <?php endif; ?>
 </div>
 
 <?php endif; ?>

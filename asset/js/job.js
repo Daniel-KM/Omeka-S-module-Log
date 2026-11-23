@@ -122,4 +122,8 @@ document.addEventListener('DOMContentLoaded', function () {
     updateJobStates();
     setInterval(updateJobStates, uniqueJobIds.size < 5 ? 1000 : 10000);
 
+    document.querySelectorAll('select.job-filter').forEach(select => {
+        select.addEventListener('change', () => window.location.assign(select.value));
+    });
+
 });

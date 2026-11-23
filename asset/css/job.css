@@ -22,4 +22,39 @@
         margin-top: 9px;
         font-size: x-large;
     }
+
+    select.job-filter {
+        float: right;
+        width: auto;
+        font-weight: normal;
+        font-size: 0.85em;
+    }
+
+    .job-status-label {
+        white-space: nowrap;
+    }
+    /* Tablesaw may wrap the cell content in a flex row. */
+    .tablesaw-cell-content:has(> .job-log-counts) {
+        flex-wrap: wrap;
+    }
+    .job-log-counts {
+        flex-basis: 100%;
+        margin-top: 0.25em;
+    }
+    .jobs.browse a.job-log-count {
+        white-space: nowrap;
+        margin-right: 0.5em;
+        font-size: 0.85em;
+        text-decoration: none;
+        &:hover,
+        &:focus {
+            text-decoration: underline;
+        }
+        &.job-log-errors {
+            color: #a91919;
+        }
+        &.job-log-warnings {
+            color: #8a6100;
+        }
+    }
 }

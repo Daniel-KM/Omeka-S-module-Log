@@ -290,6 +290,11 @@ class Module extends AbstractModule
             'job.send.pre',
             [$this, 'handleJobSendPre']
         );
+        $sharedEventManager->attach(
+            \Omeka\Api\Adapter\JobAdapter::class,
+            'api.search.query',
+            [$this, 'handleApiSearchQueryJobs']
+        );
 
         // TODO What is the better event to handle a cron? None: use server cron or systemd timer or webcron.
         $sharedEventManager->attach(
@@ -303,6 +308,19 @@ class Module extends AbstractModule
      * Add the user and the job to the logs of the job, and keep the job writer
      * only when wanted.
      */
+    /**
+     * Search jobs with logged errors or warnings via the argument "log_level".
+     */
+    public function handleApiSearchQueryJobs(Event $event): void
+    {
+        $level = $event->getParam('request')->getContent()['log_level'] ?? null;
+        if ($level && is_string($level)) {
+            /** @var \Log\Stdlib\JobLogCounter $counter */
+            $counter = $this->getServiceLocator()->get('Log\JobLogCounter');
+            $counter->addFilter($event->getParam('queryBuilder'), 'omeka_root', $level);
+        }
+    }
+
     public function handleJobSendPre(Event $event): void
     {
         $services = $this->getServiceLocator();

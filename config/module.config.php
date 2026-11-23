@@ -184,6 +184,7 @@ return [
     ],
     'service_manager' => [
         'factories' => [
+            'Log\JobLogCounter' => Service\Stdlib\JobLogCounterFactory::class,
             'Log\JobState' => Service\Stdlib\JobStateFactory::class,
             'Log\LoggerDb' => Service\LoggerDbFactory::class,
             'Omeka\Job\DispatchStrategy\Synchronous' => Service\Job\DispatchStrategy\SynchronousFactory::class,
