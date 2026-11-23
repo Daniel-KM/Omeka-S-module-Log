@@ -2,7 +2,7 @@
 
 (function ($) {
 
-    $(document).ready(function() {
+    $(function() {
 
         const dialogMessage = function (message, nl2br = false) {
             // Use a dialog to display a message, that should be escaped.
