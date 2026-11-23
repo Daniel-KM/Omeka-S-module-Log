@@ -354,4 +354,11 @@ return [
             'log_cron_last' => null,
         ],
     ],
+    // Rules of the module JobQueue, used only when it is installed: the periodic archive is not queued twice.
+    'jobqueue' => [
+        'jobs' => [
+            'Log\Job\ArchiveLogsJob' => [
+            ],
+        ],
+    ],
 ];
