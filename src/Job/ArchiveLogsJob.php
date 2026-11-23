@@ -2,6 +2,7 @@
 
 namespace Log\Job;
 
+use Common\Job\Exception\RuntimeException;
 use Common\Stdlib\PsrMessage;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Types\Types;
@@ -64,27 +65,21 @@ class ArchiveLogsJob extends AbstractJob
         $delete = (bool) $this->getArg('delete', true);
 
         if (!is_numeric($seconds)) {
-            $this->job->setStatus(\Omeka\Entity\Job::STATUS_ERROR);
-            $this->logger->err(
+            throw new RuntimeException(
                 'The argument "seconds" is not set.' // @translate
             );
-            return;
         }
 
         if (!is_array($references)) {
-            $this->job->setStatus(\Omeka\Entity\Job::STATUS_ERROR);
-            $this->logger->err(
+            throw new RuntimeException(
                 'The argument "reference" should be an array.' // @translate
             );
-            return;
         }
 
         if (!in_array($format, ['tsv', 'tsv_context', 'sql'])) {
-            $this->job->setStatus(\Omeka\Entity\Job::STATUS_ERROR);
-            $this->logger->err(
+            throw new RuntimeException(
                 'The argument "format" should be "tsv", "tsv_context" or "sql".' // @translate
             );
-            return;
         }
 
         // Prepare args.
@@ -253,11 +248,6 @@ class ArchiveLogsJob extends AbstractJob
                 'includeId' => $includeId,
                 'translateMessage' => $translateMessage,
             ]);
-            if (!$filepath) {
-                // Message is already set.
-                // Do not delete if storing is not possible.
-                return;
-            }
             // The path between store and filename is the prefix.
             $config = $this->getServiceLocator()->get('Config');
             $basePath = $config['file_store']['local']['base_path'] ?: (OMEKA_PATH . '/files');
@@ -293,9 +283,9 @@ class ArchiveLogsJob extends AbstractJob
      * @param QueryBuilder $qb
      * @param array $options The cleaned options.
      *
-     * @return string|null The file path if any.
+     * @return string The file path.
      */
-    protected function store(QueryBuilder $qb, array $options): ?string
+    protected function store(QueryBuilder $qb, array $options): string
     {
         $count = $options['count'];
         $format = $options['format'];
@@ -307,10 +297,7 @@ class ArchiveLogsJob extends AbstractJob
         $basePath = $config['file_store']['local']['base_path'] ?: (OMEKA_PATH . '/files');
 
         $logDir = $basePath . '/backup/log/';
-        if (!$this->checkDestinationDir($logDir)) {
-            $this->job->setStatus(\Omeka\Entity\Job::STATUS_ERROR);
-            return null;
-        }
+        $this->checkDestinationDir($logDir);
 
         // Generate archive file.
         $timestamp = date('Ymd-His');
@@ -332,12 +319,10 @@ class ArchiveLogsJob extends AbstractJob
         }
 
         if (!$fp) {
-            $this->job->setStatus(\Omeka\Entity\Job::STATUS_ERROR);
-            $this->logger->err(
+            throw new RuntimeException(
                 'Cannot open file {file} for writing. Process is stopped.', // @translate
                 ['file' => $filepath]
             );
-            return null;
         }
 
         $escapes = [
@@ -507,28 +492,26 @@ class ArchiveLogsJob extends AbstractJob
      * Check or create the destination folder.
      *
      * @param string $dirPath Absolute path of the directory to check.
-     * @return string|null The dirpath if valid, else null.
+     * @return string The dirpath.
      */
-    protected function checkDestinationDir(string $dirPath): ?string
+    protected function checkDestinationDir(string $dirPath): string
     {
         if (file_exists($dirPath)) {
             if (!is_dir($dirPath) || !is_readable($dirPath) || !is_writeable($dirPath)) {
-                $this->logger->err(
+                throw new RuntimeException(
                     'The directory "{path}" is not writeable.', // @translate
                     ['path' => $dirPath]
                 );
-                return null;
             }
             return $dirPath;
         }
 
         $result = @mkdir($dirPath, 0775, true);
         if (!$result) {
-            $this->logger->err(
+            throw new RuntimeException(
                 'The directory "{path}" is not writeable: {error}.', // @translate
                 ['path' => $dirPath, 'error' => error_get_last()['message'] ?? 'unknown error']
             );
-            return null;
         }
         return $dirPath;
     }
