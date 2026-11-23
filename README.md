@@ -163,6 +163,18 @@ set the key `['logger']['writers']['job']` to false in your own `config/local.co
     ],
 ```
 
+### Errors and warnings of the jobs
+
+A job ends with the status "completed" even when it logged errors, unless it
+failed globally. So the list of the jobs displays the number of errors and of
+warnings logged by each job below its status, with a link to its logs filtered
+by severity. A filter in the header of the column of the status lists the failed
+obs, the jobs with errors or the jobs with warnings. The same filter is
+available in the api with the argument `log_level` ("errors" or "warnings").
+
+The jobs logged before the installation of the module are counted from their own
+log.
+
 ### Php errors and exceptions
 
 By default, exceptions that are not managed by Omeka and php errors are logged
